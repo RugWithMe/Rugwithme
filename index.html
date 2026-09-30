@@ -916,7 +916,7 @@ button,input{font:inherit}.app{display:grid;grid-template-columns:236px 1fr;min-
 }
 </style>
 <style id="all-coin-logo-fix">.market .coin-icon,.meme-icon{overflow:hidden!important;position:relative!important;display:grid!important;place-items:center!important}.market .coin-icon img,.meme-icon img{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important;border-radius:inherit!important}</style>
-</head>
+<style id="coin-logo-fix">.market .coin-icon{overflow:hidden!important;position:relative;display:grid;place-items:center}.market .coin-icon img{width:100%;height:100%;display:block;object-fit:cover;border-radius:inherit}.market .coin-icon span{display:none}</style></head>
 <body>
 <div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
 <div class="app">
@@ -1098,7 +1098,17 @@ button,input{font:inherit}.app{display:grid;grid-template-columns:236px 1fr;min-
   </div>
 </div></div></div></div>
 <script>
-const fallbackCoins=[{id:'bitcoin',sym:'BTC',name:'Bitcoin',price:84170,change:1.40,open:83006,icon:'₿'},{id:'ethereum',sym:'ETH',name:'Ethereum',price:2720,change:2.00,open:2667,icon:'◆'},{id:'solana',sym:'SOL',name:'Solana',price:119.20,change:.70,open:118.37,icon:'≋'},{id:'ripple',sym:'XRP',name:'XRP',price:1.49,change:1.80,open:1.46,icon:'✕'},{id:'binancecoin',sym:'BNB',name:'BNB',price:758,change:.55,open:752,icon:'◆'}];
+function svgIcon(markup){
+  return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(markup);
+}
+const coinLogo={
+  btc:svgIcon('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="#f7931a"/><path d="M39.7 17.1c-2.7-2-6.3-2.7-10.1-1.9l-1.3-4.8-3.8 1 1.3 4.8-3 .8-1.3-4.8-3.8 1 1.3 4.9-3.2.9 1.2 4.4 2.7-.7 4.8 17.7-2.7.7 1.2 4.4 3.2-.9 1.3 4.9 3.8-1-1.3-4.8 3-.8 1.3 4.8 3.8-1-1.3-4.8c6.1-1.8 8.8-5.7 7.6-10.2-.8-3-2.9-4.7-5.8-5.3 1.8-1.7 2.4-4.1 1.6-6.8zm-10.2 3.9c2.5-.7 5.1-.2 5.7 2 .6 2.2-1.1 3.4-3.6 4.1l-4.7 1.3-1.7-6.3 4.3-1.1zm2.5 16.2-5.3 1.4-1.9-7 5.4-1.5c3.3-.9 5.8-.1 6.5 2.5.7 2.5-1.2 3.7-4.7 4.6z" fill="#fff"/></svg>'),
+  eth:svgIcon('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="#627eea"/><path d="M32 8 16.5 32.5 32 25.4 47.5 32.5 32 8Z" fill="#fff" opacity=".95"/><path d="m16.5 35 15.5 8.9L47.5 35 32 56 16.5 35Z" fill="#dce3ff"/><path d="m32 25.4-15.5 7.1L32 41.4l15.5-8.9L32 25.4Z" fill="#aebcff"/></svg>'),
+  sol:svgIcon('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#00ffa3"/><stop offset=".5" stop-color="#00c2ff"/><stop offset="1" stop-color="#9945ff"/></linearGradient></defs><circle cx="32" cy="32" r="30" fill="#08080d"/><path d="M17 20h29l-5 6H12l5-6Zm0 9h29l-5 6H12l5-6Zm0 9h29l-5 6H12l5-6Z" fill="url(#g)"/></svg>'),
+  xrp:svgIcon('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="#23292f"/><path d="M18 16h6.2l7.8 8.2L40 16h6.2L35 27.5l-3 3-3-3L18 16Zm0 32h6.2l7.8-8.2 7.8 8.2H46L35 36.5l-3-3-3 3L18 48Z" fill="#fff"/></svg>'),
+  bnb:svgIcon('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="#f3ba2f"/><g fill="#fff"><path d="m32 12 5.2 5.2-5.2 5.2-5.2-5.2L32 12Zm-9.1 9.1 5.2 5.2-5.2 5.2-5.2-5.2 5.2-5.2Zm18.2 0 5.2 5.2-5.2 5.2-5.2-5.2 5.2-5.2ZM32 30.2l5.2 5.2-5.2 5.2-5.2-5.2 5.2-5.2ZM22.9 39.3l5.2 5.2-5.2 5.2-5.2-5.2 5.2-5.2Zm18.2 0 5.2 5.2-5.2 5.2-5.2-5.2 5.2-5.2Z"/></g></svg>')
+};
+const fallbackCoins=[{id:'bitcoin',sym:'BTC',name:'Bitcoin',price:84170,change:1.40,open:83006,icon:coinLogo.btc},{id:'ethereum',sym:'ETH',name:'Ethereum',price:2720,change:2.00,open:2667,icon:coinLogo.eth},{id:'solana',sym:'SOL',name:'Solana',price:119.20,change:.70,open:118.37,icon:coinLogo.sol},{id:'ripple',sym:'XRP',name:'XRP',price:1.49,change:1.80,open:1.46,icon:coinLogo.xrp},{id:'binancecoin',sym:'BNB',name:'BNB',price:758,change:.55,open:752,icon:coinLogo.bnb}];
 let coins=[...fallbackCoins];
 const fallbackNews=[
 ['Bitcoin rally shows signs of cooling even as a bull-score gauge nears its ceiling','CoinDesk','just now','₿','https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=900&q=80'],
@@ -1111,7 +1121,7 @@ const fallbackNews=[
 function money(n){if(n>=1000)return '$'+n.toLocaleString(undefined,{maximumFractionDigits:0}); if(n<2)return '$'+n.toFixed(2); return '$'+n.toLocaleString(undefined,{maximumFractionDigits:2})}
 function render(){
  document.getElementById('ticker').innerHTML=[...coins,...coins].map(c=>`<span class="tick ${c.change>=0?'up':'down'}">${c.sym} <b>${money(c.price)}</b> ${c.change>=0?'▲':'▼'} ${Math.abs(c.change).toFixed(2)}%</span>`).join('');
- document.getElementById('market').innerHTML=coins.slice(0,5).map(c=>`<tr><td><div class="asset"><div class="coin-icon">${c.icon?.startsWith('http')?`<img src="${c.icon}" alt="${c.sym}" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('icon-fallback')">`:`<span>${c.icon||c.sym[0]}</span>`}</div><div><b>${c.sym}</b><small>${c.name}</small></div></div></td><td class="mono">${money(c.price)}</td><td class="mono ${c.change>=0?'green':'red'}">${c.change>=0?'+':''}${c.change.toFixed(2)}%</td><td class="mono">${money(c.open)}</td><td><svg class="spark" viewBox="0 0 90 28"><polyline points="0,21 12,18 21,22 31,14 42,16 54,9 66,13 76,7 90,4" fill="none" stroke="${c.change>=0?'#42dca8':'#ff5570'}" stroke-width="2"/></svg></td><td><span class="tag">● LIVE</span></td></tr>`).join('');
+ document.getElementById('market').innerHTML=coins.slice(0,5).map(c=>`<tr><td><div class="asset"><div class="coin-icon">${(c.icon?.startsWith('http')||c.icon?.startsWith('data:image'))?`<img src="${c.icon}" alt="${c.sym}" loading="lazy">`:`<span>${c.icon||c.sym[0]}</span>`}</div><div><b>${c.sym}</b><small>${c.name}</small></div></div></td><td class="mono">${money(c.price)}</td><td class="mono ${c.change>=0?'green':'red'}">${c.change>=0?'+':''}${c.change.toFixed(2)}%</td><td class="mono">${money(c.open)}</td><td><svg class="spark" viewBox="0 0 90 28"><polyline points="0,21 12,18 21,22 31,14 42,16 54,9 66,13 76,7 90,4" fill="none" stroke="${c.change>=0?'#42dca8':'#ff5570'}" stroke-width="2"/></svg></td><td><span class="tag">● LIVE</span></td></tr>`).join('');
  document.getElementById('kpis').innerHTML=[['TOTAL MARKET','~$3.21T','+1.08% 24H','up'],['BTC DOMINANCE','58.7%','+0.2% today','up'],['24H VOLUME','$128.4B','active flow','up'],['FEAR / GREED','64 / GREED','sentiment index','warn'],['RISK ENGINE','LOW','18 signals clear','up']].map(k=>`<div class="kpi"><div class="kpi-label">${k[0]}</div><div class="kpi-value">${k[1]}</div><div class="kpi-meta ${k[3]} ">${k[2]}</div></div>`).join('');
 }
 function renderRadar(){const data=[['ORBIT / USDC','Liquidity concentration · 2 wallets control most depth',84],['NOVA / SOL','Sell pressure accelerating · LP depth falling',67],['MINTY / SOL','Holder distribution improving',39],['WAVE / USDC','Contract activity elevated',31]];document.getElementById('radar').innerHTML=data.map(x=>`<div class="row"><div><b>${x[0]}</b><small>${x[1]}</small></div><div class="bar"><i style="width:${x[2]}%"></i></div><div class="score">${x[2]}/100</div></div>`).join('')}
