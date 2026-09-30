@@ -343,7 +343,7 @@ button,input{font:inherit}.app{display:grid;grid-template-columns:236px 1fr;min-
 @keyframes memeScroll{from{transform:translateY(0)}to{transform:translateY(-50%)}}
 .meme-item{display:grid;grid-template-columns:32px minmax(0,1fr) auto;align-items:center;gap:8px;padding:10px 14px;min-height:56px;border-bottom:1px solid #17141b;transition:.18s;cursor:pointer}
 .meme-item:hover{background:rgba(142,78,255,.07);transform:translateX(2px)}
-.meme-icon{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;background:linear-gradient(145deg,#241437,#0d0b11);border:1px solid #39284a;font-size:14px}
+.meme-icon img{width:100%;height:100%;object-fit:cover;border-radius:8px;display:block}.meme-empty{min-height:112px;display:grid;place-items:center;text-align:center;color:#756d7c;font:700 7px JetBrains Mono;letter-spacing:.06em;padding:20px}.meme-empty span{color:#52e6b6;font-size:6px;margin-top:4px}.meme-icon{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;background:linear-gradient(145deg,#241437,#0d0b11);border:1px solid #39284a;font-size:14px}
 .meme-main{min-width:0}
 .meme-name{font-size:8px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .meme-symbol{margin-left:4px;color:#706777;font:700 6px 'JetBrains Mono'}
@@ -398,39 +398,16 @@ button,input{font:inherit}.app{display:grid;grid-template-columns:236px 1fr;min-
     <div class="meme-panel-title">
       <i class="meme-live"></i>
       <b>RECENTLY ADDED MEMECOINS</b>
-      <span>LIVE FEED</span>
+      <span>PUMP.FUN · LIVE FEED</span>
     </div>
     <div class="meme-filter-row">
       <button class="meme-filter active" onclick="filterMemecoins('new',this)">NEW</button>
       <button class="meme-filter" onclick="filterMemecoins('hot',this)">HOT</button>
     </div>
   </div>
-  <div class="meme-list" id="memeList"><div class="meme-track">
-    <div class="meme-item" data-kind="new" onclick="openPumpFun()">
-      <div class="meme-icon">🐸</div><div class="meme-main"><div class="meme-name">FROGBYTE <span class="meme-symbol">$FRGB</span></div><div class="meme-meta">SOLANA · JUST ADDED · $42.8K MC</div></div><div class="meme-stat"><div class="meme-price">$0.000428</div><div class="meme-change up">+38.4%</div></div>
-    </div>
-    <div class="meme-item" data-kind="hot" onclick="openPumpFun()">
-      <div class="meme-icon">🐕</div><div class="meme-main"><div class="meme-name">MOON DOG <span class="meme-symbol">$MOOND</span></div><div class="meme-meta">SOLANA · TRENDING · $86.1K MC</div></div><div class="meme-stat"><div class="meme-price">$0.000861</div><div class="meme-change up">+24.7%</div></div>
-    </div>
-    <div class="meme-item" data-kind="new" onclick="openPumpFun()">
-      <div class="meme-icon">🧪</div><div class="meme-main"><div class="meme-name">LABRUG <span class="meme-symbol">$LAB</span></div><div class="meme-meta">SOLANA · 6 MIN AGO · $19.4K MC</div></div><div class="meme-stat"><div class="meme-price">$0.000194</div><div class="meme-change down">−8.2%</div></div>
-    </div>
-    <div class="meme-item" data-kind="hot" onclick="openPumpFun()">
-      <div class="meme-icon">🦍</div><div class="meme-main"><div class="meme-name">APE SIGNAL <span class="meme-symbol">$APES</span></div><div class="meme-meta">ETHEREUM · TRENDING · $71.3K MC</div></div><div class="meme-stat"><div class="meme-price">$0.001713</div><div class="meme-change up">+17.9%</div></div>
-    </div>    <div class="meme-item" data-kind="new" onclick="openPumpFun()">
-      <div class="meme-icon">🐸</div><div class="meme-main"><div class="meme-name">FROGBYTE <span class="meme-symbol">$FRGB</span></div><div class="meme-meta">SOLANA · JUST ADDED · $42.8K MC</div></div><div class="meme-stat"><div class="meme-price">$0.000428</div><div class="meme-change up">+38.4%</div></div>
-    </div>
-    <div class="meme-item" data-kind="hot" onclick="openPumpFun()">
-      <div class="meme-icon">🐕</div><div class="meme-main"><div class="meme-name">MOON DOG <span class="meme-symbol">$MOOND</span></div><div class="meme-meta">SOLANA · TRENDING · $86.1K MC</div></div><div class="meme-stat"><div class="meme-price">$0.000861</div><div class="meme-change up">+24.7%</div></div>
-    </div>
-    <div class="meme-item" data-kind="new" onclick="openPumpFun()">
-      <div class="meme-icon">🧪</div><div class="meme-main"><div class="meme-name">LABRUG <span class="meme-symbol">$LAB</span></div><div class="meme-meta">SOLANA · 6 MIN AGO · $19.4K MC</div></div><div class="meme-stat"><div class="meme-price">$0.000194</div><div class="meme-change down">−8.2%</div></div>
-    </div>
-    <div class="meme-item" data-kind="hot" onclick="openPumpFun()">
-      <div class="meme-icon">🦍</div><div class="meme-main"><div class="meme-name">APE SIGNAL <span class="meme-symbol">$APES</span></div><div class="meme-meta">ETHEREUM · TRENDING · $71.3K MC</div></div><div class="meme-stat"><div class="meme-price">$0.001713</div><div class="meme-change up">+17.9%</div></div>
-    </div></div></div>
+  <div class="meme-list" id="memeList"><div class="meme-track" id="memeTrack"></div></div>
   <div class="meme-footer">
-    <span>MEMECOIN DISCOVERY · MONITORING FEED</span>
+    <span>PUMP.FUN · LIVE TOKEN DISCOVERY</span>
     <span class="meme-view-all" onclick="openPumpFun()">VIEW PUMP.FUN →</span>
   </div>
 </div>
@@ -745,14 +722,74 @@ window.switchPurchaseNetwork=function(network){
 
 
 <script>
-window.openPumpFun=function(){window.open('https://pump.fun/','_blank','noopener,noreferrer')};
+window.pumpCoins={new:[],hot:[]};
+window.openPumpCoin=function(mint){
+  if(!mint) return;
+  window.open('https://pump.fun/explore?outputCurrency='+encodeURIComponent(mint),'_blank','noopener,noreferrer');
+};
+function pumpAge(ts){
+  if(!ts) return 'LIVE';
+  const ms=Number(ts)<10000000000?Number(ts)*1000:Number(ts);
+  const mins=Math.max(0,Math.floor((Date.now()-ms)/60000));
+  if(mins<1)return 'JUST NOW';
+  if(mins<60)return mins+' MIN AGO';
+  const h=Math.floor(mins/60);
+  if(h<24)return h+'H AGO';
+  return Math.floor(h/24)+'D AGO';
+}
+function pumpMcap(n){
+  n=Number(n)||0;
+  if(n>=1000000)return '$'+(n/1000000).toFixed(2)+'M MC';
+  if(n>=1000)return '$'+(n/1000).toFixed(1)+'K MC';
+  return '$'+Math.round(n)+' MC';
+}
+function pumpIcon(c){
+  return c.image_uri
+    ? '<img src="'+escapeHtml(c.image_uri)+'" alt="" loading="lazy">'
+    : '◈';
+}
+function renderPumpList(items){
+  const track=document.getElementById('memeTrack');
+  if(!track)return;
+  if(!items.length){
+    track.innerHTML='<div class="meme-empty">PUMP.FUN FEED TEMPORARILY UNAVAILABLE<br><span>OPEN PUMP.FUN TO BROWSE LIVE COINS</span></div>';
+    return;
+  }
+  const cards=items.slice(0,6).map(c=>{
+    const mint=c.mint||c.address||'';
+    const symbol=c.symbol||'TOKEN';
+    const name=c.name||symbol;
+    const mcap=c.usd_market_cap??c.market_cap_usd??c.market_cap??0;
+    return '<div class="meme-item" data-kind="live" onclick="openPumpCoin(\''+mint+'\')" title="Open '+escapeHtml(name)+' on Pump.fun">'
+      +'<div class="meme-icon">'+pumpIcon(c)+'</div>'
+      +'<div class="meme-main"><div class="meme-name">'+escapeHtml(name)+' <span class="meme-symbol">$'+escapeHtml(symbol)+'</span></div>'
+      +'<div class="meme-meta">SOLANA · '+pumpAge(c.created_timestamp||c.created_at)+' · '+pumpMcap(mcap)+'</div></div>'
+      +'<div class="meme-stat"><div class="meme-price">'+pumpMcap(mcap)+'</div><div class="meme-change up">● LIVE</div></div></div>';
+  }).join('');
+  track.innerHTML=cards+cards;
+}
+async function loadPumpCoins(){
+  try{
+    const base='https://frontend-api-v3.pump.fun/coins';
+    const common='&includeNsfw=false&limit=6&offset=0';
+    const [n,h]=await Promise.all([
+      fetch(base+'?sort=created_timestamp&order=DESC'+common,{cache:'no-store'}),
+      fetch(base+'?sort=market_cap&order=DESC'+common,{cache:'no-store'})
+    ]);
+    if(!n.ok||!h.ok)throw new Error('Pump.fun feed unavailable');
+    const normalize=x=>Array.isArray(x)?x:(x?.coins||x?.data||[]);
+    window.pumpCoins.new=normalize(await n.json());
+    window.pumpCoins.hot=normalize(await h.json());
+    renderPumpList(window.pumpCoins.new);
+  }catch(e){renderPumpList([]);}
+}
 window.filterMemecoins=function(kind,btn){
   document.querySelectorAll('.meme-filter').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  document.querySelectorAll('.meme-item').forEach(item=>{
-    item.style.display=(kind==='all'||item.dataset.kind===kind)?'grid':'none';
-  });
+  if(btn)btn.classList.add('active');
+  renderPumpList(kind==='hot'?window.pumpCoins.hot:window.pumpCoins.new);
 };
+loadPumpCoins();
+setInterval(loadPumpCoins,120000);
 </script>
 
 </body></html>
