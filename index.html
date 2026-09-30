@@ -1280,10 +1280,20 @@ const demoRugActivity=[
 function renderDemoRugActivity(){
  const el=document.getElementById('rugActivityRows'); if(!el)return;
  el.innerHTML=demoRugActivity.map(x=>{
- const sym=String(x.token).replace('
+   const sym=String(x.token).replace('$','');
+   const logo=memeLogo(sym);
+   const initial=String(x.user||'?').slice(0,2).toUpperCase();
+   const network=String(x.invest||'SOL').includes('BNB')?'BNB':'SOL';
+   const networkMark=network==='BNB'?'◆':'≈';
+   return '<div class="rug-activity-row">'
+    +'<div class="rug-user-cell"><div class="rug-user-avatar">'+initial+'</div><div class="rug-user">@'+escapeHtml(x.user)+'</div></div>'
+    +'<div class="rug-token-cell"><div class="rug-coin-logo"><img src="'+logo+'" alt=""></div><div class="rug-token-text"><div class="rug-token-line"><span class="rug-token">'+escapeHtml(x.token)+'</span><span class="rug-network-mini"><i></i>'+network+'</span></div><small>'+escapeHtml(x.name)+' · RECENT RUG ALERT</small></div></div>'
+    +'<div class="rug-invest">'+escapeHtml(x.invest)+' <span class="rug-asset-mini">'+networkMark+' <b>'+network+'</b></span></div>'
+    +'<div class="rug-profit">'+escapeHtml(x.profit)+' <span class="rug-asset-mini">'+networkMark+' <b>'+network+'</b></span></div>'
+    +'<div class="rug-status">SIMULATED</div></div>';
+ }).join('')+'<div class="rug-demo-note">DEMO DATA ONLY · NAMES, TOKENS AND PROFITS ARE SIMULATED FOR UI PREVIEW</div>';
 }
-document.addEventListener('DOMContentLoaded',renderDemoRugActivity);
-</script><style id="user-count-style">
+document.addEventListener('DOMContentLoaded',renderDemoRugActivity);</script><style id="user-count-style">
 .user-count{height:42px;display:flex;align-items:center;gap:6px;padding:0 10px;color:#a59caf;font:700 7px 'JetBrains Mono';letter-spacing:.08em;white-space:nowrap}
 .user-count strong{font-size:10px;color:#f0eafa;letter-spacing:0}
 .user-count small{font-size:5.5px;color:#71697b}
