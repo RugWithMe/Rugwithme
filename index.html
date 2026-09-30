@@ -579,6 +579,89 @@ button,input{font:inherit}.app{display:grid;grid-template-columns:236px 1fr;min-
   .rwm-register-card,.register-visual:after,.register-form:after{animation:none!important}
 }
 </style>
+<style id="register-compact-final">
+/* Compact premium registration card */
+#registerModal{padding:8px}
+.rwm-register-card{
+  width:min(650px,calc(100vw - 16px))!important;
+  max-height:min(500px,calc(100vh - 16px))!important;
+  border-radius:17px!important;
+  box-shadow:0 25px 90px rgba(0,0,0,.8),0 0 55px rgba(130,55,255,.18)!important;
+}
+.register-layout{grid-template-columns:34% 66%!important;min-height:0!important}
+.register-visual{padding:18px 18px 16px!important}
+.register-form{padding:22px 26px 16px!important}
+.register-form h3{font-size:20px!important;letter-spacing:-.045em!important}
+.register-form .lead{font-size:8px!important;margin-bottom:10px!important}
+.step{font-size:7px!important}
+.progress{height:4px!important;margin:6px 0 13px!important}
+.field{margin:4px 0!important}
+.field input{height:37px!important;border-radius:9px!important;font-size:9px!important;padding-left:37px!important}
+.field .field-ico{left:11px;top:11px;font-size:12px}
+.field .field-end{right:11px;top:12px;font-size:10px}
+.rules{padding:6px 8px!important;margin:3px 0 7px!important;gap:6px!important;font-size:6px!important}
+.rules span:before{width:10px;height:10px;margin-right:3px}
+.register-cta{height:38px!important;border-radius:9px!important;font-size:8px!important}
+.or{margin:7px 0!important;font-size:6px!important}
+.socials{gap:5px!important}
+.social{height:29px!important;border-radius:8px!important;font-size:6.5px!important}
+.signin{font-size:7px!important;margin-top:7px!important}
+.security{font-size:6px!important;margin-top:7px!important;gap:11px!important}
+.benefit{padding:7px 8px!important;margin:6px 0!important;border-radius:9px!important}
+.benefit .ico{width:25px!important;height:25px!important;border-radius:7px!important}
+.benefit b{font-size:7px!important}
+.benefit small{font-size:5.5px!important}
+.register-visual img{width:62px!important;height:auto!important}
+.rwm-register-card .modal-close{width:32px;height:32px;right:10px;top:10px;font-size:14px;border-radius:9px}
+
+/* Cooler logo treatment */
+.register-visual .logo-wrap{
+  position:relative;
+  width:76px;
+  height:76px;
+  display:grid;
+  place-items:center;
+  margin-bottom:15px;
+}
+.register-visual .logo-wrap:before{
+  content:"";
+  position:absolute;
+  inset:-8px;
+  border-radius:50%;
+  background:conic-gradient(from 0deg,transparent 0 18%,#8b45ff 28%,#d48cff 38%,transparent 50% 72%,#6c2dff 84%,transparent 92%);
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 0);
+  mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 0);
+  animation:logoSpin 5s linear infinite;
+  filter:drop-shadow(0 0 8px rgba(151,77,255,.7));
+}
+.register-visual .logo-wrap:after{
+  content:"";
+  position:absolute;
+  inset:-15px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(146,72,255,.28),transparent 62%);
+  animation:logoPulse 2.8s ease-in-out infinite;
+  z-index:-1;
+}
+.register-visual .logo-wrap img{
+  width:62px!important;
+  border-radius:7px;
+  box-shadow:0 0 0 1px rgba(184,116,255,.38),0 0 22px rgba(137,65,255,.42);
+  position:relative;
+  z-index:2;
+}
+@keyframes logoSpin{to{transform:rotate(360deg)}}
+@keyframes logoPulse{0%,100%{transform:scale(.86);opacity:.45}50%{transform:scale(1.08);opacity:.95}}
+@media(max-width:760px){
+  .rwm-register-card{width:calc(100vw - 12px)!important;max-height:calc(100vh - 12px)!important}
+  .register-layout{grid-template-columns:1fr!important}
+  .register-visual{display:none!important}
+  .register-form{padding:24px 20px 18px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .register-visual .logo-wrap:before,.register-visual .logo-wrap:after{animation:none!important}
+}
+</style>
 </head>
 <body>
 <div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
