@@ -381,10 +381,8 @@ button,input{font:inherit}.app{display:grid;grid-template-columns:236px 1fr;min-
 @media(max-width:1050px){#news-panel .news-viewport{height:390px}.news{grid-template-columns:1fr}}
 <style id="pump-embed-fix">
 .meme-list{height:224px!important;overflow:hidden!important;position:relative!important;background:#07070b}
-.pump-explore-frame{position:absolute;left:0;top:-78px;width:100%;height:760px;border:0;display:block;background:#07070b}
-.pump-frame-fade{position:absolute;left:0;right:0;bottom:0;height:28px;background:linear-gradient(180deg,transparent,#07070b);pointer-events:none}
-.meme-panel .meme-filter{position:relative;z-index:3}
-@media(max-width:600px){.pump-explore-frame{top:-72px;height:760px}}
+.meme-track{display:flex;flex-direction:column}
+.pump-source-note{color:#5e5765;font:700 5.5px 'JetBrains Mono';letter-spacing:.05em}
 </style></style>
 </head>
 <body>
@@ -411,7 +409,7 @@ button,input{font:inherit}.app{display:grid;grid-template-columns:236px 1fr;min-
       <button class="meme-filter" onclick="filterMemecoins('hot',this)">HOT</button>
     </div>
   </div>
-  <div class="meme-list" id="memeList"><iframe id="pumpExploreFrame" class="pump-explore-frame" src="https://pump.fun/explore?embed=1&theme=dark&coin_sort=created_timestamp" title="Pump.fun live token discovery" loading="lazy"></iframe><div class="pump-frame-fade"></div></div>
+  <div class="meme-list" id="memeList"><div class="meme-track" id="memeTrack"></div></div>
   <div class="meme-footer">
     <span>PUMP.FUN · LIVE TOKEN DISCOVERY</span>
     <span class="meme-view-all" onclick="openPumpFun()">VIEW PUMP.FUN →</span>
@@ -729,17 +727,89 @@ window.switchPurchaseNetwork=function(network){
 
 <script>
 window.pumpCoins={new:[],hot:[]};
-window.openPumpExplore=function(kind){
-  const frame=document.getElementById('pumpExploreFrame');
-  if(!frame)return;
-  const sort=kind==='hot'?'market_cap':'created_timestamp';
-  frame.src='https://pump.fun/explore?embed=1&theme=dark&coin_sort='+sort;
-};
+window.pumpProxyIndex=0;
+
+function pumpProxyUrl(url){
+  const proxies=[
+    'https://api.allorigins.win/raw?url='+encodeURIComponent(url),
+    'https://corsproxy.io/?url='+encodeURIComponent(url)
+  ];
+  return proxies[window.pumpProxyIndex%proxies.length];
+}
+function openPumpExplore(){
+  window.open('https://pump.fun/explore','_blank','noopener,noreferrer');
+}
+function pumpText(v){return String(v||'').replace(/\s+/g,' ').trim();}
+function parsePumpExplore(html){
+  const doc=new DOMParser().parseFromString(html,'text/html');
+  const rows=[...doc.querySelectorAll('table tbody tr')];
+  const out=[];
+  rows.forEach(row=>{
+    const cells=[...row.querySelectorAll('td')].map(td=>pumpText(td.innerText||td.textContent));
+    if(cells.length<3)return;
+    const first=row.querySelector('td');
+    const img=first?.querySelector('img');
+    let name=pumpText(img?.alt).replace(/^Coin image for\s*/i,'').trim();
+    let symbol='';
+    const symMatch=name.match(/\$([A-Za-z0-9._-]+)$/);
+    if(symMatch){symbol=symMatch[1];name=name.slice(0,-symMatch[0].length).trim();}
+    const mcap=cells.find(x=>/\$[\d.,]+[KMB]?/.test(x))||'';
+    const age=cells.find(x=>/\b\d+[smhdwy]\b/i.test(x))||'LIVE';
+    const link=[...row.querySelectorAll('a[href]')].map(a=>a.getAttribute('href')).find(h=>h&&(/outputCurrency|coin\//i.test(h)));
+    if(name)out.push({name,symbol,mcap,age,img:img?.src||'',href:link||''});
+  });
+  return out.slice(0,6);
+}
+function renderPumpList(items){
+  const track=document.getElementById('memeTrack');
+  if(!track)return;
+  if(!items.length){
+    track.innerHTML='<div class="meme-empty" style="height:224px">PUMP.FUN LIVE FEED<br><span>OPEN PUMP.FUN TO VIEW CURRENT COINS</span></div>';
+    return;
+  }
+  const cards=items.map(c=>{
+    const href=c.href ? (c.href.startsWith('http')?c.href:'https://pump.fun'+c.href) : 'https://pump.fun/explore';
+    return '<div class="meme-item" onclick="window.open(\''+href.replace(/'/g,'%27')+'\',\'_blank\',\'noopener,noreferrer\')" title="Open on Pump.fun">'
+      +'<div class="meme-icon">'+(c.img?'<img src="'+escapeHtml(c.img)+'" alt="" loading="lazy">':'◈')+'</div>'
+      +'<div class="meme-main"><div class="meme-name">'+escapeHtml(c.name)+(c.symbol?' <span class="meme-symbol">$'+escapeHtml(c.symbol)+'</span>':'')+'</div>'
+      +'<div class="meme-meta">PUMP.FUN · '+escapeHtml(c.age)+' · '+escapeHtml(c.mcap||'LIVE')+'</div></div>'
+      +'<div class="meme-stat"><div class="meme-price">'+escapeHtml(c.mcap||'LIVE')+'</div><div class="meme-change up">● LIVE</div></div></div>';
+  }).join('');
+  track.innerHTML=cards+cards;
+}
+async function loadPumpCoins(){
+  const url='https://pump.fun/explore';
+  for(let attempt=0;attempt<2;attempt++){
+    try{
+      const r=await fetch(pumpProxyUrl(url),{cache:'no-store'});
+      if(!r.ok)throw new Error('proxy');
+      const html=await r.text();
+      const items=parsePumpExplore(html);
+      if(items.length){
+        window.pumpCoins.new=items;
+        renderPumpList(items);
+        window.pumpProxyIndex++;
+        return;
+      }
+    }catch(e){window.pumpProxyIndex++;}
+  }
+  renderPumpList([]);
+}
 window.filterMemecoins=function(kind,btn){
   document.querySelectorAll('.meme-filter').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
-  window.openPumpExplore(kind==='hot'?'hot':'new');
+  if(kind==='hot'){
+    const hotUrl='https://pump.fun/explore?sort=market_cap';
+    fetch(pumpProxyUrl(hotUrl),{cache:'no-store'}).then(r=>r.text()).then(html=>{
+      const items=parsePumpExplore(html);
+      renderPumpList(items.length?items:window.pumpCoins.new);
+    }).catch(()=>renderPumpList(window.pumpCoins.new));
+  }else{
+    loadPumpCoins();
+  }
 };
-</script></script>
+loadPumpCoins();
+setInterval(loadPumpCoins,120000);
+</script>
 
 </body></html>
