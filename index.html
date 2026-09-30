@@ -434,6 +434,29 @@ button,input{font:inherit}.app{display:grid;grid-template-columns:236px 1fr;min-
 @media(max-width:600px){.purchase-modal{padding:6px}.purchase-modal .modal-card{width:calc(100vw - 12px)!important;max-height:calc(100vh - 12px);border-radius:16px!important}.purchase-modal .modal-head{height:58px;flex-basis:58px;padding:0 18px}.purchase-modal .modal-body{padding:20px 16px 16px}.purchase-hero h2{font-size:24px}.network-pills{width:100%}.network-pill{flex:1}.purchase-bottom{align-items:stretch;flex-direction:column}.plan-select{width:100%}}
 @media(prefers-reduced-motion:reduce){.purchase-modal .modal-card,.purchase-card,.purchase-card:before,.purchase-card:after,.plan-dot,.purchase-card.selected{animation:none!important;transform:none!important;opacity:1!important}}
 </style>
+
+<style id="purchase-selection-fix">
+/* Keep plan cards visible after selection; selection must never replace the entrance state. */
+.purchase-card{
+  opacity:1!important;
+  animation:purchaseCardIn .55s cubic-bezier(.16,1,.3,1) both;
+}
+.purchase-card:nth-child(1){animation-delay:.10s}
+.purchase-card:nth-child(2){animation-delay:.16s}
+.purchase-card:nth-child(3){animation-delay:.22s}
+.purchase-card:nth-child(4){animation-delay:.28s}
+.purchase-card.selected{
+  opacity:1!important;
+  animation:selectedGlow 2.4s ease-in-out infinite!important;
+}
+@keyframes selectedGlow{
+  0%,100%{box-shadow:0 0 0 1px rgba(163,106,255,.22),0 20px 55px rgba(89,42,205,.24)}
+  50%{box-shadow:0 0 0 1px rgba(163,106,255,.48),0 22px 62px rgba(110,48,230,.36)}
+}
+@media(prefers-reduced-motion:reduce){
+  .purchase-card,.purchase-card.selected{animation:none!important;opacity:1!important}
+}
+</style>
 </head>
 <body>
 <div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
