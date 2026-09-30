@@ -1284,6 +1284,9 @@ body:after{
 </style><style id="live-rug-nav-fix">
 .nav button[data-view="rugactivity"] i{color:#30e6aa;text-shadow:0 0 10px rgba(48,230,170,.45)}
 .nav button[data-view="rugactivity"].active i{color:#9d59ff}
+</style><style id="news-load-fix">
+#news-panel .news{min-height:250px;opacity:1!important;visibility:visible!important}
+#news-panel .news-item{visibility:visible!important}
 </style></head><body>
 <div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
 <div class="app">
@@ -1875,4 +1878,21 @@ setInterval(loadCoinFeed,120000);
   }
   if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",render); else render();
 })();
+</script><script id="news-boot-fix">
+(function(){
+ function bootNews(){
+   try{
+     if(typeof renderNews==="function" && document.getElementById("news")){
+       renderNews(fallbackNews||[]);
+       document.getElementById("news").style.visibility="visible";
+     }
+   }catch(e){}
+ }
+ if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",bootNews);
+ else bootNews();
+ window.addEventListener("load",bootNews,{once:true});
+ setTimeout(bootNews,150);
+ setTimeout(bootNews,800);
+}
+)();
 </script></body></html>
