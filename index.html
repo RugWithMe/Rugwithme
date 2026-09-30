@@ -1255,7 +1255,7 @@ body:after{
 .rug-user-avatar{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;flex:0 0 34px;background:#0d0a13;border:1px solid rgba(157,89,255,.28);box-shadow:0 7px 20px rgba(0,0,0,.35),0 0 15px rgba(157,89,255,.08);overflow:hidden}
 .rug-user-avatar img{width:100%;height:100%;object-fit:cover;display:block}
 .rug-user-cell{display:flex;align-items:center;gap:9px;min-width:0}
-.rug-token-text{min-width:0}
+.rug-token-text{min-width:0}.rug-coin-logo{width:42px!important;height:42px!important;border-radius:13px!important;background:#0a090e!important}.rug-coin-logo img.real-token-art{object-fit:cover!important;image-rendering:auto!important}.rug-token-cell{display:flex;align-items:center;gap:10px;min-width:0}.rug-token-line{display:flex;align-items:center;gap:6px;white-space:nowrap}.rug-network-mini{font:700 5px 'JetBrains Mono';color:#a98cff;display:inline-flex;align-items:center;gap:3px}.rug-network-mini i{width:4px;height:4px;border-radius:50%;background:#8b4dff;box-shadow:0 0 7px rgba(139,77,255,.8)}
 .rug-token-line{display:flex;align-items:center;gap:5px}
 .rug-network-mini{display:inline-flex;align-items:center;gap:4px;color:#7e74ff;font-size:5px;font-weight:800;letter-spacing:.04em}
 .rug-network-mini i{width:5px;height:5px;border-radius:50%;background:#8b72ff;box-shadow:0 0 7px rgba(139,114,255,.7)}
@@ -1876,20 +1876,51 @@ function memeLogo(symbol){
   const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="hsl('+hue+',90%,68%)"/><stop offset=".55" stop-color="hsl('+hue2+',88%,58%)"/><stop offset="1" stop-color="hsl('+((hue+150)%360)+',88%,52%)"/></linearGradient><filter id="s"><feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#000" flood-opacity=".5"/></filter></defs><rect x="2" y="2" width="76" height="76" rx="20" fill="#09070f" stroke="url(#g)" stroke-width="2"/><circle cx="40" cy="40" r="25" fill="url(#g)" opacity=".2"/><path d="M19 47 Q24 20 40 31 Q53 17 62 39 Q66 54 49 58 Q31 65 19 47Z" fill="url(#g)" filter="url(#s)"/><circle cx="31" cy="39" r="4" fill="#fff"/><circle cx="49" cy="39" r="4" fill="#fff"/><circle cx="31" cy="39" r="1.8" fill="#101018"/><circle cx="49" cy="39" r="1.8" fill="#101018"/><path d="M29 49 Q40 56 51 49" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/><text x="40" y="72" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" font-weight="900" fill="#fff">'+text+'</text></svg>';
   return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg);
 }
-function render(){
+const logoCache={};
+  async function findActualTokenLogo(x){
+    const key=(x.token+" "+x.name).trim().toLowerCase();
+    if(logoCache[key])return logoCache[key];
+    try{
+      const q=encodeURIComponent(x.token.replace("$","")+" "+x.name);
+      const r=await fetch("https://api.dexscreener.com/latest/dex/search/?q="+q,{cache:"no-store"});
+      if(!r.ok)throw new Error("search failed");
+      const j=await r.json();
+      const pairs=(j.pairs||[]).filter(p=>String(p.chainId).toLowerCase()==="solana");
+      const exact=pairs.find(p=>{
+        const s=String(p.baseToken?.symbol||"").toLowerCase();
+        const n=String(p.baseToken?.name||"").toLowerCase();
+        return s===x.token.replace("$","").toLowerCase() || n===x.name.toLowerCase();
+      }) || pairs[0];
+      const img=exact?.info?.imageUrl || (exact?.baseToken?.address ? "https://dd.dexscreener.com/ds-data/tokens/solana/"+encodeURIComponent(exact.baseToken.address)+".png" : "");
+      if(img){logoCache[key]=img;return img;}
+    }catch(e){}
+    return typeof memeLogo==="function"?memeLogo(x.token.replace("$","")):"";
+  }
+  function paintTokenLogo(key,img){
+    document.querySelectorAll("#rugActivityRows .rug-coin-logo img[data-logo-key]").forEach(el=>{
+      if(el.dataset.logoKey===key && img){el.src=img;el.classList.add("real-token-art");}
+    });
+  }
+  function render(){
     const el=document.getElementById("rugActivityRows");
     if(!el)return;
     el.innerHTML=rows.map(function(x){
       const sym=x.token.replace("$","");
       const logo=typeof memeLogo==="function"?memeLogo(sym):"";
       const userLogo=typeof rugAvatar==="function"?rugAvatar(x.user):"";
+      const key=(x.token+" "+x.name).trim().toLowerCase();
       return '<div class="rug-activity-row">'
-       +'<div class="rug-user-cell"><div class="rug-user-avatar"><img src="'+userLogo+'" alt="" onerror="this.onerror=null;this.src=rugAvatarFallback(this.alt)"></div><div class="rug-user">@'+escapeHtml(x.user)+'</div></div>'
-       +'<div class="rug-token-cell"><div class="rug-coin-logo"><img src="'+logo+'" alt=""></div><div class="rug-token-text"><div class="rug-token-line"><span class="rug-token">'+escapeHtml(x.token)+'</span><span class="rug-network-mini"><i></i>SOL</span></div><small>'+escapeHtml(x.name)+' · RECENT RUG ALERT</small></div></div>'
+       +'<div class="rug-user-cell"><div class="rug-user-avatar"><img src="'+userLogo+'" alt="" onerror="this.onerror=null;this.src=rugAvatarFallback("USER")"></div><div class="rug-user">@'+escapeHtml(x.user)+'</div></div>'
+       +'<div class="rug-token-cell"><div class="rug-coin-logo"><img data-logo-key="'+escapeHtml(key)+'" src="'+logo+'" alt="" loading="lazy" onerror="this.onerror=null"></div><div class="rug-token-text"><div class="rug-token-line"><span class="rug-token">'+escapeHtml(x.token)+'</span><span class="rug-network-mini"><i></i>SOL</span></div><small>'+escapeHtml(x.name)+' · RECENT RUG ALERT</small></div></div>'
        +'<div class="rug-invest">'+escapeHtml(x.invest)+' <span class="rug-asset-mini">≈ <b>SOL</b></span></div>'
        +'<div class="rug-profit">'+escapeHtml(x.profit)+' <span class="rug-asset-mini">≈ <b>SOL</b></span></div>'
        +'<div class="rug-status">SIMULATED</div></div>';
     }).join("")+'<div class="rug-demo-note">DEMO DATA ONLY · NAMES, TOKENS AND PROFITS ARE SIMULATED FOR UI PREVIEW</div>';
+    rows.forEach(async function(x){
+      const key=(x.token+" "+x.name).trim().toLowerCase();
+      const img=await findActualTokenLogo(x);
+      if(img)paintTokenLogo(key,img);
+    });
   }
   if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",render); else render();
 })();
