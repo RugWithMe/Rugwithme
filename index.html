@@ -1904,7 +1904,7 @@ setInterval(loadCoinFeed,120000);
        +'<div class="rug-token-cell"><div class="rug-coin-logo"><img src="'+logo+'" alt="" loading="eager"></div><div class="rug-token-text"><div class="rug-token-line"><span class="rug-token">'+escapeHtml(x.token)+'</span><span class="rug-network-mini"><i></i>SOL</span></div><small>'+escapeHtml(x.name)+' · RECENT RUG ALERT</small></div></div>'
        +'<div class="rug-invest">'+escapeHtml(x.invest)+' <span class="rug-asset-mini">≈ <b>SOL</b></span></div>'
        +'<div class="rug-profit">'+escapeHtml(x.profit)+' <span class="rug-asset-mini">≈ <b>SOL</b></span></div>'
-       +'<div class="rug-status">SIMULATED</div></div>';
+       +'<div class="rug-status completed">COMPLETED</div></div>';
     }).join("")+'<div class="rug-demo-note">DEMO DATA ONLY · NAMES, TOKENS AND PROFITS ARE SIMULATED FOR UI PREVIEW</div>';
   }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",render);else render();
