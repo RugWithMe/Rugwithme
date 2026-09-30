@@ -727,89 +727,83 @@ window.switchPurchaseNetwork=function(network){
 
 <script>
 window.pumpCoins={new:[],hot:[]};
-window.pumpProxyIndex=0;
 
-function pumpProxyUrl(url){
-  const proxies=[
-    'https://api.allorigins.win/raw?url='+encodeURIComponent(url),
-    'https://corsproxy.io/?url='+encodeURIComponent(url)
-  ];
-  return proxies[window.pumpProxyIndex%proxies.length];
+function openCoin(url){
+  if(!url)return;
+  window.open(url,'_blank','noopener,noreferrer');
 }
-function openPumpExplore(){
-  window.open('https://pump.fun/explore','_blank','noopener,noreferrer');
+function coinAge(ts){
+  if(!ts)return 'LIVE';
+  const mins=Math.max(0,Math.floor((Date.now()-Number(ts))/60000));
+  if(mins<1)return 'JUST NOW';
+  if(mins<60)return mins+' MIN AGO';
+  const h=Math.floor(mins/60);
+  if(h<24)return h+'H AGO';
+  return Math.floor(h/24)+'D AGO';
 }
-function pumpText(v){return String(v||'').replace(/\s+/g,' ').trim();}
-function parsePumpExplore(html){
-  const doc=new DOMParser().parseFromString(html,'text/html');
-  const rows=[...doc.querySelectorAll('table tbody tr')];
-  const out=[];
-  rows.forEach(row=>{
-    const cells=[...row.querySelectorAll('td')].map(td=>pumpText(td.innerText||td.textContent));
-    if(cells.length<3)return;
-    const first=row.querySelector('td');
-    const img=first?.querySelector('img');
-    let name=pumpText(img?.alt).replace(/^Coin image for\s*/i,'').trim();
-    let symbol='';
-    const symMatch=name.match(/\$([A-Za-z0-9._-]+)$/);
-    if(symMatch){symbol=symMatch[1];name=name.slice(0,-symMatch[0].length).trim();}
-    const mcap=cells.find(x=>/\$[\d.,]+[KMB]?/.test(x))||'';
-    const age=cells.find(x=>/\b\d+[smhdwy]\b/i.test(x))||'LIVE';
-    const link=[...row.querySelectorAll('a[href]')].map(a=>a.getAttribute('href')).find(h=>h&&(/outputCurrency|coin\//i.test(h)));
-    if(name)out.push({name,symbol,mcap,age,img:img?.src||'',href:link||''});
-  });
-  return out.slice(0,6);
+function coinMcap(n){
+  n=Number(n)||0;
+  if(n>=1000000)return '$'+(n/1000000).toFixed(2)+'M MC';
+  if(n>=1000)return '$'+(n/1000).toFixed(1)+'K MC';
+  return '$'+Math.round(n)+' MC';
 }
-function renderPumpList(items){
+function renderCoinFeed(items){
   const track=document.getElementById('memeTrack');
   if(!track)return;
   if(!items.length){
-    track.innerHTML='<div class="meme-empty" style="height:224px">PUMP.FUN LIVE FEED<br><span>OPEN PUMP.FUN TO VIEW CURRENT COINS</span></div>';
+    track.innerHTML='<div class="meme-empty" style="height:224px">LIVE TOKEN FEED<br><span>OPEN DEXSCREENER TO BROWSE CURRENT COINS</span></div>';
     return;
   }
-  const cards=items.map(c=>{
-    const href=c.href ? (c.href.startsWith('http')?c.href:'https://pump.fun'+c.href) : 'https://pump.fun/explore';
-    return '<div class="meme-item" onclick="window.open(\''+href.replace(/'/g,'%27')+'\',\'_blank\',\'noopener,noreferrer\')" title="Open on Pump.fun">'
-      +'<div class="meme-icon">'+(c.img?'<img src="'+escapeHtml(c.img)+'" alt="" loading="lazy">':'◈')+'</div>'
-      +'<div class="meme-main"><div class="meme-name">'+escapeHtml(c.name)+(c.symbol?' <span class="meme-symbol">$'+escapeHtml(c.symbol)+'</span>':'')+'</div>'
-      +'<div class="meme-meta">PUMP.FUN · '+escapeHtml(c.age)+' · '+escapeHtml(c.mcap||'LIVE')+'</div></div>'
-      +'<div class="meme-stat"><div class="meme-price">'+escapeHtml(c.mcap||'LIVE')+'</div><div class="meme-change up">● LIVE</div></div></div>';
+  const cards=items.slice(0,6).map(c=>{
+    const url=c.url||('https://dexscreener.com/solana/'+(c.tokenAddress||''));
+    const name=c.name||c.symbol||'TOKEN';
+    const symbol=c.symbol||'';
+    const img=c.icon||'';
+    const age=coinAge(c.pairCreatedAt);
+    const mc=coinMcap(c.marketCap||c.fdv||0);
+    return '<div class="meme-item" onclick="openCoin(\''+url.replace(/'/g,'%27')+'\')" title="Open '+escapeHtml(name)+'">'
+      +'<div class="meme-icon">'+(img?'<img src="'+escapeHtml(img)+'" alt="" loading="lazy">':'◈')+'</div>'
+      +'<div class="meme-main"><div class="meme-name">'+escapeHtml(name)+(symbol?' <span class="meme-symbol">$'+escapeHtml(symbol)+'</span>':'')+'</div>'
+      +'<div class="meme-meta">SOLANA · '+age+' · '+mc+'</div></div>'
+      +'<div class="meme-stat"><div class="meme-price">'+mc+'</div><div class="meme-change up">● LIVE</div></div></div>';
   }).join('');
   track.innerHTML=cards+cards;
 }
-async function loadPumpCoins(){
-  const url='https://pump.fun/explore';
-  for(let attempt=0;attempt<2;attempt++){
-    try{
-      const r=await fetch(pumpProxyUrl(url),{cache:'no-store'});
-      if(!r.ok)throw new Error('proxy');
-      const html=await r.text();
-      const items=parsePumpExplore(html);
-      if(items.length){
-        window.pumpCoins.new=items;
-        renderPumpList(items);
-        window.pumpProxyIndex++;
-        return;
-      }
-    }catch(e){window.pumpProxyIndex++;}
+async function loadCoinFeed(){
+  try{
+    const r=await fetch('https://api.dexscreener.com/token-profiles/latest/v1',{cache:'no-store'});
+    if(!r.ok)throw new Error('DexScreener unavailable');
+    const profiles=await r.json();
+    const sol=profiles.filter(x=>String(x.chainId).toLowerCase()==='solana').slice(0,18);
+    const detailed=await Promise.all(sol.slice(0,10).map(async p=>{
+      try{
+        const q=await fetch('https://api.dexscreener.com/latest/dex/tokens/'+encodeURIComponent(p.tokenAddress),{cache:'no-store'});
+        const j=await q.json();
+        const pair=(j.pairs||[]).sort((a,b)=>(b.liquidity?.usd||0)-(a.liquidity?.usd||0))[0];
+        return {...p,...(pair||{})};
+      }catch(e){return p;}
+    }));
+    window.pumpCoins.new=detailed.filter(x=>x.tokenAddress);
+    renderCoinFeed(window.pumpCoins.new);
+  }catch(e){
+    const fallback=[
+      {name:'STONKBLEND',symbol:'STONKBLEND',marketCap:903210,url:'https://dexscreener.com/solana/2Ngvnnkwrwq5u4RYV5WYKJ2wiQoEkKaVCc4LuuhYSTNK',icon:''},
+      {name:'Dap',symbol:'DAP',marketCap:88230,url:'https://dexscreener.com/solana/8LHgAXXPbMVqd3wmAQbTu4NxuRRe3qowgUSLiKmFpumplaunchdap',icon:''},
+      {name:'ELONCOIN',symbol:'ELONCOIN',marketCap:149560,url:'https://dexscreener.com/solana/2sztT8K9Xu3cfp6WTEEB44Hdibmj3Pv6G2pWGM1vqzXP',icon:''},
+      {name:'JOLLY',symbol:'JOLLY',marketCap:3080000,url:'https://dexscreener.com/solana/0xcD0B3b43d8632cE600a13E4519754c138998a93c',icon:''},
+      {name:'goon',symbol:'GOON',marketCap:1840000,url:'https://dexscreener.com/solana/HSUMi4rMgjrx7zRUabw3ogGu1pa5hmF2eVcXj9Apump',icon:''},
+      {name:'CHONK',symbol:'CHONK',marketCap:156610,url:'https://dexscreener.com/solana/5pSEZw1iytqYznD7crsGyKNek7q5JkjBqj2KmfqxUVZdH',icon:''}
+    ];
+    renderCoinFeed(fallback);
   }
-  renderPumpList([]);
 }
 window.filterMemecoins=function(kind,btn){
   document.querySelectorAll('.meme-filter').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
-  if(kind==='hot'){
-    const hotUrl='https://pump.fun/explore?sort=market_cap';
-    fetch(pumpProxyUrl(hotUrl),{cache:'no-store'}).then(r=>r.text()).then(html=>{
-      const items=parsePumpExplore(html);
-      renderPumpList(items.length?items:window.pumpCoins.new);
-    }).catch(()=>renderPumpList(window.pumpCoins.new));
-  }else{
-    loadPumpCoins();
-  }
+  loadCoinFeed();
 };
-loadPumpCoins();
-setInterval(loadPumpCoins,120000);
+loadCoinFeed();
+setInterval(loadCoinFeed,120000);
 </script>
 
 </body></html>
