@@ -1250,8 +1250,11 @@ body:after{
 .rug-activity-wrap{position:relative;z-index:1;padding:0 18px 10px}
 .rug-activity-head,.rug-activity-row{display:grid;grid-template-columns:1.1fr 1.5fr 1fr 1fr .8fr;align-items:center;gap:14px}
 .rug-token-cell{display:flex;align-items:center;gap:9px;min-width:0}
-.rug-coin-logo{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;flex:0 0 34px;border:1px solid rgba(157,89,255,.24);background:#0d0a13;box-shadow:0 5px 16px rgba(0,0,0,.35),inset 0 1px rgba(255,255,255,.08);overflow:hidden}
-.rug-coin-logo img{width:100%;height:100%;object-fit:cover}
+.rug-coin-logo{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;flex:0 0 38px;border:1px solid rgba(157,89,255,.28);background:#0d0a13;box-shadow:0 0 0 1px rgba(255,255,255,.03),0 7px 20px rgba(0,0,0,.4),0 0 18px rgba(65,210,255,.08);overflow:hidden}
+.rug-coin-logo img{width:100%;height:100%;object-fit:cover;display:block}
+.rug-user-avatar{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;flex:0 0 34px;background:#0d0a13;border:1px solid rgba(157,89,255,.28);box-shadow:0 7px 20px rgba(0,0,0,.35),0 0 15px rgba(157,89,255,.08);overflow:hidden}
+.rug-user-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.rug-user-cell{display:flex;align-items:center;gap:9px;min-width:0}
 .rug-token-text{min-width:0}
 .rug-token-line{display:flex;align-items:center;gap:5px}
 .rug-network-mini{display:inline-flex;align-items:center;gap:4px;color:#7e74ff;font-size:5px;font-weight:800;letter-spacing:.04em}
@@ -1861,9 +1864,9 @@ setInterval(loadCoinFeed,120000);
     el.innerHTML=rows.map(function(x){
       const sym=x.token.replace("$","");
       const logo=typeof memeLogo==="function"?memeLogo(sym):"";
-      const initial=x.user.slice(0,2).toUpperCase();
+      const userLogo='https://api.dicebear.com/9.x/shapes/svg?seed='+encodeURIComponent(x.user)+'&backgroundColor=0b0810&backgroundType=solid&shape1Color=8b5cf6&shape2Color=22d3ee&shape3Color=a855f7';
       return '<div class="rug-activity-row">'
-       +'<div class="rug-user-cell"><div class="rug-user-avatar">'+initial+'</div><div class="rug-user">@'+escapeHtml(x.user)+'</div></div>'
+       +'<div class="rug-user-cell"><div class="rug-user-avatar"><img src="'+userLogo+'" alt=""></div><div class="rug-user">@'+escapeHtml(x.user)+'</div></div>'
        +'<div class="rug-token-cell"><div class="rug-coin-logo">'+(logo?'<img src="'+logo+'" alt="">':'◈')+'</div><div class="rug-token-text"><div class="rug-token-line"><span class="rug-token">'+escapeHtml(x.token)+'</span><span class="rug-network-mini"><i></i>SOL</span></div><small>'+escapeHtml(x.name)+' · RECENT RUG ALERT</small></div></div>'
        +'<div class="rug-invest">'+escapeHtml(x.invest)+' <span class="rug-asset-mini">≈ <b>SOL</b></span></div>'
        +'<div class="rug-profit">'+escapeHtml(x.profit)+' <span class="rug-asset-mini">≈ <b>SOL</b></span></div>'
