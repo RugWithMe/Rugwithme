@@ -1270,7 +1270,13 @@ function renderDemoRugActivity(){
  el.innerHTML=demoRugActivity.map(x=>'<div class="rug-activity-row"><div class="rug-user">@'+x.user+'</div><div class="rug-token">'+x.token+'<small>'+x.name+' · RECENT RUG ALERT</small></div><div class="rug-invest">'+x.invest+'</div><div class="rug-profit">'+x.profit+'</div><div class="rug-status">SIMULATED</div></div>').join('')+'<div class="rug-demo-note">DEMO DATA ONLY · NAMES, TOKENS AND PROFITS ARE SIMULATED FOR UI PREVIEW</div>';
 }
 document.addEventListener('DOMContentLoaded',renderDemoRugActivity);
-</script></head>
+</script><style id="user-count-style">
+.user-count{height:42px;display:flex;align-items:center;gap:6px;padding:0 10px;color:#a59caf;font:700 7px 'JetBrains Mono';letter-spacing:.08em;white-space:nowrap}
+.user-count strong{font-size:10px;color:#f0eafa;letter-spacing:0}
+.user-count small{font-size:5.5px;color:#71697b}
+.user-dot{width:5px;height:5px;border-radius:50%;background:#9d59ff;box-shadow:0 0 10px rgba(157,89,255,.8)}
+@media(max-width:700px){.user-count{padding:0 5px}.user-count small{display:none}}
+</style></head>
 <body>
 <div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
 <div class="app">
@@ -1313,7 +1319,7 @@ document.addEventListener('DOMContentLoaded',renderDemoRugActivity);
   <div class="side-bottom"><div class="statusbox"><div class="online"><span class="pulse"></span>All systems operational</div><p>Market data, headlines and risk modules are connected where supported.</p></div><div class="version">RWM TERMINAL / v3.0.1</div></div>
 </aside>
 <div class="main">
-<header class="topbar"><div class="crumb">RUGWITHME / <b>COMMAND CENTER</b></div><div class="search"><span>⌕</span><input id="search" placeholder="Search token, wallet, headline…"></div><button class="topbtn" onclick="toast('Scanner queued')">SCAN</button><button class="topbtn primary" onclick="openPurchases()">PURCHASES</button><button class="profile" onclick="openRegister()" aria-label="Log in or sign up">LOG IN / SIGN UP</button></header>
+<header class="topbar"><div class="crumb">RUGWITHME / <b>COMMAND CENTER</b></div><div class="search"><span>⌕</span><input id="search" placeholder="Search token, wallet, headline…"></div><div class="user-count" aria-label="User count"><span class="user-dot"></span><strong>78</strong><small>USERS</small></div><button class="topbtn" onclick="toast('Scanner queued')">SCAN</button><button class="topbtn primary" onclick="openPurchases()">PURCHASES</button><button class="profile" onclick="openRegister()" aria-label="Log in or sign up">LOG IN / SIGN UP</button></header>
 <div class="ticker"><div class="ticker-label">● LIVE MARKET</div><div class="ticker-track" id="ticker"></div></div>
 <main class="content">
 <section class="hero dashboard-hero">
