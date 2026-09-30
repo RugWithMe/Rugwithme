@@ -1249,6 +1249,18 @@ body:after{
 .rug-activity-panel{grid-column:1/-1!important;overflow:hidden!important}
 .rug-activity-wrap{position:relative;z-index:1;padding:0 18px 10px}
 .rug-activity-head,.rug-activity-row{display:grid;grid-template-columns:1.1fr 1.5fr 1fr 1fr .8fr;align-items:center;gap:14px}
+.rug-token-cell{display:flex;align-items:center;gap:9px;min-width:0}
+.rug-coin-logo{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;flex:0 0 34px;border:1px solid rgba(157,89,255,.24);background:#0d0a13;box-shadow:0 5px 16px rgba(0,0,0,.35),inset 0 1px rgba(255,255,255,.08);overflow:hidden}
+.rug-coin-logo img{width:100%;height:100%;object-fit:cover}
+.rug-token-text{min-width:0}
+.rug-token-line{display:flex;align-items:center;gap:5px}
+.rug-network-mini{display:inline-flex;align-items:center;gap:4px;color:#7e74ff;font-size:5px;font-weight:800;letter-spacing:.04em}
+.rug-network-mini i{width:5px;height:5px;border-radius:50%;background:#8b72ff;box-shadow:0 0 7px rgba(139,114,255,.7)}
+.rug-user-cell{display:flex;align-items:center;gap:8px}
+.rug-user-avatar{width:24px;height:24px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(145deg,#1b1328,#09070d);border:1px solid #30233f;color:#c8b7ff;font:900 7px 'JetBrains Mono';overflow:hidden}
+.rug-user-avatar img{width:100%;height:100%;object-fit:cover}
+.rug-asset-mini{display:inline-flex;align-items:center;gap:4px;margin-left:4px;color:#70677d;font-size:5.5px}
+.rug-asset-mini b{font-size:6px;color:#a99bb6}
 .rug-activity-head{height:36px;color:#5f5969;font:700 6px 'JetBrains Mono';letter-spacing:.14em;border-bottom:1px solid rgba(255,255,255,.05)}
 .rug-activity-row{min-height:62px;border-bottom:1px solid rgba(255,255,255,.045);font:700 8px 'JetBrains Mono';transition:.2s}
 .rug-activity-row:hover{background:linear-gradient(90deg,rgba(139,77,255,.08),transparent,rgba(139,77,255,.05));transform:translateX(3px)}
@@ -1267,7 +1279,594 @@ const demoRugActivity=[
 ];
 function renderDemoRugActivity(){
  const el=document.getElementById('rugActivityRows'); if(!el)return;
- el.innerHTML=demoRugActivity.map(x=>'<div class="rug-activity-row"><div class="rug-user">@'+x.user+'</div><div class="rug-token">'+x.token+'<small>'+x.name+' · RECENT RUG ALERT</small></div><div class="rug-invest">'+x.invest+'</div><div class="rug-profit">'+x.profit+'</div><div class="rug-status">SIMULATED</div></div>').join('')+'<div class="rug-demo-note">DEMO DATA ONLY · NAMES, TOKENS AND PROFITS ARE SIMULATED FOR UI PREVIEW</div>';
+ el.innerHTML=demoRugActivity.map(x=>{
+ const sym=String(x.token).replace('
+}
+document.addEventListener('DOMContentLoaded',renderDemoRugActivity);
+</script><style id="user-count-style">
+.user-count{height:42px;display:flex;align-items:center;gap:6px;padding:0 10px;color:#a59caf;font:700 7px 'JetBrains Mono';letter-spacing:.08em;white-space:nowrap}
+.user-count strong{font-size:10px;color:#f0eafa;letter-spacing:0}
+.user-count small{font-size:5.5px;color:#71697b}
+.user-dot{width:5px;height:5px;border-radius:50%;background:#9d59ff;box-shadow:0 0 10px rgba(157,89,255,.8)}
+@media(max-width:700px){.user-count{padding:0 5px}.user-count small{display:none}}
+</style></head>
+<body>
+<div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><img src="data:image/webp;base64,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" alt="RugWithMe"><div><strong>Rug<span>With</span>Me</strong><small>INTELLIGENCE TERMINAL</small></div></div>
+  <div class="section-label">WORKSPACE</div>
+  <nav class="nav">
+    <button class="active" data-view="overview"><i>◈</i> Dashboard</button>
+    <button data-view="markets"><i>◒</i> Market Pulse</button>
+    <button data-view="radar"><i>⌁</i> Rug Radar</button>
+    <button data-view="news"><i>◫</i> News Room</button>
+
+<div class="meme-panel" id="memecoinPanel">
+  <div class="meme-panel-head">
+    <div class="meme-panel-title">
+      <i class="meme-live"></i>
+      <b>RECENTLY ADDED MEMECOINS</b>
+      <span>PUMP.FUN · LIVE FEED</span>
+    </div>
+    <div class="meme-filter-row">
+      <button class="meme-filter active" onclick="filterMemecoins('new',this)">NEW</button>
+      <button class="meme-filter" onclick="filterMemecoins('hot',this)">HOT</button>
+    </div>
+  </div>
+  <div class="meme-list" id="memeList"><div class="meme-track" id="memeTrack"></div></div>
+  <div class="meme-footer">
+    <span>PUMP.FUN · LIVE TOKEN DISCOVERY</span>
+    <span class="meme-view-all" onclick="openPumpFun()">VIEW PUMP.FUN →</span>
+  </div>
+</div>
+
+
+  </nav>
+  <div class="section-label">TOOLS</div>
+  <nav class="nav">
+    <button onclick="toast('Watchlist panel opened')"><i>＋</i> New Watchlist</button>
+    <button onclick="openModal()"><i>?</i> How it works</button>
+    <button onclick="toast('Data sources refreshed')"><i>↻</i> Refresh feeds</button>
+  </nav>
+  <div class="side-bottom"><div class="statusbox"><div class="online"><span class="pulse"></span>All systems operational</div><p>Market data, headlines and risk modules are connected where supported.</p></div><div class="version">RWM TERMINAL / v3.0.1</div></div>
+</aside>
+<div class="main">
+<header class="topbar"><div class="crumb">RUGWITHME / <b>COMMAND CENTER</b></div><div class="search"><span>⌕</span><input id="search" placeholder="Search token, wallet, headline…"></div><div class="user-count" aria-label="User count"><span class="user-dot"></span><strong>78</strong><small>USERS</small></div><button class="topbtn" onclick="toast('Scanner queued')">SCAN</button><button class="topbtn primary" onclick="openPurchases()">PURCHASES</button><button class="profile" onclick="openRegister()" aria-label="Log in or sign up">LOG IN / SIGN UP</button></header>
+<div class="ticker"><div class="ticker-label">● LIVE MARKET</div><div class="ticker-track" id="ticker"></div></div>
+<main class="content">
+<section class="hero dashboard-hero">
+  <div>
+    <div class="eyebrow">DASHBOARD</div>
+    <h1>Welcome back, <span id="welcomeName">there</span></h1>
+    <p>Monitor the latest rugs and market movements</p>
+  </div>
+  <div class="hero-actions dashboard-actions">
+    <button class="btn primary" onclick="toast('Rug launch workspace opened')">Launch a rug</button>
+    <button class="btn" onclick="document.querySelector('[data-view=wallets]')?.click()">Create new wallets</button>
+    <button class="btn" onclick="document.querySelector('[data-view=wallets]')?.click()">Import wallets</button>
+  </div>
+</section>
+<section class="market-overview-head">
+  <h2>Market overview</h2>
+  <div class="market-overview-actions"><span class="overview-live"><i></i> Live</span></div>
+</section>
+<section class="kpis" id="kpis"></section>
+<div class="dashboard-grid">
+<section class="panel" id="market-panel"><div class="panel-head"><div><div class="panel-title">Market pulse</div><div class="panel-sub">REFERENCE PRICES / 24H CHANGE</div></div><div class="panel-sub live">● STREAMING</div></div><div class="market-wrap"><table class="market"><thead><tr><th>ASSET</th><th>PRICE</th><th>24H</th><th>OPEN</th><th>MICRO TREND</th><th>STATE</th></tr></thead><tbody id="market"></tbody></table></div></section>
+<section class="panel"><div class="panel-head"><div><div class="panel-title">Momentum engine</div><div class="panel-sub">COMPOSITE MARKET SIGNAL</div></div><div class="panel-sub">SOL / USD</div></div><div class="chart-box"><div class="chart-top"><div><div class="chart-value" id="chartValue">$119.20</div><div class="chart-change">▲ +0.70% today</div></div><div class="chart-tabs"><button class="active" data-range="1H">1H</button><button data-range="4H">4H</button><button data-range="1D">1D</button><button data-range="1W">1W</button></div></div><div class="chart-svg"><svg viewBox="0 0 620 180" preserveAspectRatio="none"><defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9d59ff" stop-opacity=".32"/><stop offset="1" stop-color="#9d59ff" stop-opacity="0"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g opacity=".18" stroke="#8c829b"><line x1="0" y1="30" x2="620" y2="30"/><line x1="0" y1="75" x2="620" y2="75"/><line x1="0" y1="120" x2="620" y2="120"/><line x1="0" y1="165" x2="620" y2="165"/></g><path d="M0 145 C35 139 48 146 73 124 S114 136 140 111 S183 123 207 94 S244 108 275 82 S312 101 342 68 S379 86 408 61 S444 78 474 45 S518 55 548 31 S587 46 620 18 L620 180 L0 180Z" fill="url(#area)"/><path d="M0 145 C35 139 48 146 73 124 S114 136 140 111 S183 123 207 94 S244 108 275 82 S312 101 342 68 S379 86 408 61 S444 78 474 45 S518 55 548 31 S587 46 620 18" fill="none" stroke="#b56dff" stroke-width="2.5" filter="url(#glow)"/><circle cx="620" cy="18" r="4" fill="#fff"/></svg></div><div class="chart-footer"><div class="micro"><label>BREADTH</label><b class="green">72%</b></div><div class="micro"><label>FLOW</label><b>$2.91B</b></div><div class="micro"><label>RISK</label><b class="green">LOW</b></div></div></div></section>
+</div>
+<section class="panel rug-activity-panel" id="rug-activity-panel">
+  <div class="panel-head">
+    <div><div class="panel-title">Live Rug Activity</div><div class="panel-sub">SIMULATED DEMO FEED · RECENT RUG ALERTS</div></div>
+    <div class="panel-sub live">● DEMO STREAM</div>
+  </div>
+  <div class="rug-activity-wrap">
+    <div class="rug-activity-head"><span>USER</span><span>TOKEN</span><span>INVESTED</span><span>PROFIT</span><span>STATUS</span></div>
+    <div id="rugActivityRows"></div>
+  </div>
+</section>
+<div class="right-stack" style="margin-top:10px">
+<section class="panel" id="news-panel"><div class="panel-head"><div><div class="panel-title">Crypto news room</div><div class="panel-sub">LATEST HEADLINES / PUBLIC FEEDS</div></div><div><span class="panel-sub live">● LIVE</span> <button class="news-refresh" onclick="loadNews()">↻</button></div></div><div class="news-viewport"><div class="news" id="news"></div></div></section>
+</div>
+<div class="bottom-grid">
+<section class="panel" id="radar-panel"><div class="panel-head"><div><div class="panel-title">Rug Radar</div><div class="panel-sub">BEHAVIORAL RISK SIGNALS · NOT A GUARANTEE</div></div><span class="panel-sub">4 WATCHES</span></div><div class="rows" id="radar"></div></section>
+<section class="panel"><div class="panel-head"><div><div class="panel-title">Whale watch</div><div class="panel-sub">LARGE FLOW SNAPSHOTS</div></div><span class="panel-sub live">● TRACKING</span></div><div class="rows" id="whales"></div></section>
+<section class="panel activity-panel"><div class="panel-head"><div><div class="panel-title">Wallet command</div><div class="panel-sub">PORTFOLIO / ACTIVITY</div></div><button class="btn" style="padding:6px 8px" onclick="openModal()">CONNECT</button></div><div class="wallet"><div class="wallet-top"><div><div class="wallet-value">0.00 <span style="color:var(--purple2)">SOL</span></div><div class="wallet-note">$0.00 reference value</div></div><div class="tag">NO WALLET</div></div><div class="wallets"><div class="wallet-card"><small>TRACKED</small><b>0 wallets</b></div><div class="wallet-card"><small>24H PNL</small><b class="green">+0.00%</b></div><div class="wallet-card"><small>ALERTS</small><b>0 active</b></div></div></div><div class="activity" id="activity"></div></section>
+</div>
+<div class="footer">RUGWITHME · INTELLIGENCE TERMINAL · VERIFY CONTRACTS AND SOURCES BEFORE MAKING FINANCIAL DECISIONS</div>
+</main></div></div>
+<div class="toast" id="toast"></div>
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="modal-card"><div class="modal-head"><b>RugWithMe Intelligence Terminal</b><button class="modal-close" onclick="closeModal()">✕</button></div><div class="modal-body"><p>This interface is designed as a premium monitoring workspace. Market values are reference data, and the risk modules are signals rather than guarantees. Connect your own data sources or wallet infrastructure before using it in production.</p><button class="btn primary" onclick="closeModal();toast('Connection flow ready')">Continue</button></div></div></div>
+<div class="modal" id="registerModal" onclick="if(event.target===this)closeRegister()"><div class="rwm-register-card"><div class="modal-head"><b>Create your RugWithMe account</b><button class="modal-close" onclick="closeRegister()">✕</button></div><div class="register-layout"><section class="register-visual"><div class="logo-wrap"><img class="register-logo" src="data:image/webp;base64,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" alt="RugWithMe"></div><div class="register-kicker">PRIVATE CRYPTO INTELLIGENCE</div><h2>CREATE YOUR <span>RUGWITHME</span> ACCOUNT</h2><p>Register to unlock your workspace, saved watchlists and purchase history.</p><div class="benefits"><div class="benefit"><div class="ico">ϟ</div><div><b>Unlock Full Access</b><small>Get access to your RugWithMe workspace.</small></div></div><div class="benefit"><div class="ico">⌁</div><div><b>Save Your Watchlists</b><small>Keep track of tokens and opportunities.</small></div></div><div class="benefit"><div class="ico">▣</div><div><b>Track Purchase History</b><small>Manage plans and account activity.</small></div></div></div><i class="float-dot d1"></i><i class="float-dot d2"></i><i class="float-dot d3"></i><i class="float-dot d4"></i></section><section class="register-form"><div class="step">STEP 1 OF 2</div><div class="progress"><i></i></div><h3>Create your <span>RugWithMe</span> account</h3><p class="lead">Register first to unlock your workspace, saved watchlists and purchase history.</p><div class="field"><span class="field-ico">✦</span><input id="regName" placeholder="Your name" autocomplete="name" maxlength="40"><span class="field-end">◇</span></div>
+<div class="field"><span class="field-ico">✉</span><input id="regEmail" placeholder="Email address" autocomplete="email"><span class="field-end">○</span></div><div class="field"><span class="field-ico">⌑</span><input id="regPassword" type="password" placeholder="Create a strong password" autocomplete="new-password"><span class="field-end">◉</span></div><div class="field code-field"><span class="field-ico">#</span><input id="regCode" placeholder="CODE (optional)" autocomplete="off" maxlength="40"><span class="field-end">◇</span></div><div class="rules"><span>At least 8 characters</span><span>Include a number</span><span>Include a symbol</span></div><button class="register-cta" onclick="submitRegister()">REGISTER ACCOUNT &nbsp; →</button><div class="or">OR</div><div class="socials"><button class="social" onclick="toast('Google sign-up selected')">G&nbsp; Continue with Google</button><button class="social" onclick="toast('Apple sign-up selected')">&nbsp; Continue with Apple</button><button class="social" onclick="toast('Telegram sign-up selected')">➤&nbsp; Continue with Telegram</button></div><div class="signin">Already have an account? <button onclick="toast('Sign in flow ready')">Sign in&nbsp; →</button></div><div class="security"><span>♢ <b>Secure</b></span><span>⌑ <b>Encrypted</b></span><span>◌ <b>Private</b></span></div></section></div></div></div>
+<div class="modal purchase-modal" id="purchasesModal" onclick="if(event.target===this)closePurchases()">
+  <div class="modal-card">
+    <div class="modal-head">
+      <b>Access Plans</b>
+      <button class="modal-close" onclick="closePurchases()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="purchase-hero">
+        <div>
+          <div class="purchase-kicker">RUGWITHME ACCESS PLANS</div>
+          <h2>Choose your workspace tier</h2>
+          <p>Select the access level that fits your project. Every plan includes the RugWithMe workspace, wallet management, and the project tools available to that tier.</p>
+        </div>
+        <div class="network-pills">
+          <span class="network-pill active" data-network="SOL" onclick="switchPurchaseNetwork('SOL')">◈ SOLANA</span>
+          <span class="network-pill" data-network="ETH" onclick="switchPurchaseNetwork('ETH')">◆ ETHEREUM</span>
+        </div>
+      </div>
+
+      <div class="purchase-grid">
+        <div class="purchase-card" onclick="selectPlan('STARTER',this)">
+          <div class="plan-row">
+            <span class="plan-badge"><i class="plan-dot"></i> LIMITED-TIME</span>
+          </div>
+          <h3>STARTER</h3>
+          <p class="plan-desc">Essential workspace access for getting started.</p>
+          <div class="plan-price"><strong class="sol-price">1.5 SOL</strong><strong class="eth-price">0.066940 ETH</strong></div>
+          <div class="plan-access">5 DAYS ACCESS</div>
+          <ul class="feature-list">
+            <li class="yes">Up to 4 wallets</li>
+            <li class="yes">Core workspace tools</li>
+            <li class="yes">Wallet management</li>
+          </ul>
+          <div class="wallet-cap"><span>WALLET CAPACITY</span><b>04</b></div>
+        </div>
+
+        <div class="purchase-card" onclick="selectPlan('STANDARD',this)">
+          <div class="plan-row">
+            <span class="plan-badge popular"><i class="plan-dot green"></i> MOST POPULAR</span>
+          </div>
+          <h3>STANDARD</h3>
+          <p class="plan-desc">Expanded workspace access for active projects.</p>
+          <div class="plan-price"><strong class="sol-price">3 SOL</strong><strong class="eth-price">0.133879 ETH</strong></div>
+          <div class="plan-access">7 DAYS ACCESS</div>
+          <ul class="feature-list">
+            <li class="yes">Market Cap Based Strategy</li>
+            <li class="yes">Automatic Liquidity Control</li>
+            <li class="yes">Basic Market Simulation</li>
+            <li class="no">Token Promotion Tools</li>
+            <li class="no">Custom Website</li>
+            <li class="no">AI Generated Content</li>
+          </ul>
+          <div class="wallet-cap"><span>WALLET CAPACITY</span><b>10</b></div>
+        </div>
+
+        <div class="purchase-card" onclick="selectPlan('LIFETIME',this)">
+          <div class="plan-row">
+            <span class="plan-badge lifetime"><i class="plan-dot blue"></i> LIFETIME</span>
+          </div>
+          <h3>LIFETIME</h3>
+          <p class="plan-desc">Long-term workspace access with more capacity.</p>
+          <div class="plan-price"><strong class="sol-price">6 SOL</strong><strong class="eth-price">0.267759 ETH</strong></div>
+          <div class="plan-access">LIFETIME ACCESS</div>
+          <ul class="feature-list">
+            <li class="yes">All Basic Features</li>
+            <li class="yes">Advanced Market Simulation</li>
+            <li class="yes">Token Promotion Tools</li>
+            <li class="yes">AI Generated Website &amp; Domain</li>
+            <li class="yes">Priority Support</li>
+            <li class="no">Social Media Ad Automation</li>
+          </ul>
+          <div class="wallet-cap"><span>WALLET CAPACITY</span><b>20</b></div>
+        </div>
+
+        <div class="purchase-card" onclick="selectPlan('ULTIMATE',this)">
+          <div class="plan-row">
+            <span class="plan-badge popular"><i class="plan-dot purple"></i> MAX CAPACITY</span>
+          </div>
+          <h3>ULTIMATE</h3>
+          <p class="plan-desc">Maximum wallet capacity and full workspace access.</p>
+          <div class="plan-price"><strong class="sol-price">8 SOL</strong><strong class="eth-price">0.357011 ETH</strong></div>
+          <div class="plan-access">LIFETIME ACCESS</div>
+          <ul class="feature-list">
+            <li class="yes">All Advanced Features</li>
+            <li class="yes">Handcrafted Professional Website</li>
+            <li class="yes">Full Marketing Package</li>
+            <li class="yes">Social Media Ad Automation</li>
+            <li class="yes">Telegram &amp; Twitter Adbots</li>
+            <li class="yes">24/7 Priority Support</li>
+          </ul>
+          <div class="wallet-cap"><span>WALLET CAPACITY</span><b>50</b></div>
+        </div>
+      </div>
+
+      <div class="purchase-bottom">
+        <div class="purchase-note"><b>RugWithMe Access</b> · SOL + ETH supported · Select a tier to continue to registration and checkout.</div>
+        <button class="plan-select" onclick="openRegister();closePurchases()">REGISTER &amp; CONTINUE →</button>
+      </div>
+    </div>
+  </div>
+</div></div></div></div>
+<script>
+function svgIcon(markup){
+  return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(markup);
+}
+const coinLogo={
+  btc:svgIcon('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="#f7931a"/><path d="M39.7 17.1c-2.7-2-6.3-2.7-10.1-1.9l-1.3-4.8-3.8 1 1.3 4.8-3 .8-1.3-4.8-3.8 1 1.3 4.9-3.2.9 1.2 4.4 2.7-.7 4.8 17.7-2.7.7 1.2 4.4 3.2-.9 1.3 4.9 3.8-1-1.3-4.8 3-.8 1.3 4.8 3.8-1-1.3-4.8c6.1-1.8 8.8-5.7 7.6-10.2-.8-3-2.9-4.7-5.8-5.3 1.8-1.7 2.4-4.1 1.6-6.8zm-10.2 3.9c2.5-.7 5.1-.2 5.7 2 .6 2.2-1.1 3.4-3.6 4.1l-4.7 1.3-1.7-6.3 4.3-1.1zm2.5 16.2-5.3 1.4-1.9-7 5.4-1.5c3.3-.9 5.8-.1 6.5 2.5.7 2.5-1.2 3.7-4.7 4.6z" fill="#fff"/></svg>'),
+  eth:svgIcon('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="#627eea"/><path d="M32 8 16.5 32.5 32 25.4 47.5 32.5 32 8Z" fill="#fff" opacity=".95"/><path d="m16.5 35 15.5 8.9L47.5 35 32 56 16.5 35Z" fill="#dce3ff"/><path d="m32 25.4-15.5 7.1L32 41.4l15.5-8.9L32 25.4Z" fill="#aebcff"/></svg>'),
+  sol:svgIcon('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#00ffa3"/><stop offset=".5" stop-color="#00c2ff"/><stop offset="1" stop-color="#9945ff"/></linearGradient></defs><circle cx="32" cy="32" r="30" fill="#08080d"/><path d="M17 20h29l-5 6H12l5-6Zm0 9h29l-5 6H12l5-6Zm0 9h29l-5 6H12l5-6Z" fill="url(#g)"/></svg>'),
+  xrp:svgIcon('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="#23292f"/><path d="M18 16h6.2l7.8 8.2L40 16h6.2L35 27.5l-3 3-3-3L18 16Zm0 32h6.2l7.8-8.2 7.8 8.2H46L35 36.5l-3-3-3 3L18 48Z" fill="#fff"/></svg>'),
+  bnb:svgIcon('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="#f3ba2f"/><g fill="#fff"><path d="m32 12 5.2 5.2-5.2 5.2-5.2-5.2L32 12Zm-9.1 9.1 5.2 5.2-5.2 5.2-5.2-5.2 5.2-5.2Zm18.2 0 5.2 5.2-5.2 5.2-5.2-5.2 5.2-5.2ZM32 30.2l5.2 5.2-5.2 5.2-5.2-5.2 5.2-5.2ZM22.9 39.3l5.2 5.2-5.2 5.2-5.2-5.2 5.2-5.2Zm18.2 0 5.2 5.2-5.2 5.2-5.2-5.2 5.2-5.2Z"/></g></svg>')
+};
+const fallbackCoins=[{id:'bitcoin',sym:'BTC',name:'Bitcoin',price:84170,change:1.40,open:83006,icon:coinLogo.btc},{id:'ethereum',sym:'ETH',name:'Ethereum',price:2720,change:2.00,open:2667,icon:coinLogo.eth},{id:'solana',sym:'SOL',name:'Solana',price:119.20,change:.70,open:118.37,icon:coinLogo.sol},{id:'binancecoin',sym:'BNB',name:'BNB',price:758,change:.55,open:752,icon:coinLogo.bnb}];
+let coins=[...fallbackCoins];
+let previousLivePrices={};
+const fallbackNews=[
+['Bitcoin rally shows signs of cooling even as a bull-score gauge nears its ceiling','CoinDesk','just now','₿','https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=900&q=80'],
+['Bitcoin rebounds above $84,000 as ETF flows draw fresh attention','CoinDesk','fresh','₿','https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&fit=crop&w=900&q=80'],
+['Solana ETFs attract strong inflows as traders watch the network','Solana','fresh','≋','https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=900&q=80'],
+['Aave and DeFi tokens move higher as traders assess rate pressure','DeFi','fresh','A','https://images.unsplash.com/photo-1639322537228-f710d846310a?auto=format&fit=crop&w=900&q=80'],
+['Chainlink infrastructure upgrades put interoperability back in focus','Chainlink','fresh','⬡','https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?auto=format&fit=crop&w=900&q=80'],
+['Crypto markets remain sensitive to bond yields and macro data','Markets','fresh','◈','https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=900&q=80']
+];
+function money(n){if(n>=1000)return '$'+n.toLocaleString(undefined,{maximumFractionDigits:0}); if(n<2)return '$'+n.toFixed(2); return '$'+n.toLocaleString(undefined,{maximumFractionDigits:2})}
+function render(){
+ document.getElementById('ticker').innerHTML=[...coins,...coins,...coins,...coins,...coins,...coins,...coins,...coins].map(c=>{
+ const prev=previousLivePrices[c.id];
+ const direction=typeof prev==='number' ? (c.price>prev?'up':c.price<prev?'down':(c.change>=0?'up':'down')) : (c.change>=0?'up':'down');
+ return `<span class="tick ${direction}">${c.sym} <b>${money(c.price)}</b> <span class="live-arrow">${direction==='up'?'▲':'▼'}</span> ${Math.abs(c.change).toFixed(2)}%</span>`;
+}).join('');
+ document.getElementById('market').innerHTML=coins.slice(0,5).map(c=>`<tr><td><div class="asset"><div class="coin-icon">${(c.icon?.startsWith('http')||c.icon?.startsWith('data:image'))?`<img src="${c.icon}" alt="${c.sym}" loading="lazy">`:`<span>${c.icon||c.sym[0]}</span>`}</div><div><b>${c.sym}</b><small>${c.name}</small></div></div></td><td class="mono">${money(c.price)}</td><td class="mono ${c.change>=0?'green':'red'}">${c.change>=0?'+':''}${c.change.toFixed(2)}%</td><td class="mono">${money(c.open)}</td><td><svg class="spark" viewBox="0 0 90 28"><polyline points="0,21 12,18 21,22 31,14 42,16 54,9 66,13 76,7 90,4" fill="none" stroke="${c.change>=0?'#42dca8':'#ff5570'}" stroke-width="2"/></svg></td><td><span class="tag">● LIVE</span></td></tr>`).join('');
+ document.getElementById('kpis').innerHTML=[['TOTAL MARKET','~$3.21T','+1.08% 24H','up'],['BTC DOMINANCE','58.7%','+0.2% today','up'],['24H VOLUME','$128.4B','active flow','up'],['FEAR / GREED','64 / GREED','sentiment index','warn'],['RISK ENGINE','LOW','18 signals clear','up']].map(k=>`<div class="kpi"><div class="kpi-label">${k[0]}</div><div class="kpi-value">${k[1]}</div><div class="kpi-meta ${k[3]} ">${k[2]}</div></div>`).join('');
+}
+function renderRadar(){const data=[['ORBIT / USDC','Liquidity concentration · 2 wallets control most depth',84],['NOVA / SOL','Sell pressure accelerating · LP depth falling',67],['MINTY / SOL','Holder distribution improving',39],['WAVE / USDC','Contract activity elevated',31]];document.getElementById('radar').innerHTML=data.map(x=>`<div class="row"><div><b>${x[0]}</b><small>${x[1]}</small></div><div class="bar"><i style="width:${x[2]}%"></i></div><div class="score">${x[2]}/100</div></div>`).join('')}
+function renderWhales(){const data=[['SOL → CEX','1,240 SOL','3m ago'],['USDC → DEX','482K USDC','8m ago'],['BTC → Cold','72.4 BTC','13m ago'],['ETH → CEX','418 ETH','21m ago']];document.getElementById('whales').innerHTML=data.map((x,i)=>`<div class="row"><div><b>${x[0]}</b><small>${x[2]} · monitored flow</small></div><div class="mono">${x[1]}</div><div class="score ${i%3===1?'green':''}">${i%2?'INFLOW':'OUTFLOW'}</div></div>`).join('')}
+function renderActivity(){document.getElementById('activity').innerHTML=[['Signal engine initialized','All modules responding'],['News feed connected','Public headline sources available'],['Market snapshot loaded','Reference prices refreshed']].map(x=>`<div class="event"><span class="event-dot"></span><div><b>${x[0]}</b><small>${x[1]}</small></div></div>`).join('')}
+function startNewsScroll(){return}
+function renderNews(items){const list=[...items,...items];document.getElementById('news').innerHTML=list.map((n,i)=>`<article class="news-item" onclick="toast('Opening headline')"><div class="news-img"><span class="news-badge">${i<items.length&&i<2?'BREAKING':'MARKET'}</span><img src="${n[4]||''}" alt="" loading="lazy"><div class="news-fallback-icon">${n[3]||'◈'}</div></div><div class="news-copy"><div class="news-title">${escapeHtml(n[0])}</div><div class="news-meta">${escapeHtml(n[1])} · ${escapeHtml(n[2])} <b>●</b></div></div></article>`).join('')}
+function escapeHtml(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+async function loadNews(){renderNews(fallbackNews);try{const u='https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent('https://www.coindesk.com/arc/outboundfeeds/rss/');const r=await fetch(u,{cache:'no-store'});const j=await r.json();if(j.items?.length){const arr=j.items.slice(0,10).map((x,i)=>[x.title||'Crypto market update','CoinDesk',i<2?'just now':'fresh',['₿','◆','≋','A','⬡','N','◈','◌'][i%8],x.thumbnail||x.enclosure?.link||'']);renderNews(arr)}}catch(e){}}
+async function loadPrices(){
+ try{
+  const u='https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple,binancecoin&vs_currencies=usd&include_24hr_change=true&include_last_updated_at=true';
+  const r=await fetch(u,{cache:'no-store'});
+  if(!r.ok) throw new Error('price feed unavailable');
+  const j=await r.json();
+  coins=coins.map(c=>{
+   const q=j[c.id];
+   if(!q) return c;
+   previousLivePrices[c.id]=c.price;
+   const livePrice=Number(q.usd)||c.price;
+   const dayChange=Number(q.usd_24h_change);
+   return {...c,price:livePrice,change:Number.isFinite(dayChange)?dayChange:c.change,open:livePrice/(1+(Number.isFinite(dayChange)?dayChange:c.change||0)/100),lastUpdated:q.usd_last_updated_at||Date.now()/1000};
+  });
+  render();
+ }catch(e){render();}
+}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(window._toast);window._toast=setTimeout(()=>t.classList.remove('show'),1800)}
+function openModal(){document.getElementById('modal').classList.add('show')}function closeModal(){document.getElementById('modal').classList.remove('show')}
+function submitRegister(){
+ const n=(document.getElementById('regName')?.value||'').trim();
+ const e=document.getElementById('regEmail').value.trim();
+ const p=document.getElementById('regPassword').value;
+ if(!n){toast('Enter your name');return}
+ if(!e||!p){toast('Enter your email and password');return}
+ if(p.length<8){toast('Password must be at least 8 characters');return}
+ window.registrationName=n;
+ const welcome=document.getElementById('welcomeName');
+ if(welcome) welcome.textContent=n;
+ closeRegister();
+ toast('Registration started — welcome, '+n);
+}
+function openRegister(){document.getElementById('registerModal').classList.add('show')}function closeRegister(){document.getElementById('registerModal').classList.remove('show')}
+function openPurchases(){document.getElementById('purchasesModal').classList.add('show')}function closePurchases(){document.getElementById('purchasesModal').classList.remove('show')}
+function selectPlan(plan,el){
+  document.querySelectorAll('.purchase-card').forEach(x=>x.classList.remove('selected'));
+  if(el) el.classList.add('selected');
+  window.selectedPlan=plan;
+  toast(plan+' plan selected');
+  setTimeout(()=>{closePurchases();openRegister()},350);
+}
+document.querySelectorAll('.nav button[data-view]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');const v=b.dataset.view;const map={overview:'.content',markets:'#market-panel',radar:'#radar-panel',news:'#news-panel',wallets:'.activity-panel'};document.querySelector(map[v]).scrollIntoView({behavior:'smooth',block:'start'});toast(v==='overview'?'Command Center active':v.toUpperCase()+' module active')}));
+const sectionNavMap=[
+ {view:'overview',el:()=>document.querySelector('.dashboard-hero')},
+ {view:'markets',el:()=>document.getElementById('market-panel')},
+ {view:'news',el:()=>document.getElementById('news-panel')},
+ {view:'radar',el:()=>document.getElementById('radar-panel')},
+ {view:'wallets',el:()=>document.querySelector('.activity-panel')}
+];
+let navScrollTick=false;
+function setScrollActive(view){
+ const btn=document.querySelector('.nav button[data-view="'+view+'"]');
+ if(!btn)return;
+ document.querySelectorAll('.nav button[data-view]').forEach(x=>x.classList.toggle('active',x===btn));
+}
+function updateNavFromScroll(){
+ navScrollTick=false;
+ const y=window.scrollY;
+ const focus=y+Math.max(120,window.innerHeight*0.32);
+ let current='overview';
+ for(const item of sectionNavMap){
+  const el=item.el();
+  if(!el)continue;
+  const top=el.getBoundingClientRect().top+window.scrollY;
+  if(top<=focus) current=item.view;
+ }
+ setScrollActive(current);
+}
+window.addEventListener('scroll',()=>{
+ if(navScrollTick)return;
+ navScrollTick=true;
+ requestAnimationFrame(updateNavFromScroll);
+},{passive:true});
+window.addEventListener('resize',updateNavFromScroll);
+setTimeout(updateNavFromScroll,100);
+
+document.getElementById('search').addEventListener('input',e=>{const q=e.target.value.toLowerCase().trim();document.querySelectorAll('.news-item,.market tr').forEach(el=>{if(!q){el.style.display='';return}el.style.display=el.textContent.toLowerCase().includes(q)?'':'none'})});
+document.querySelectorAll('.chart-tabs button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.chart-tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');const r=b.dataset.range;document.getElementById('chartValue').textContent=money(coins.find(c=>c.sym==='SOL')?.price||119.2);toast('Momentum range: '+r)}));
+// Make utility/action buttons behave like polished dashboard links.
+document.querySelectorAll('.nav button[data-view]').forEach(b=>b.setAttribute('title','Open '+b.textContent.trim()));
+document.querySelectorAll('button').forEach(b=>b.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ') b.classList.add('pressed')}));
+render();renderRadar();renderWhales();renderActivity();renderNews(fallbackNews);loadPrices();loadNews();setInterval(loadPrices,20000);setInterval(loadNews,180000);
+</script>
+
+<div class="modal verify-modal" id="verifyModal" onclick="if(event.target===this)closeVerify()">
+  <div class="modal-card">
+    <div class="modal-head">
+      <b>✉️ Verify your email</b>
+      <button class="modal-close" onclick="closeVerify()">✕</button>
+    </div>
+    <div class="verify-content">
+      <div class="verify-icon">✉</div>
+      <div class="verify-kicker">STEP 2 OF 2 · EMAIL VERIFICATION</div>
+      <h2>Check your inbox</h2>
+      <p>
+        We sent a 6-digit verification code to
+        <span class="verify-email" id="verifyEmail">your email address</span>.
+        Enter the code below to finish creating your RugWithMe account.
+      </p>
+      <input id="verificationCode" class="code-input" inputmode="numeric" autocomplete="one-time-code"
+             maxlength="6" placeholder="000000" aria-label="6 digit verification code">
+      <button class="verify-btn" onclick="verifyEmailCode()">VERIFY EMAIL →</button>
+      <div class="verify-status" id="verifyStatus">The code expires in 10 minutes.</div>
+      <div class="verify-row">
+        <button class="verify-link" onclick="resendVerificationCode()">↻ Resend code</button>
+        <button class="verify-link" onclick="closeVerify()">Use a different email</button>
+      </div>
+      <div class="verify-security">
+        <span>✓ EMAIL CONFIRMATION</span>
+        <span>⌁ SECURE SIGN-UP</span>
+        <span>◈ RUGWITHME ACCOUNT</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+(function(){
+  window.registrationEmail = "";
+  window.registrationName = "";
+  window.demoVerificationCode = "";
+
+  function showModal(id){
+    const el=document.getElementById(id);
+    if(el) el.classList.add('open');
+  }
+  function hideModal(id){
+    const el=document.getElementById(id);
+    if(el) el.classList.remove('open');
+  }
+
+  window.closeVerify=function(){ hideModal('verifyModal'); };
+
+  window.startEmailVerification=function(){
+    const nameInput = document.getElementById('regName');
+    const signupName = nameInput ? nameInput.value.trim() : "";
+    if(!signupName){
+      if(window.toast) toast('Enter your name first');
+      return;
+    }
+    window.registrationName = signupName;
+
+    const emailInput = document.querySelector('#registerModal input[type="email"]') ||
+                       document.querySelector('#registerModal input[placeholder*="Email"]');
+    const passwordInput = document.querySelector('#registerModal input[type="password"]') ||
+                          document.querySelector('#registerModal input[placeholder*="password" i]');
+    const email = emailInput ? emailInput.value.trim() : "";
+    const password = passwordInput ? passwordInput.value : "";
+
+    if(!email || !email.includes('@')){
+      if(window.toast) toast('Enter a valid email address first');
+      else alert('Enter a valid email address first');
+      return;
+    }
+    if(password.length < 8){
+      if(window.toast) toast('Password must be at least 8 characters');
+      else alert('Password must be at least 8 characters');
+      return;
+    }
+
+    window.registrationEmail = email;
+
+    // Demo-only local verification flow. Production requires a backend/email provider.
+    window.demoVerificationCode = String(Math.floor(100000 + Math.random()*900000));
+    const emailEl=document.getElementById('verifyEmail');
+    if(emailEl) emailEl.textContent=email;
+    const codeEl=document.getElementById('verificationCode');
+    const status=document.getElementById('verifyStatus');
+    if(codeEl) codeEl.value="";
+    if(status){
+      status.className="verify-status";
+      status.textContent="A verification code was generated for this demo.";
+    }
+
+    hideModal('registerModal');
+    showModal('verifyModal');
+
+    // Helpful for testing a static mockup; never use this as a real production email system.
+    console.info("RugWithMe demo verification code:", window.demoVerificationCode);
+  };
+
+  window.verifyEmailCode=function(){
+    const input=(document.getElementById('verificationCode')?.value || '').trim();
+    const status=document.getElementById('verifyStatus');
+    if(input === window.demoVerificationCode){
+      if(status){status.className="verify-status success";status.textContent="✓ Email verified. Your RugWithMe account is ready.";}
+      if(window.toast) toast("Email verified — account created");
+      setTimeout(function(){
+        hideModal('verifyModal');
+        if(window.toast) toast("Welcome to RugWithMe");
+      },700);
+    }else{
+      if(status){status.className="verify-status error";status.textContent="Invalid code. Please check your email and try again.";}
+    }
+  };
+
+  window.resendVerificationCode=function(){
+    window.demoVerificationCode = String(Math.floor(100000 + Math.random()*900000));
+    const status=document.getElementById('verifyStatus');
+    if(status){status.className="verify-status";status.textContent="A new verification code was generated for this demo.";}
+    console.info("RugWithMe demo verification code:", window.demoVerificationCode);
+    if(window.toast) toast("New verification code generated");
+  };
+})();
+</script>
+
+
+<script>
+window.switchPurchaseNetwork=function(network){
+  const modal=document.getElementById('purchasesModal');
+  if(!modal) return;
+  const isEth=network==='ETH';
+  modal.classList.toggle('eth-mode',isEth);
+  modal.querySelectorAll('.network-pill').forEach(p=>{
+    p.classList.toggle('active',p.dataset.network===network);
+  });
+  if(window.toast) toast(isEth ? 'Ethereum pricing selected' : 'Solana pricing selected');
+};
+</script>
+
+
+<script>
+window.pumpCoins={new:[],hot:[]};
+
+function openCoin(url){
+  if(!url)return;
+  window.open(url,'_blank','noopener,noreferrer');
+}
+function coinAge(ts){
+  if(!ts)return 'LIVE';
+  const mins=Math.max(0,Math.floor((Date.now()-Number(ts))/60000));
+  if(mins<1)return 'JUST NOW';
+  if(mins<60)return mins+' MIN AGO';
+  const h=Math.floor(mins/60);
+  if(h<24)return h+'H AGO';
+  return Math.floor(h/24)+'D AGO';
+}
+function memeLogo(symbol){
+  const text=String(symbol||'◈').slice(0,2).toUpperCase();
+  let h=0; for(let i=0;i<text.length;i++) h=(h*31+text.charCodeAt(i))>>>0;
+  const hue=h%360;
+  return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="hsl('+hue+',90%,68%)"/><stop offset="1" stop-color="hsl('+((hue+65)%360)+',85%,48%)"/></linearGradient></defs><rect x="2" y="2" width="60" height="60" rx="16" fill="#0b0910" stroke="url(#g)" stroke-width="2"/><circle cx="32" cy="32" r="21" fill="url(#g)" opacity=".2"/><text x="32" y="36" text-anchor="middle" font-family="Arial,sans-serif" font-size="17" font-weight="900" fill="#fff">'+text+'</text></svg>');
+}
+function coinMcap(n){
+  n=Number(n)||0;
+  if(n>=1000000)return '$'+(n/1000000).toFixed(2)+'M MC';
+  if(n>=1000)return '$'+(n/1000).toFixed(1)+'K MC';
+  return '$'+Math.round(n)+' MC';
+}
+function renderCoinFeed(items){
+  const track=document.getElementById('memeTrack');
+  if(!track)return;
+  const list=(items||[]).slice(0,6);
+  if(!list.length){
+    track.innerHTML='<div class="meme-empty" style="height:350px">LIVE TOKEN FEED<br><span>WAITING FOR SOLANA TOKENS…</span></div>';
+    return;
+  }
+  const cards=list.map(c=>{
+    const url=String(c.url||'https://dexscreener.com/solana/'+(c.tokenAddress||''));
+    const name=String(c.name||c.baseToken?.name||c.baseToken?.symbol||c.symbol||'UNKNOWN');
+    const symbol=String(c.symbol||c.baseToken?.symbol||'');
+    const logo=c.icon||c.info?.imageUrl||memeLogo(symbol);
+    const age=coinAge(c.pairCreatedAt);
+    const mc=coinMcap(c.marketCap||c.fdv||0);
+    const safeUrl=url.replace(/"/g,'&quot;');
+    const safeName=escapeHtml(name);
+    const safeSymbol=escapeHtml(symbol);
+    const safeLogo=escapeHtml(logo);
+    return '<div class="meme-item" data-url="'+safeUrl+'" title="Open '+safeName+'">'
+      +'<div class="meme-icon"><img src="'+safeLogo+'" alt="" loading="lazy"></div>'
+      +'<div class="meme-main"><div class="meme-name">'+safeName+(symbol?' <span class="meme-symbol">$'+safeSymbol+'</span>':'')+'</div>'
+      +'<div class="meme-meta">SOLANA · '+age+' · '+mc+'</div></div>'
+      +'<div class="meme-stat"><div class="meme-price">'+mc+'</div><div class="meme-change up">● LIVE</div></div></div>';
+  }).join('');
+  track.innerHTML=cards+cards;
+  track.querySelectorAll('.meme-item').forEach(item=>{
+    item.addEventListener('click',()=>openCoin(item.dataset.url));
+  });
+  track.querySelectorAll('.meme-icon img').forEach((img,index)=>{
+    img.addEventListener('error',()=>{
+      const item=track.querySelectorAll('.meme-item')[index];
+      const symbol=item?.querySelector('.meme-symbol')?.textContent?.replace('$','')||'◈';
+      img.src=memeLogo(symbol);
+    },{once:true});
+  });
+}
+async function loadCoinFeed(){
+  try{
+    const r=await fetch('https://api.dexscreener.com/token-profiles/latest/v1',{cache:'no-store'});
+    if(!r.ok)throw new Error('DexScreener unavailable');
+    const profiles=await r.json();
+    const sol=profiles.filter(x=>String(x.chainId).toLowerCase()==='solana').slice(0,18);
+    const detailed=await Promise.all(sol.slice(0,10).map(async p=>{
+      try{
+        const q=await fetch('https://api.dexscreener.com/latest/dex/tokens/'+encodeURIComponent(p.tokenAddress),{cache:'no-store'});
+        const j=await q.json();
+        const pair=(j.pairs||[]).sort((a,b)=>(b.liquidity?.usd||0)-(a.liquidity?.usd||0))[0];
+        return {...p,...(pair||{}),name:p.name||pair?.baseToken?.name||pair?.baseToken?.symbol||'',symbol:p.symbol||pair?.baseToken?.symbol||'',icon:p.icon||pair?.info?.imageUrl||((p.tokenAddress)?'https://dd.dexscreener.com/ds-data/tokens/solana/'+encodeURIComponent(p.tokenAddress)+'.png':''),url:pair?.url||p.url||('https://dexscreener.com/solana/'+p.tokenAddress)};
+      }catch(e){return p;}
+    }));
+    window.pumpCoins.new=detailed.filter(x=>x.tokenAddress);
+    if(window.pumpCoins.new.length) renderCoinFeed(window.pumpCoins.new);
+    else throw new Error('No live Solana tokens returned');
+  }catch(e){
+    const fallback=[
+      {name:'STONKBLEND',symbol:'STONKBLEND',marketCap:903210,url:'https://dexscreener.com/solana/2Ngvnnkwrwq5u4RYV5WYKJ2wiQoEkKaVCc4LuuhYSTNK',icon:'https://dd.dexscreener.com/ds-data/tokens/solana/2Ngvnnkwrwq5u4RYV5WYKJ2wiQoEkKaVCc4LuuhYSTNK.png'},
+      {name:'Dap',symbol:'DAP',marketCap:88230,url:'https://dexscreener.com/solana/8LHgAXXPbMVqd3wmAQbTu4NxuRRe3qowgUSLiKmFpumplaunchdap',icon:'https://dd.dexscreener.com/ds-data/tokens/solana/8LHgAXXPbMVqd3wmAQbTu4NxuRRe3qowgUSLiKmFpumplaunchdap.png'},
+      {name:'ELONCOIN',symbol:'ELONCOIN',marketCap:149560,url:'https://dexscreener.com/solana/2sztT8K9Xu3cfp6WTEEB44Hdibmj3Pv6G2pWGM1vqzXP',icon:'https://dd.dexscreener.com/ds-data/tokens/solana/2sztT8K9Xu3cfp6WTEEB44Hdibmj3Pv6G2pWGM1vqzXP.png'},
+      {name:'JOLLY',symbol:'JOLLY',marketCap:3080000,url:'https://dexscreener.com/solana/0xcD0B3b43d8632cE600a13E4519754c138998a93c',icon:'https://dd.dexscreener.com/ds-data/tokens/solana/0xcD0B3b43d8632cE600a13E4519754c138998a93c.png'},
+      {name:'goon',symbol:'GOON',marketCap:1840000,url:'https://dexscreener.com/solana/HSUMi4rMgjrx7zRUabw3ogGu1pa5hmF2eVcXj9Apump',icon:'https://dd.dexscreener.com/ds-data/tokens/solana/HSUMi4rMgjrx7zRUabw3ogGu1pa5hmF2eVcXj9Apump.png'},
+      {name:'CHONK',symbol:'CHONK',marketCap:156610,url:'https://dexscreener.com/solana/5pSEZw1iytqYznD7crsGyKNek7q5JkjBqj2KmfqxUVZdH',icon:'https://dd.dexscreener.com/ds-data/tokens/solana/5pSEZw1iytqYznD7crsGyKNek7q5JkjBqj2KmfqxUVZdH.png'}
+    ];
+    renderCoinFeed(fallback);
+  }
+}
+window.filterMemecoins=function(kind,btn){
+  document.querySelectorAll('.meme-filter').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  loadCoinFeed();
+};
+const emergencyMemeFeed=[
+{name:'STONKBLEND',symbol:'STONKBLEND',marketCap:903210,url:'https://dexscreener.com/solana/2Ngvnnkwrwq5u4RYV5WYKJ2wiQoEkKaVCc4LuuhYSTNK'},
+{name:'Dap',symbol:'DAP',marketCap:88230,url:'https://dexscreener.com/solana/8LHgAXXPbMVqd3wmAQbTu4NxuRRe3qowgUSLiKmFpumplaunchdap'},
+{name:'ELONCOIN',symbol:'ELONCOIN',marketCap:149560,url:'https://dexscreener.com/solana/2sztT8K9Xu3cfp6WTEEB44Hdibmj3Pv6G2pWGM1vqzXP'},
+{name:'JOLLY',symbol:'JOLLY',marketCap:3080000,url:'https://dexscreener.com/solana/0xcD0B3b43d8632cE600a13E4519754c138998a93c'},
+{name:'goon',symbol:'GOON',marketCap:1840000,url:'https://dexscreener.com/solana/HSUMi4rMgjrx7zRUabw3ogGu1pa5hmF2eVcXj9Apump'},
+{name:'CHONK',symbol:'CHONK',marketCap:156610,url:'https://dexscreener.com/solana/5pSEZw1iytqYznD7crsGyKNek7q5JkjBqj2KmfqxUVZdH'}
+];
+renderCoinFeed(emergencyMemeFeed);
+loadCoinFeed();
+setInterval(loadCoinFeed,120000);
+</script>
+
+</body></html>
+,'');
+ const logo=memeLogo(sym);
+ const initial=String(x.user||'?').slice(0,2).toUpperCase();
+ const network=String(x.invest||'SOL').includes('BNB')?'BNB':'SOL';
+ const networkMark=network==='BNB'?'◆':'≈';
+ return '<div class="rug-activity-row">'
+  +'<div class="rug-user-cell"><div class="rug-user-avatar">'+initial+'</div><div class="rug-user">@'+escapeHtml(x.user)+'</div></div>'
+  +'<div class="rug-token-cell"><div class="rug-coin-logo"><img src="'+logo+'" alt=""></div><div class="rug-token-text"><div class="rug-token-line"><span class="rug-token">'+escapeHtml(x.token)+'</span><span class="rug-network-mini"><i></i>'+network+'</span></div><small>'+escapeHtml(x.name)+' · RECENT RUG ALERT</small></div></div>'
+  +'<div class="rug-invest">'+escapeHtml(x.invest)+' <span class="rug-asset-mini">'+networkMark+' <b>'+network+'</b></span></div>'
+  +'<div class="rug-profit">'+escapeHtml(x.profit)+' <span class="rug-asset-mini">'+networkMark+' <b>'+network+'</b></span></div>'
+  +'<div class="rug-status">SIMULATED</div></div>';
+}).join('')+'<div class="rug-demo-note">DEMO DATA ONLY · NAMES, TOKENS AND PROFITS ARE SIMULATED FOR UI PREVIEW</div>';
 }
 document.addEventListener('DOMContentLoaded',renderDemoRugActivity);
 </script><style id="user-count-style">
