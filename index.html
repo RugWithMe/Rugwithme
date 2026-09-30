@@ -338,7 +338,7 @@ button,input{font:inherit}.app{display:grid;grid-template-columns:236px 1fr;min-
 .meme-filter-row{display:flex;gap:4px}
 .meme-filter{min-width:38px;border:1px solid #29222f;background:#0b0a0f;color:#756d7c;border-radius:7px;padding:7px;font:700 7px 'JetBrains Mono';cursor:pointer;transition:.18s}
 .meme-filter:hover,.meme-filter.active{color:#d8c8e8;border-color:#7046a1;background:#171020}
-.meme-list{height:224px;overflow:hidden;position:relative}
+.meme-list{height:350px;overflow:hidden;position:relative}
 .meme-track{display:flex;flex-direction:column;animation:memeScroll 18s linear infinite;will-change:transform}
 .meme-list:hover .meme-track{animation-play-state:paused}
 @keyframes memeScroll{from{transform:translateY(0)}to{transform:translateY(-50%)}}
@@ -1057,6 +1057,14 @@ button,input{font:inherit}.app{display:grid;grid-template-columns:236px 1fr;min-
 .sidebar .nav button[data-view="wallets"]{
   margin-top:22px!important;
 }
+</style><style id="meme-feed-upgrade">
+.meme-panel{overflow:hidden!important}
+.meme-list{height:350px!important;background:linear-gradient(180deg,rgba(10,8,15,.95),rgba(6,6,10,.99))}
+.meme-track{animation-duration:24s!important}
+.meme-item{min-height:62px!important;padding:11px 14px!important}
+.meme-icon{width:36px!important;height:36px!important;border-radius:10px!important;box-shadow:0 0 0 1px rgba(157,89,255,.12),0 8px 22px rgba(0,0,0,.3)}
+.meme-icon img{width:100%!important;height:100%!important;object-fit:cover!important}
+.meme-item:hover .meme-icon{box-shadow:0 0 18px rgba(157,89,255,.3),0 8px 22px rgba(0,0,0,.35);transform:scale(1.05)}
 </style></head>
 <body>
 <div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
@@ -1516,6 +1524,12 @@ function coinAge(ts){
   if(h<24)return h+'H AGO';
   return Math.floor(h/24)+'D AGO';
 }
+function memeLogo(symbol){
+  const text=String(symbol||'◈').slice(0,2).toUpperCase();
+  let h=0; for(let i=0;i<text.length;i++) h=(h*31+text.charCodeAt(i))>>>0;
+  const hue=h%360;
+  return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="hsl('+hue+',90%,68%)"/><stop offset="1" stop-color="hsl('+((hue+65)%360)+',85%,48%)"/></linearGradient></defs><rect x="2" y="2" width="60" height="60" rx="16" fill="#0b0910" stroke="url(#g)" stroke-width="2"/><circle cx="32" cy="32" r="21" fill="url(#g)" opacity=".2"/><text x="32" y="36" text-anchor="middle" font-family="Arial,sans-serif" font-size="17" font-weight="900" fill="#fff">'+text+'</text></svg>');
+}
 function coinMcap(n){
   n=Number(n)||0;
   if(n>=1000000)return '$'+(n/1000000).toFixed(2)+'M MC';
@@ -1533,11 +1547,11 @@ function renderCoinFeed(items){
     const url=c.url||('https://dexscreener.com/solana/'+(c.tokenAddress||''));
     const name=c.name||c.baseToken?.name||c.baseToken?.symbol||c.symbol||'UNKNOWN';
     const symbol=c.symbol||c.baseToken?.symbol||'';
-    const img=c.icon||c.info?.imageUrl||(c.tokenAddress?'https://dd.dexscreener.com/ds-data/tokens/solana/'+encodeURIComponent(c.tokenAddress)+'.png':'');
+    const img=c.icon||c.info?.imageUrl||(c.tokenAddress?'https://dd.dexscreener.com/ds-data/tokens/solana/'+encodeURIComponent(c.tokenAddress)+'.png':'')||memeLogo(symbol);
     const age=coinAge(c.pairCreatedAt);
     const mc=coinMcap(c.marketCap||c.fdv||0);
     return '<div class="meme-item" onclick="openCoin(\''+url.replace(/'/g,'%27')+'\')" title="Open '+escapeHtml(name)+'">'
-      +'<div class="meme-icon">'+(img?'<img src="'+escapeHtml(img)+'" alt="" loading="lazy">':'◈')+'</div>'
+      +'<div class="meme-icon">'+'<img src="'+escapeHtml(img||memeLogo(symbol))+'" alt="" loading="lazy" onerror="this.onerror=null;this.src=''+memeLogo(symbol)+''">'+'</div>'
       +'<div class="meme-main"><div class="meme-name">'+escapeHtml(name)+(symbol?' <span class="meme-symbol">$'+escapeHtml(symbol)+'</span>':'')+'</div>'
       +'<div class="meme-meta">SOLANA · '+age+' · '+mc+'</div></div>'
       +'<div class="meme-stat"><div class="meme-price">'+mc+'</div><div class="meme-change up">● LIVE</div></div></div>';
@@ -1562,12 +1576,12 @@ async function loadCoinFeed(){
     renderCoinFeed(window.pumpCoins.new);
   }catch(e){
     const fallback=[
-      {name:'STONKBLEND',symbol:'STONKBLEND',marketCap:903210,url:'https://dexscreener.com/solana/2Ngvnnkwrwq5u4RYV5WYKJ2wiQoEkKaVCc4LuuhYSTNK',icon:''},
-      {name:'Dap',symbol:'DAP',marketCap:88230,url:'https://dexscreener.com/solana/8LHgAXXPbMVqd3wmAQbTu4NxuRRe3qowgUSLiKmFpumplaunchdap',icon:''},
-      {name:'ELONCOIN',symbol:'ELONCOIN',marketCap:149560,url:'https://dexscreener.com/solana/2sztT8K9Xu3cfp6WTEEB44Hdibmj3Pv6G2pWGM1vqzXP',icon:''},
-      {name:'JOLLY',symbol:'JOLLY',marketCap:3080000,url:'https://dexscreener.com/solana/0xcD0B3b43d8632cE600a13E4519754c138998a93c',icon:''},
-      {name:'goon',symbol:'GOON',marketCap:1840000,url:'https://dexscreener.com/solana/HSUMi4rMgjrx7zRUabw3ogGu1pa5hmF2eVcXj9Apump',icon:''},
-      {name:'CHONK',symbol:'CHONK',marketCap:156610,url:'https://dexscreener.com/solana/5pSEZw1iytqYznD7crsGyKNek7q5JkjBqj2KmfqxUVZdH',icon:''}
+      {name:'STONKBLEND',symbol:'STONKBLEND',marketCap:903210,url:'https://dexscreener.com/solana/2Ngvnnkwrwq5u4RYV5WYKJ2wiQoEkKaVCc4LuuhYSTNK',icon:'https://dd.dexscreener.com/ds-data/tokens/solana/2Ngvnnkwrwq5u4RYV5WYKJ2wiQoEkKaVCc4LuuhYSTNK.png'},
+      {name:'Dap',symbol:'DAP',marketCap:88230,url:'https://dexscreener.com/solana/8LHgAXXPbMVqd3wmAQbTu4NxuRRe3qowgUSLiKmFpumplaunchdap',icon:'https://dd.dexscreener.com/ds-data/tokens/solana/8LHgAXXPbMVqd3wmAQbTu4NxuRRe3qowgUSLiKmFpumplaunchdap.png'},
+      {name:'ELONCOIN',symbol:'ELONCOIN',marketCap:149560,url:'https://dexscreener.com/solana/2sztT8K9Xu3cfp6WTEEB44Hdibmj3Pv6G2pWGM1vqzXP',icon:'https://dd.dexscreener.com/ds-data/tokens/solana/2sztT8K9Xu3cfp6WTEEB44Hdibmj3Pv6G2pWGM1vqzXP.png'},
+      {name:'JOLLY',symbol:'JOLLY',marketCap:3080000,url:'https://dexscreener.com/solana/0xcD0B3b43d8632cE600a13E4519754c138998a93c',icon:'https://dd.dexscreener.com/ds-data/tokens/solana/0xcD0B3b43d8632cE600a13E4519754c138998a93c.png'},
+      {name:'goon',symbol:'GOON',marketCap:1840000,url:'https://dexscreener.com/solana/HSUMi4rMgjrx7zRUabw3ogGu1pa5hmF2eVcXj9Apump',icon:'https://dd.dexscreener.com/ds-data/tokens/solana/HSUMi4rMgjrx7zRUabw3ogGu1pa5hmF2eVcXj9Apump.png'},
+      {name:'CHONK',symbol:'CHONK',marketCap:156610,url:'https://dexscreener.com/solana/5pSEZw1iytqYznD7crsGyKNek7q5JkjBqj2KmfqxUVZdH',icon:'https://dd.dexscreener.com/ds-data/tokens/solana/5pSEZw1iytqYznD7crsGyKNek7q5JkjBqj2KmfqxUVZdH.png'}
     ];
     renderCoinFeed(fallback);
   }
