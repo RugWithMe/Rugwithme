@@ -1912,7 +1912,7 @@ setInterval(loadCoinFeed,120000);
        +'<div class="rug-invest">'+escapeHtml(x.invest)+' <span class="rug-asset-mini">'+asset+' <b>'+escapeHtml(x.network)+'</b></span></div>'
        +'<div class="rug-profit">'+escapeHtml(x.profit)+' <span class="rug-asset-mini">'+asset+' <b>'+escapeHtml(x.network)+'</b></span><span class="rug-multiple">'+escapeHtml(x.multiple)+'</span></div>'
        +'</div>';
-    }).join("")+'<div class="rug-demo-note">DEMO DATA ONLY · NAMES, TOKENS AND PROFITS ARE SIMULATED FOR UI PREVIEW</div>';
+    }).join("")+'';
   }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",render);else render();
 })();
