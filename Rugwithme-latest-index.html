@@ -1,0 +1,755 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RugWithMe — Intelligence Terminal</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap');
+:root{--bg:#040406;--panel:#09090d;--panel2:#0d0c12;--line:#201d29;--line2:#2a2536;--text:#f7f4ff;--muted:#85808f;--muted2:#5f5a69;--purple:#8b4dff;--purple2:#c17bff;--violet:#5b2be2;--green:#30e6aa;--red:#ff5570;--amber:#ffcb68;--cyan:#62dcff;--shadow:0 22px 80px rgba(0,0,0,.48)}
+*{box-sizing:border-box}html{background:var(--bg)}body{margin:0;color:var(--text);font-family:Inter,system-ui,sans-serif;background:radial-gradient(900px 500px at 58% -10%,rgba(124,55,255,.18),transparent 64%),radial-gradient(700px 500px at 100% 50%,rgba(86,38,180,.08),transparent 65%),#040406;min-height:100vh;overflow-x:hidden}.noise{position:fixed;inset:0;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");z-index:99}.orb{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;opacity:.18}.orb.a{width:480px;height:480px;background:#702cff;left:-260px;top:200px}.orb.b{width:360px;height:360px;background:#bd48ff;right:-220px;bottom:-100px}
+button,input{font:inherit}.app{display:grid;grid-template-columns:236px 1fr;min-height:100vh}.sidebar{position:sticky;top:0;height:100vh;border-right:1px solid var(--line);background:rgba(6,6,9,.82);backdrop-filter:blur(22px);padding:18px 13px;display:flex;flex-direction:column;z-index:20}.brand{display:flex;align-items:center;gap:10px;padding:6px 8px 20px}.brand img{width:36px;height:36px;border-radius:10px;object-fit:contain;filter:drop-shadow(0 0 16px rgba(144,76,255,.55))}.brand strong{font-size:14px;letter-spacing:-.03em}.brand span{color:var(--purple2)}.brand small{display:block;color:#5f5969;font:8px 'JetBrains Mono';letter-spacing:.14em;margin-top:2px}.section-label{padding:15px 9px 7px;color:#4f4a58;font:700 8px 'JetBrains Mono';letter-spacing:.16em}.nav{display:flex;flex-direction:column;gap:3px}.nav button{width:100%;border:0;background:transparent;color:#77717f;text-align:left;padding:10px 10px;border-radius:9px;font-size:10px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:10px}.nav button:hover,.nav button.active{background:linear-gradient(90deg,rgba(134,70,255,.20),rgba(134,70,255,.055));color:#fff;box-shadow:inset 2px 0 0 var(--purple),inset 0 0 0 1px rgba(139,77,255,.11)}.nav button:active{transform:scale(.985)}.nav i{font-style:normal;width:18px;text-align:center;color:#a18dbb}.side-bottom{margin-top:auto}.statusbox{border:1px solid var(--line);background:linear-gradient(145deg,#0d0b12,#08080b);border-radius:12px;padding:12px}.statusbox .online{font-size:9px;font-weight:800}.pulse{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(48,230,170,.08),0 0 14px var(--green);margin-right:7px}.statusbox p{font-size:8px;line-height:1.5;color:#6e6877;margin:8px 0 0}.version{font:7px 'JetBrains Mono';color:#4d4855;margin:10px 4px 0}
+.main{min-width:0}.topbar{height:66px;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 24px;gap:15px;position:sticky;top:0;background:rgba(5,5,7,.76);backdrop-filter:blur(22px);z-index:15}.crumb{font:8px 'JetBrains Mono';color:#5e5967;letter-spacing:.12em}.crumb b{color:#bca8d5}.search{margin-left:auto;width:min(320px,30vw);position:relative}.search input{width:100%;height:34px;background:#0a0a0e;border:1px solid var(--line);border-radius:8px;color:#e9e4f0;padding:0 11px 0 32px;font-size:9px;outline:none}.search input:focus{border-color:#5d3a96;box-shadow:0 0 0 3px rgba(139,77,255,.08)}.search span{position:absolute;left:11px;top:9px;color:#645e6e;font-size:10px}.topbtn{height:36px;padding:0 15px;border:1px solid #292431;border-radius:8px;background:#0b0a0f;color:#eee9f5;font-size:9px;font-weight:800;letter-spacing:.02em;cursor:pointer;transition:.18s ease;box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}.topbtn:hover{border-color:#7650b0;background:#12101a;transform:translateY(-1px);box-shadow:0 8px 22px rgba(0,0,0,.28)}.topbtn.primary{background:linear-gradient(180deg,#8c5cff,#7040e8);border-color:#9167ff;color:#fff;box-shadow:0 8px 24px rgba(108,54,235,.28),inset 0 1px 0 rgba(255,255,255,.16)}.topbtn.primary:hover{background:linear-gradient(180deg,#996cff,#7948ef);box-shadow:0 10px 28px rgba(108,54,235,.38),inset 0 1px 0 rgba(255,255,255,.18)}.profile{height:34px;display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:8px;padding:0 8px;font-size:9px;font-weight:700}.avatar{width:23px;height:23px;border-radius:7px;display:grid;place-items:center;background:linear-gradient(135deg,#a366ff,#4d2bbd)}
+.ticker{height:29px;border-bottom:1px solid var(--line);display:flex;align-items:center;overflow:hidden;background:#07070a;white-space:nowrap}.ticker-label{height:100%;display:flex;align-items:center;padding:0 14px;border-right:1px solid var(--line);font:700 8px 'JetBrains Mono';color:var(--green);position:relative;z-index:2;background:#07070a}.ticker-track{display:flex;gap:28px;padding-left:20px;animation:marquee 42s linear infinite;font:8px 'JetBrains Mono';color:#77717e}.tick b{color:#d8d2e0}.tick.up b{color:var(--green)}.tick.down b{color:var(--red)}@keyframes marquee{to{transform:translateX(-45%)}}
+.content{padding:24px;max-width:1700px;margin:auto}.hero{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:end;margin-bottom:20px}.eyebrow{font:700 8px 'JetBrains Mono';color:#997bc0;letter-spacing:.2em}.hero h1{font-size:30px;letter-spacing:-.055em;margin:7px 0 5px;line-height:1.05}.hero p{font-size:10px;color:#7f7988;margin:0;max-width:650px}.hero-actions{display:flex;gap:7px}.btn{border:1px solid #2a2533;background:#0b0a0f;color:#eee9f5;border-radius:8px;padding:10px 14px;font-size:8px;font-weight:800;cursor:pointer;letter-spacing:.02em;transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease;box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}.btn:hover{border-color:#7650b0;background:#12101a;transform:translateY(-1px);box-shadow:0 8px 22px rgba(0,0,0,.25)}.btn:active,.topbtn:active{transform:translateY(0) scale(.98)}.btn.primary{background:linear-gradient(180deg,#8c5cff,#7040e8);border-color:#9167ff;color:#fff;box-shadow:0 10px 28px rgba(116,55,239,.24),inset 0 1px 0 rgba(255,255,255,.15)}.btn.primary:hover{background:linear-gradient(180deg,#996cff,#7948ef);box-shadow:0 12px 32px rgba(116,55,239,.36),inset 0 1px 0 rgba(255,255,255,.18)}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-bottom:10px}.kpi{min-height:92px;border:1px solid var(--line);background:linear-gradient(145deg,#0e0d13,#09090c);border-radius:11px;padding:12px;position:relative;overflow:hidden}.kpi:after{content:"";position:absolute;width:110px;height:110px;border-radius:50%;background:rgba(137,71,255,.08);right:-55px;top:-55px;filter:blur(5px)}.kpi-label{font:700 7px 'JetBrains Mono';color:#625c6a;letter-spacing:.12em}.kpi-value{font-size:17px;font-weight:800;margin-top:7px;letter-spacing:-.03em}.kpi-meta{font-size:8px;color:#6e6877;margin-top:4px}.kpi-meta.up{color:var(--green)}.kpi-meta.warn{color:var(--amber)}
+.dashboard-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(310px,.72fr);gap:10px}.panel{border:1px solid var(--line);background:linear-gradient(145deg,rgba(14,13,19,.97),rgba(8,8,11,.98));border-radius:12px;box-shadow:var(--shadow);overflow:hidden}.panel-head{height:48px;padding:0 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.panel-title{font-size:10px;font-weight:800}.panel-sub{font:7px 'JetBrains Mono';color:#625c6b}.live{color:var(--green)}
+.market-wrap{padding:0}.market{width:100%;border-collapse:collapse}.market th{padding:9px 12px;text-align:left;color:#5e5867;font:700 7px 'JetBrains Mono';letter-spacing:.08em}.market td{padding:11px 12px;border-top:1px solid #17151c;font-size:8px}.market tr:hover td{background:rgba(133,72,255,.035)}.asset{display:flex;align-items:center;gap:8px}.coin-icon{width:25px;height:25px;border-radius:8px;display:grid;place-items:center;font-weight:900;background:#17131f;color:#b88aff;border:1px solid #2c223a}.asset b{font-size:9px}.asset small{display:block;color:#5e5867;font-size:7px;margin-top:2px}.green{color:var(--green)!important}.red{color:var(--red)!important}.mono{font-family:'JetBrains Mono',monospace}.spark{width:90px;height:28px}.tag{padding:4px 6px;border-radius:5px;background:rgba(48,230,170,.06);color:var(--green);font:700 7px 'JetBrains Mono';border:1px solid rgba(48,230,170,.1)}
+.chart-box{padding:14px}.chart-top{display:flex;justify-content:space-between;align-items:start}.chart-value{font-size:25px;font-weight:800;letter-spacing:-.05em}.chart-change{font:700 8px 'JetBrains Mono';color:var(--green);margin-top:4px}.chart-tabs{display:flex;gap:4px}.chart-tabs button{background:#0a090e;border:1px solid #292431;color:#777080;border-radius:6px;padding:6px 9px;font:700 7px 'JetBrains Mono';cursor:pointer;transition:.16s ease}.chart-tabs button:hover{color:#eee;border-color:#60408d}.chart-tabs button.active{color:#fff;border-color:#7d50c2;background:linear-gradient(180deg,#21152f,#17101f);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}.chart-svg{height:180px;margin-top:10px}.chart-svg svg{width:100%;height:100%}.chart-footer{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.micro{border:1px solid var(--line);border-radius:8px;padding:8px;background:#0a090d}.micro label{display:block;font:7px 'JetBrains Mono';color:#5e5867}.micro b{display:block;margin-top:5px;font-size:10px}
+.right-stack{display:flex;flex-direction:column;gap:10px}.news{max-height:382px;overflow:auto}.news::-webkit-scrollbar{width:3px}.news::-webkit-scrollbar-thumb{background:#30283b}.news-item{display:grid;grid-template-columns:43px 1fr;gap:9px;padding:10px 12px;border-bottom:1px solid #17151c;cursor:pointer}.news-item:hover{background:#121017}.news-img{width:43px;height:43px;border-radius:8px;background:radial-gradient(circle at 30% 25%,#b16cff,#26133d 60%,#0c0a10);display:grid;place-items:center;font-weight:800;color:#eee}.news-title{font-size:8px;font-weight:800;line-height:1.42}.news-meta{font:7px 'JetBrains Mono';color:#5f5968;margin-top:5px}.news-meta b{color:var(--green)}.news-refresh{width:28px;height:28px;border:1px solid #292431;border-radius:7px;background:#0b0a0f;color:#a99bb7;cursor:pointer;font-size:13px;transition:.16s ease}.news-refresh:hover{color:#fff;border-color:#7650b0;background:#15111c;transform:rotate(20deg)}.alert{padding:10px 12px;border-bottom:1px solid #17151c;display:flex;align-items:center;gap:9px}.alert-icon{width:27px;height:27px;border-radius:8px;display:grid;place-items:center;background:rgba(255,85,112,.08);color:var(--red);border:1px solid rgba(255,85,112,.1)}.alert b{font-size:8px}.alert small{display:block;color:#5f5968;font-size:7px;margin-top:3px}
+.bottom-grid{display:grid;grid-template-columns:1.05fr .95fr 1fr;gap:10px;margin-top:10px}.rows{padding:2px 0}.row{display:grid;grid-template-columns:1fr 65px 65px;align-items:center;gap:8px;padding:10px 12px;border-top:1px solid #17151c}.row:first-child{border-top:0}.row b{font-size:8px}.row small{display:block;color:#5e5867;font-size:7px;margin-top:3px}.bar{height:4px;background:#1b1721;border-radius:5px;overflow:hidden}.bar i{height:100%;display:block;border-radius:5px;background:linear-gradient(90deg,#5d2bd8,#b86dff)}.score{font:700 8px 'JetBrains Mono';text-align:right}.wallet{padding:12px}.wallet-top{display:flex;justify-content:space-between;align-items:center}.wallet-value{font-size:22px;font-weight:800}.wallet-note{font-size:8px;color:#625c69;margin-top:3px}.wallets{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:12px}.wallet-card{border:1px solid var(--line);border-radius:8px;padding:8px;background:#0a090d}.wallet-card small{font:7px 'JetBrains Mono';color:#5e5867}.wallet-card b{display:block;font-size:9px;margin-top:4px}.activity{padding:4px 12px 10px}.event{display:flex;gap:9px;padding:9px 0;border-bottom:1px solid #17151c}.event:last-child{border-bottom:0}.event-dot{width:7px;height:7px;border-radius:50%;background:var(--purple2);margin-top:4px;box-shadow:0 0 10px rgba(177,108,255,.7)}.event b{font-size:8px}.event small{display:block;color:#5f5968;font-size:7px;margin-top:3px}.footer{padding:22px 0 5px;text-align:center;color:#46414d;font:7px 'JetBrains Mono';letter-spacing:.08em}
+.toast{position:fixed;right:20px;bottom:20px;background:#121019;border:1px solid #3b2b52;box-shadow:0 18px 50px #0009;border-radius:10px;padding:11px 13px;font-size:8px;opacity:0;transform:translateY(10px);pointer-events:none;transition:.25s;z-index:80}.toast.show{opacity:1;transform:none}.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(10px);display:none;place-items:center;z-index:70}.modal.show{display:grid}.modal-card{width:min(520px,92vw);border:1px solid #3a2a50;border-radius:14px;background:#0b0a0f;box-shadow:0 30px 100px #000;overflow:hidden}.modal-head{padding:15px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}.modal-body{padding:18px}.modal-body p{font-size:9px;color:#7e7787;line-height:1.6}.modal-close{border:0;background:none;color:#8c8593;cursor:pointer}
+.register-btn{border-color:#3a2b52;background:linear-gradient(180deg,#15101d,#0d0b12);color:#e9dfff}.register-btn:hover{border-color:#8b55ff;background:linear-gradient(180deg,#211531,#100d16);box-shadow:0 10px 28px rgba(108,54,235,.22)}
+.purchase-btn{min-width:108px}
+.purchase-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}.purchase-card{border:1px solid #28202f;background:linear-gradient(145deg,#120e18,#09080c);border-radius:12px;padding:14px;cursor:pointer;transition:.18s}.purchase-card:hover{border-color:#8050cf;transform:translateY(-2px);box-shadow:0 12px 28px rgba(100,45,190,.18)}.purchase-card .plan{font:700 8px 'JetBrains Mono';color:#8d8299;letter-spacing:.14em}.purchase-card h3{margin:6px 0 3px;font-size:16px}.purchase-card p{margin:0;color:#756d7e;font-size:9px}.purchase-card strong{display:block;margin-top:12px;color:#b77aff;font-size:14px}
+@media(max-width:760px){.purchase-grid{grid-template-columns:1fr}.register-btn,.topbar .primary{display:block}.topbar{gap:7px}.topbtn{padding:0 10px;font-size:8px}}
+@media(max-width:1280px){.app{grid-template-columns:205px 1fr}.kpis{grid-template-columns:repeat(3,1fr)}.bottom-grid{grid-template-columns:1fr 1fr}.bottom-grid .activity-panel{grid-column:1/-1}}@media(max-width:980px){.sidebar{display:none}.app{display:block}.topbar{padding:0 13px}.profile{display:none}.search{width:38vw}.dashboard-grid{grid-template-columns:1fr}.bottom-grid{grid-template-columns:1fr}.content{padding:16px}.hero{grid-template-columns:1fr}.hero-actions{margin-top:13px;flex-wrap:wrap}.kpis{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.crumb{display:none}.search{margin-left:0;width:100%}.topbtn{display:none}.hero h1{font-size:25px}.market th:nth-child(4),.market td:nth-child(4),.market th:nth-child(5),.market td:nth-child(5){display:none}.kpis{grid-template-columns:1fr 1fr}.kpi{min-height:82px}.chart-footer{grid-template-columns:1fr}.wallets{grid-template-columns:1fr}.hero-actions .btn{flex:1}}
+
+/* RWM REGISTER EXPERIENCE */
+#registerModal{background:rgba(0,0,0,.78);backdrop-filter:blur(18px);align-items:center;justify-content:center}
+.rwm-register-card{width:min(1120px,calc(100vw - 32px));max-height:min(760px,calc(100vh - 32px));overflow:hidden;border:1px solid rgba(166,91,255,.55)!important;border-radius:24px!important;background:#05040a!important;box-shadow:0 0 0 1px rgba(255,255,255,.03),0 35px 120px rgba(0,0,0,.72),0 0 80px rgba(126,48,255,.22);position:relative}
+.rwm-register-card:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,rgba(139,77,255,.13),transparent 30%,rgba(255,255,255,.025) 55%,transparent 75%);mix-blend-mode:screen}
+.rwm-register-card .modal-head{height:0;padding:0;border:0;position:relative;z-index:5}
+.rwm-register-card .modal-head b{display:none}.rwm-register-card .modal-close{position:absolute;right:18px;top:18px;width:42px;height:42px;border:1px solid rgba(190,137,255,.38);background:rgba(8,6,15,.68);border-radius:12px;color:#ddd;z-index:8;font-size:18px;cursor:pointer;transition:.2s}.rwm-register-card .modal-close:hover{transform:rotate(8deg) scale(1.06);border-color:#a76cff;box-shadow:0 0 28px rgba(143,70,255,.3);color:#fff}
+.register-layout{display:grid;grid-template-columns:43% 57%;min-height:680px}.register-visual{position:relative;overflow:hidden;padding:38px 38px 32px;background:#030207 url('assets/register-hero.png') center/cover no-repeat}.register-visual:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(2,1,6,.32),rgba(2,1,6,.05) 55%,rgba(2,1,6,.6)),linear-gradient(0deg,rgba(3,2,8,.85),transparent 55%)}.register-visual:after{content:"";position:absolute;inset:-30%;background:conic-gradient(from 0deg,transparent,rgba(156,79,255,.18),transparent 22%,rgba(81,215,255,.08),transparent 42%);animation:rwmSpin 16s linear infinite;mix-blend-mode:screen}.register-logo{position:relative;z-index:2;width:78px;height:78px;object-fit:contain;filter:drop-shadow(0 0 25px rgba(153,76,255,.75));animation:rwmFloat 4s ease-in-out infinite}.register-kicker{position:relative;z-index:2;margin-top:35px;font:700 10px 'JetBrains Mono';letter-spacing:.22em;color:#b28cff}.register-visual h2{position:relative;z-index:2;font-size:38px;line-height:.98;letter-spacing:-.055em;margin:10px 0 14px;max-width:390px}.register-visual h2 span{color:#b96dff;text-shadow:0 0 24px rgba(160,70,255,.55)}.register-visual p{position:relative;z-index:2;color:#aaa1b5;max-width:390px;font-size:12px;line-height:1.7}.benefits{position:relative;z-index:2;margin-top:30px;display:grid;gap:11px}.benefit{display:flex;align-items:center;gap:12px;padding:12px 13px;border:1px solid rgba(152,102,215,.17);background:rgba(8,6,16,.45);backdrop-filter:blur(10px);border-radius:13px}.benefit .ico{width:35px;height:35px;border-radius:10px;display:grid;place-items:center;color:#c28cff;border:1px solid rgba(157,91,255,.42);background:linear-gradient(145deg,rgba(139,77,255,.25),rgba(255,255,255,.02));box-shadow:inset 0 1px rgba(255,255,255,.08),0 0 20px rgba(124,57,255,.1)}.benefit b{font-size:11px}.benefit small{display:block;color:#776e82;font-size:9px;margin-top:3px}
+.register-form{position:relative;padding:54px 54px 38px;background:linear-gradient(145deg,rgba(12,10,18,.98),rgba(5,4,9,.99));display:flex;flex-direction:column;justify-content:center}.register-form:before{content:"";position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(transparent,#8b4dff,transparent);box-shadow:0 0 20px #8b4dff}.step{font:700 9px 'JetBrains Mono';letter-spacing:.2em;color:#aa8bc8}.progress{height:6px;background:#211b2c;border-radius:99px;margin:13px 0 30px;overflow:hidden}.progress i{display:block;width:34%;height:100%;border-radius:inherit;background:linear-gradient(90deg,#7b35ff,#c878ff);box-shadow:0 0 18px rgba(157,73,255,.85);animation:rwmProgress 2.8s ease-in-out infinite alternate}.register-form h3{font-size:31px;letter-spacing:-.05em;margin:0 0 9px}.register-form h3 span{color:#b86cff}.register-form .lead{color:#7f7789;font-size:11px;margin:0 0 25px;line-height:1.6}.field{position:relative;margin:10px 0}.field .field-ico{position:absolute;left:15px;top:17px;color:#a86cff;font-size:16px;z-index:2}.field input{width:100%;height:58px;border:1px solid #30283d;border-radius:13px;background:linear-gradient(180deg,#0b0910,#08070c);color:#fff;padding:0 45px 0 48px;font-size:13px;outline:none;transition:.22s}.field input::placeholder{color:#66606c}.field input:focus{border-color:#9b5cff;box-shadow:0 0 0 3px rgba(143,73,255,.11),0 0 28px rgba(143,73,255,.12);background:#0d0a13}.field .field-end{position:absolute;right:16px;top:18px;color:#756c83}.rules{display:flex;gap:14px;flex-wrap:wrap;padding:12px 14px;margin:4px 0 16px;border:1px solid #201a2a;border-radius:12px;background:#09070d;color:#7c7487;font-size:8px}.rules span:before{content:"✓";display:inline-grid;place-items:center;width:14px;height:14px;border:1px solid #7746ad;border-radius:50%;color:#b879ff;margin-right:5px}.register-cta{height:56px;border:1px solid #b47aff;border-radius:14px;background:linear-gradient(110deg,#6d2df0,#a45aff 50%,#6d2df0);background-size:200% 100%;color:#fff;font-weight:900;letter-spacing:.05em;cursor:pointer;box-shadow:0 12px 35px rgba(110,45,230,.32),inset 0 1px rgba(255,255,255,.3);animation:rwmGradient 4s linear infinite;transition:.2s}.register-cta:hover{transform:translateY(-2px);box-shadow:0 17px 45px rgba(120,52,255,.48),0 0 30px rgba(171,91,255,.2)}.register-cta:active{transform:scale(.985)}.or{display:flex;align-items:center;gap:10px;color:#625a6b;font:8px 'JetBrains Mono';margin:17px 0}.or:before,.or:after{content:"";height:1px;background:#241e2d;flex:1}.socials{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.social{height:42px;border:1px solid #292331;background:#0a090e;border-radius:10px;color:#ddd7e5;font-size:9px;font-weight:700;cursor:pointer;transition:.18s}.social:hover{border-color:#694399;background:#120d1a;transform:translateY(-1px)}.signin{text-align:center;color:#71697b;font-size:10px;margin:18px 0 0}.signin button{background:none;border:0;color:#bb79ff;font-weight:800;cursor:pointer}.security{display:flex;justify-content:center;gap:20px;color:#595261;font-size:8px;margin-top:22px}.security span{display:flex;gap:5px;align-items:center}.security b{color:#8f859a}
+.float-dot{position:absolute;width:5px;height:5px;border-radius:50%;background:#bd7bff;box-shadow:0 0 14px #b55cff;opacity:.7;z-index:1;animation:rwmParticle 7s linear infinite}.d1{left:18%;bottom:-10px}.d2{left:62%;bottom:-10px;animation-delay:2s}.d3{left:84%;bottom:-10px;animation-delay:4s}.d4{left:40%;bottom:-10px;animation-delay:5s}@keyframes rwmFloat{50%{transform:translateY(-8px) rotate(1deg)}}@keyframes rwmSpin{to{transform:rotate(360deg)}}@keyframes rwmProgress{to{width:61%}}@keyframes rwmGradient{to{background-position:200% 0}}@keyframes rwmParticle{0%{transform:translateY(0) scale(.6);opacity:0}12%{opacity:.8}85%{opacity:.5}100%{transform:translateY(-720px) translateX(50px) scale(1.5);opacity:0}}
+@media(max-width:850px){.register-layout{grid-template-columns:1fr}.register-visual{display:none}.register-form{padding:48px 28px 28px}.rwm-register-card{max-height:calc(100vh - 20px)}.socials{grid-template-columns:1fr}.security{flex-wrap:wrap}}
+
+/* ───────── RugWithMe Premium Purchases ───────── */
+.purchase-modal .modal-card{
+  width:min(1180px,94vw)!important;
+  max-width:1180px!important;
+  background:
+    radial-gradient(650px 300px at 15% 0%,rgba(139,77,255,.16),transparent 65%),
+    radial-gradient(500px 260px at 90% 100%,rgba(96,44,220,.10),transparent 70%),
+    linear-gradient(145deg,#0b0910,#07070b 70%);
+  border:1px solid rgba(157,103,255,.36);
+  box-shadow:0 35px 120px rgba(0,0,0,.72),0 0 80px rgba(113,50,255,.12);
+  overflow:hidden;
+}
+.purchase-modal .modal-head{
+  height:76px;
+  padding:0 26px;
+  background:linear-gradient(180deg,rgba(255,255,255,.025),transparent);
+}
+.purchase-modal .modal-head b{
+  font-size:18px;
+  letter-spacing:-.035em;
+}
+.purchase-hero{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:22px;
+}
+.purchase-kicker{
+  color:#a879ff;
+  font:700 8px 'JetBrains Mono';
+  letter-spacing:.2em;
+  text-transform:uppercase;
+}
+.purchase-hero h2{
+  margin:7px 0 6px;
+  font-size:28px;
+  letter-spacing:-.055em;
+}
+.purchase-hero p{
+  margin:0;
+  color:#807987;
+  font-size:10px;
+  line-height:1.6;
+  max-width:680px;
+}
+.network-pills{display:flex;gap:6px;flex-wrap:wrap}
+.network-pill{
+  border:1px solid #30283d;
+  border-radius:999px;
+  padding:7px 10px;
+  color:#b7afc2;
+  background:#0b0a10;
+  font:700 7px 'JetBrains Mono';
+}
+.network-pill.active{
+  color:#fff;
+  border-color:#7950bb;
+  background:linear-gradient(180deg,#211430,#120d19);
+  box-shadow:0 0 18px rgba(132,71,255,.12);
+}
+.purchase-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:12px!important;
+}
+.purchase-card{
+  min-height:340px;
+  position:relative;
+  padding:18px!important;
+  border:1px solid #292230!important;
+  border-radius:16px!important;
+  background:
+    radial-gradient(180px 120px at 100% 0%,rgba(143,78,255,.10),transparent 70%),
+    linear-gradient(155deg,#110e16,#09090d)!important;
+  cursor:pointer;
+  transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease,background .22s ease;
+  overflow:hidden;
+}
+.purchase-card:before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border-radius:16px;
+  padding:1px;
+  background:linear-gradient(135deg,rgba(177,118,255,.42),transparent 32%,transparent 70%,rgba(106,54,224,.25));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  pointer-events:none;
+  opacity:.5;
+}
+.purchase-card:after{
+  content:"";
+  position:absolute;
+  width:150px;height:150px;
+  right:-75px;bottom:-90px;
+  border-radius:50%;
+  background:rgba(124,61,255,.18);
+  filter:blur(28px);
+  transition:.25s ease;
+}
+.purchase-card:hover{
+  transform:translateY(-7px);
+  border-color:#7650ad!important;
+  box-shadow:0 20px 45px rgba(0,0,0,.38),0 0 35px rgba(115,57,235,.12);
+}
+.purchase-card:hover:after{transform:scale(1.45);opacity:.9}
+.purchase-card.selected{
+  border-color:#a36aff!important;
+  box-shadow:0 0 0 1px rgba(163,106,255,.22),0 20px 55px rgba(89,42,205,.24);
+}
+.plan-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.plan-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:5px 8px;
+  border-radius:999px;
+  font:700 7px 'JetBrains Mono';
+  letter-spacing:.09em;
+  color:#cfc5dc;
+  background:#0b0a0f;
+  border:1px solid #292230;
+}
+.plan-badge.popular{color:#b98cff;border-color:#5a3c83;background:rgba(139,77,255,.08)}
+.plan-badge.lifetime{color:#72e9c1;border-color:#285344;background:rgba(48,230,170,.05)}
+.plan-dot{width:6px;height:6px;border-radius:50%;background:#ff9b32;box-shadow:0 0 10px #ff9b32}
+.plan-dot.green{background:#31e6aa;box-shadow:0 0 10px #31e6aa}
+.plan-dot.blue{background:#65a8ff;box-shadow:0 0 10px #65a8ff}
+.plan-dot.purple{background:#b064ff;box-shadow:0 0 10px #b064ff}
+.purchase-card h3{
+  margin:18px 0 5px;
+  font-size:19px;
+  letter-spacing:-.035em;
+}
+.plan-desc{
+  margin:0;
+  color:#77707f;
+  font-size:8px;
+  line-height:1.5;
+  min-height:25px;
+}
+.plan-price{
+  margin-top:17px;
+  display:flex;
+  align-items:baseline;
+  gap:7px;
+  flex-wrap:wrap;
+}
+.plan-price strong{font-size:18px;color:#b783ff}
+.plan-price span{font:700 8px 'JetBrains Mono';color:#6d6675}
+.plan-access{
+  margin-top:3px;
+  color:#aaa1b2;
+  font:700 7px 'JetBrains Mono';
+  letter-spacing:.08em;
+}
+.feature-list{
+  list-style:none;
+  padding:0;
+  margin:18px 0 0;
+  display:grid;
+  gap:8px;
+}
+.feature-list li{
+  display:flex;
+  align-items:flex-start;
+  gap:7px;
+  color:#aaa3b1;
+  font-size:8px;
+  line-height:1.35;
+}
+.feature-list li.yes:before{content:"✓";color:#53e7b8;font-weight:900}
+.feature-list li.no{color:#625c68}
+.feature-list li.no:before{content:"×";color:#705d78;font-weight:900}
+.wallet-cap{
+  margin-top:16px;
+  padding-top:12px;
+  border-top:1px solid #1b1821;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.wallet-cap span{color:#625b69;font:700 7px 'JetBrains Mono'}
+.wallet-cap b{color:#ddd5e4;font-size:9px}
+.purchase-bottom{
+  margin-top:16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  padding-top:15px;
+  border-top:1px solid #1b1821;
+}
+.purchase-note{color:#696271;font-size:8px;line-height:1.5}
+.purchase-note b{color:#a98bc5}
+.plan-select{
+  border:1px solid #8450d8;
+  background:linear-gradient(180deg,#8e59ff,#6b38dc);
+  color:#fff;
+  border-radius:8px;
+  padding:9px 13px;
+  font-size:8px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 8px 25px rgba(105,52,224,.22);
+  transition:.18s ease;
+}
+.plan-select:hover{transform:translateY(-1px);box-shadow:0 11px 30px rgba(105,52,224,.35)}
+@media(max-width:900px){
+  .purchase-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .purchase-hero{align-items:flex-start;flex-direction:column}
+}
+@media(max-width:600px){
+  .purchase-grid{grid-template-columns:1fr!important}
+  .purchase-card{min-height:auto}
+}
+
+
+/* Email verification step */
+.verify-modal .modal-card{
+  width:min(560px,94vw)!important;
+  max-width:560px!important;
+  background:radial-gradient(500px 240px at 50% 0%,rgba(145,78,255,.16),transparent 70%),linear-gradient(145deg,#0c0911,#07070b);
+  border:1px solid rgba(157,103,255,.42);
+  box-shadow:0 35px 110px rgba(0,0,0,.75),0 0 65px rgba(113,50,255,.12);
+}
+.verify-content{padding:28px 30px 30px;text-align:center}
+.verify-icon{
+  width:64px;height:64px;margin:4px auto 18px;border-radius:18px;
+  display:grid;place-items:center;font-size:27px;
+  background:linear-gradient(145deg,#24123b,#100c18);
+  border:1px solid #7047a8;box-shadow:0 0 35px rgba(137,74,255,.2);
+  animation:verifyPulse 2s ease-in-out infinite;
+}
+@keyframes verifyPulse{50%{transform:translateY(-3px);box-shadow:0 0 45px rgba(137,74,255,.35)}}
+.verify-kicker{font:700 8px 'JetBrains Mono';letter-spacing:.2em;color:#a978ff}
+.verify-content h2{font-size:25px;letter-spacing:-.045em;margin:8px 0}
+.verify-content p{color:#827a8c;font-size:10px;line-height:1.65;margin:0 auto 20px;max-width:420px}
+.verify-email{
+  display:inline-block;color:#cdb7e7;font-weight:800;
+  max-width:100%;overflow:hidden;text-overflow:ellipsis;vertical-align:bottom
+}
+.code-input{
+  width:100%;box-sizing:border-box;text-align:center;letter-spacing:.48em;
+  font:800 23px 'JetBrains Mono';color:#fff;
+  background:#0a090e;border:1px solid #332b3e;border-radius:12px;
+  padding:16px 14px;outline:none;transition:.2s;
+}
+.code-input:focus{border-color:#9a5fff;box-shadow:0 0 0 3px rgba(142,78,255,.1),0 0 30px rgba(142,78,255,.14)}
+.verify-btn{
+  width:100%;margin-top:12px;padding:13px;border-radius:10px;border:1px solid #9255ed;
+  background:linear-gradient(100deg,#7a40ed,#9c58ff,#6d38dc);background-size:200% 100%;
+  color:#fff;font-weight:900;font-size:9px;cursor:pointer;animation:verifyGradient 3s linear infinite;
+  box-shadow:0 12px 30px rgba(105,52,224,.25);
+}
+@keyframes verifyGradient{to{background-position:200% 0}}
+.verify-row{display:flex;justify-content:space-between;gap:12px;margin-top:12px}
+.verify-link{background:none;border:0;color:#9874bb;font-size:8px;cursor:pointer}
+.verify-link:hover{color:#c59cff}
+.verify-status{min-height:16px;margin-top:10px;font-size:8px;color:#77707f}
+.verify-status.error{color:#ff7d9a}
+.verify-status.success{color:#52e6b6}
+.verify-security{
+  margin-top:18px;padding-top:15px;border-top:1px solid #1c1821;
+  display:flex;justify-content:center;gap:16px;flex-wrap:wrap;color:#625c69;font:700 7px 'JetBrains Mono'
+}
+
+
+/* Network selector */
+.network-pill{cursor:pointer;transition:.2s ease;user-select:none}
+.network-pill:hover{border-color:#69449a;color:#d6c4eb;transform:translateY(-1px)}
+.network-pill.active{box-shadow:0 0 18px rgba(132,71,255,.14)}
+.eth-price{display:none}
+.purchase-modal.eth-mode .sol-price{display:none}
+.purchase-modal.eth-mode .eth-price{display:inline}
+.network-pill .network-rate{margin-left:4px;color:#625a69}
+
+
+/* Memecoin intelligence panel */
+.meme-panel{
+  margin-top:14px;
+  border:1px solid #29222f;
+  border-radius:14px;
+  background:
+    radial-gradient(320px 140px at 100% 0%,rgba(146,78,255,.10),transparent 70%),
+    linear-gradient(145deg,#110e16,#09090d);
+  box-shadow:inset 0 1px rgba(255,255,255,.025),0 12px 35px rgba(0,0,0,.16);
+  overflow:hidden;
+}
+.meme-panel-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px;border-bottom:1px solid #211c27;
+}
+.meme-panel-title{display:flex;align-items:center;gap:9px}
+.meme-live{
+  width:7px;height:7px;border-radius:50%;background:#52e6b6;
+  box-shadow:0 0 12px #52e6b6;animation:memePulse 1.7s infinite;
+}
+@keyframes memePulse{50%{opacity:.35;transform:scale(.7)}}
+.meme-panel-title b{font-size:10px;letter-spacing:.02em}
+.meme-panel-title span{font:700 7px 'JetBrains Mono';color:#68606f}
+.meme-filter-row{display:flex;gap:5px}
+.meme-filter{
+  border:1px solid #29222f;background:#0b0a0f;color:#756d7c;
+  border-radius:7px;padding:6px 8px;font:700 7px 'JetBrains Mono';cursor:pointer;
+  transition:.18s;
+}
+.meme-filter:hover,.meme-filter.active{
+  color:#d8c8e8;border-color:#7046a1;background:#171020;
+}
+.meme-list{display:grid}
+.meme-item{
+  display:grid;grid-template-columns:34px minmax(0,1fr) auto;
+  align-items:center;gap:10px;padding:12px 16px;
+  border-bottom:1px solid #17141b;transition:.18s;
+}
+.meme-item:last-child{border-bottom:0}
+.meme-item:hover{background:rgba(142,78,255,.045)}
+.meme-icon{
+  width:32px;height:32px;border-radius:9px;display:grid;place-items:center;
+  background:linear-gradient(145deg,#241437,#0d0b11);
+  border:1px solid #39284a;font-size:14px;
+}
+.meme-main{min-width:0}
+.meme-name{font-size:9px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meme-symbol{margin-left:5px;color:#706777;font:700 7px 'JetBrains Mono'}
+.meme-meta{margin-top:4px;color:#635c69;font:700 6px 'JetBrains Mono';white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meme-stat{text-align:right}
+.meme-price{font:800 8px 'JetBrains Mono';color:#c8bfd0}
+.meme-change{margin-top:4px;font:800 7px 'JetBrains Mono'}
+.meme-change.up{color:#55e8b9}.meme-change.down{color:#ff7898}
+.meme-footer{
+  padding:10px 16px;background:rgba(255,255,255,.012);
+  color:#5e5765;font:700 6px 'JetBrains Mono';
+  display:flex;justify-content:space-between;gap:10px;
+}
+
+</style>
+</head>
+<body>
+<div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><img src="assets/logo.png" alt="RugWithMe"><div><strong>Rug<span>With</span>Me</strong><small>INTELLIGENCE TERMINAL</small></div></div>
+  <div class="section-label">WORKSPACE</div>
+  <nav class="nav">
+    <button class="active" data-view="overview"><i>◈</i> Command Center</button>
+    <button data-view="markets"><i>◒</i> Market Pulse</button>
+    <button data-view="radar"><i>⌁</i> Rug Radar</button>
+    <button data-view="news"><i>◫</i> News Room</button>
+
+<div class="meme-panel" id="memecoinPanel">
+  <div class="meme-panel-head">
+    <div class="meme-panel-title">
+      <i class="meme-live"></i>
+      <b>RECENTLY ADDED MEMECOINS</b>
+      <span>LIVE FEED</span>
+    </div>
+    <div class="meme-filter-row">
+      <button class="meme-filter active" onclick="filterMemecoins('new',this)">NEW</button>
+      <button class="meme-filter" onclick="filterMemecoins('hot',this)">HOT</button>
+    </div>
+  </div>
+  <div class="meme-list" id="memeList">
+    <div class="meme-item" data-kind="new">
+      <div class="meme-icon">🐸</div>
+      <div class="meme-main"><div class="meme-name">FROGBYTE <span class="meme-symbol">$FRGB</span></div><div class="meme-meta">SOLANA · JUST ADDED · $42.8K MC</div></div>
+      <div class="meme-stat"><div class="meme-price">$0.000428</div><div class="meme-change up">+38.4%</div></div>
+    </div>
+    <div class="meme-item" data-kind="hot">
+      <div class="meme-icon">🐕</div>
+      <div class="meme-main"><div class="meme-name">MOON DOG <span class="meme-symbol">$MOOND</span></div><div class="meme-meta">SOLANA · TRENDING · $86.1K MC</div></div>
+      <div class="meme-stat"><div class="meme-price">$0.000861</div><div class="meme-change up">+24.7%</div></div>
+    </div>
+    <div class="meme-item" data-kind="new">
+      <div class="meme-icon">🧪</div>
+      <div class="meme-main"><div class="meme-name">LABRUG <span class="meme-symbol">$LAB</span></div><div class="meme-meta">SOLANA · 6 MIN AGO · $19.4K MC</div></div>
+      <div class="meme-stat"><div class="meme-price">$0.000194</div><div class="meme-change down">−8.2%</div></div>
+    </div>
+    <div class="meme-item" data-kind="hot">
+      <div class="meme-icon">🦍</div>
+      <div class="meme-main"><div class="meme-name">APE SIGNAL <span class="meme-symbol">$APES</span></div><div class="meme-meta">ETHEREUM · TRENDING · $71.3K MC</div></div>
+      <div class="meme-stat"><div class="meme-price">$0.001713</div><div class="meme-change up">+17.9%</div></div>
+    </div>
+  </div>
+  <div class="meme-footer">
+    <span>MEMECOIN DISCOVERY · DATA IS FOR MONITORING</span>
+    <span>VIEW ALL →</span>
+  </div>
+</div>
+
+    <button data-view="wallets"><i>◉</i> Wallet Intel</button>
+  </nav>
+  <div class="section-label">TOOLS</div>
+  <nav class="nav">
+    <button onclick="toast('Watchlist panel opened')"><i>＋</i> New Watchlist</button>
+    <button onclick="openModal()"><i>?</i> How it works</button>
+    <button onclick="toast('Data sources refreshed')"><i>↻</i> Refresh feeds</button>
+  </nav>
+  <div class="side-bottom"><div class="statusbox"><div class="online"><span class="pulse"></span>All systems operational</div><p>Market data, headlines and risk modules are connected where supported.</p></div><div class="version">RWM TERMINAL / v3.0.1</div></div>
+</aside>
+<div class="main">
+<header class="topbar"><div class="crumb">RUGWITHME / <b>COMMAND CENTER</b></div><div class="search"><span>⌕</span><input id="search" placeholder="Search token, wallet, headline…"></div><button class="topbtn" onclick="toast('Scanner queued')">SCAN</button><button class="topbtn register-btn" onclick="openRegister()">REGISTER</button><button class="topbtn primary" onclick="openPurchases()">PURCHASES</button><div class="profile"><div class="avatar">K</div>Krugerstupid⌄</div></header>
+<div class="ticker"><div class="ticker-label">● LIVE MARKET</div><div class="ticker-track" id="ticker"></div></div>
+<main class="content">
+<section class="hero"><div><div class="eyebrow">PRIVATE CRYPTO INTELLIGENCE / LIVE WORKSPACE</div><h1>See the market before it gets loud.</h1><p>A premium command center for tracking momentum, liquidity behavior, wallet activity and the headlines moving crypto.</p></div><div class="hero-actions"><button class="btn primary" onclick="toast('Watchlist created')">＋ CREATE WATCHLIST</button><button class="btn" onclick="toast('Wallet import ready')">IMPORT WALLET</button><button class="btn" onclick="document.querySelector('[data-view=radar]').click()">OPEN RADAR ↗</button></div></section>
+<section class="kpis" id="kpis"></section>
+<div class="dashboard-grid">
+<section class="panel" id="market-panel"><div class="panel-head"><div><div class="panel-title">Market pulse</div><div class="panel-sub">REFERENCE PRICES / 24H CHANGE</div></div><div class="panel-sub live">● STREAMING</div></div><div class="market-wrap"><table class="market"><thead><tr><th>ASSET</th><th>PRICE</th><th>24H</th><th>OPEN</th><th>MICRO TREND</th><th>STATE</th></tr></thead><tbody id="market"></tbody></table></div></section>
+<section class="panel"><div class="panel-head"><div><div class="panel-title">Momentum engine</div><div class="panel-sub">COMPOSITE MARKET SIGNAL</div></div><div class="panel-sub">SOL / USD</div></div><div class="chart-box"><div class="chart-top"><div><div class="chart-value" id="chartValue">$119.20</div><div class="chart-change">▲ +0.70% today</div></div><div class="chart-tabs"><button class="active" data-range="1H">1H</button><button data-range="4H">4H</button><button data-range="1D">1D</button><button data-range="1W">1W</button></div></div><div class="chart-svg"><svg viewBox="0 0 620 180" preserveAspectRatio="none"><defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9d59ff" stop-opacity=".32"/><stop offset="1" stop-color="#9d59ff" stop-opacity="0"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g opacity=".18" stroke="#8c829b"><line x1="0" y1="30" x2="620" y2="30"/><line x1="0" y1="75" x2="620" y2="75"/><line x1="0" y1="120" x2="620" y2="120"/><line x1="0" y1="165" x2="620" y2="165"/></g><path d="M0 145 C35 139 48 146 73 124 S114 136 140 111 S183 123 207 94 S244 108 275 82 S312 101 342 68 S379 86 408 61 S444 78 474 45 S518 55 548 31 S587 46 620 18 L620 180 L0 180Z" fill="url(#area)"/><path d="M0 145 C35 139 48 146 73 124 S114 136 140 111 S183 123 207 94 S244 108 275 82 S312 101 342 68 S379 86 408 61 S444 78 474 45 S518 55 548 31 S587 46 620 18" fill="none" stroke="#b56dff" stroke-width="2.5" filter="url(#glow)"/><circle cx="620" cy="18" r="4" fill="#fff"/></svg></div><div class="chart-footer"><div class="micro"><label>BREADTH</label><b class="green">72%</b></div><div class="micro"><label>FLOW</label><b>$2.91B</b></div><div class="micro"><label>RISK</label><b class="green">LOW</b></div></div></div></section>
+</div>
+<div class="right-stack" style="margin-top:10px">
+<section class="panel" id="news-panel"><div class="panel-head"><div><div class="panel-title">Crypto news room</div><div class="panel-sub">LATEST HEADLINES / PUBLIC FEEDS</div></div><div><span class="panel-sub live">● LIVE</span> <button class="news-refresh" onclick="loadNews()">↻</button></div></div><div class="news" id="news"></div></section>
+</div>
+<div class="bottom-grid">
+<section class="panel" id="radar-panel"><div class="panel-head"><div><div class="panel-title">Rug Radar</div><div class="panel-sub">BEHAVIORAL RISK SIGNALS · NOT A GUARANTEE</div></div><span class="panel-sub">4 WATCHES</span></div><div class="rows" id="radar"></div></section>
+<section class="panel"><div class="panel-head"><div><div class="panel-title">Whale watch</div><div class="panel-sub">LARGE FLOW SNAPSHOTS</div></div><span class="panel-sub live">● TRACKING</span></div><div class="rows" id="whales"></div></section>
+<section class="panel activity-panel"><div class="panel-head"><div><div class="panel-title">Wallet command</div><div class="panel-sub">PORTFOLIO / ACTIVITY</div></div><button class="btn" style="padding:6px 8px" onclick="openModal()">CONNECT</button></div><div class="wallet"><div class="wallet-top"><div><div class="wallet-value">0.00 <span style="color:var(--purple2)">SOL</span></div><div class="wallet-note">$0.00 reference value</div></div><div class="tag">NO WALLET</div></div><div class="wallets"><div class="wallet-card"><small>TRACKED</small><b>0 wallets</b></div><div class="wallet-card"><small>24H PNL</small><b class="green">+0.00%</b></div><div class="wallet-card"><small>ALERTS</small><b>0 active</b></div></div></div><div class="activity" id="activity"></div></section>
+</div>
+<div class="footer">RUGWITHME · INTELLIGENCE TERMINAL · VERIFY CONTRACTS AND SOURCES BEFORE MAKING FINANCIAL DECISIONS</div>
+</main></div></div>
+<div class="toast" id="toast"></div>
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="modal-card"><div class="modal-head"><b>RugWithMe Intelligence Terminal</b><button class="modal-close" onclick="closeModal()">✕</button></div><div class="modal-body"><p>This interface is designed as a premium monitoring workspace. Market values are reference data, and the risk modules are signals rather than guarantees. Connect your own data sources or wallet infrastructure before using it in production.</p><button class="btn primary" onclick="closeModal();toast('Connection flow ready')">Continue</button></div></div></div>
+<div class="modal" id="registerModal" onclick="if(event.target===this)closeRegister()"><div class="rwm-register-card"><div class="modal-head"><b>Create your RugWithMe account</b><button class="modal-close" onclick="closeRegister()">✕</button></div><div class="register-layout"><section class="register-visual"><img class="register-logo" src="assets/logo.png" alt="RugWithMe"><div class="register-kicker">PRIVATE CRYPTO INTELLIGENCE</div><h2>CREATE YOUR <span>RUGWITHME</span> ACCOUNT</h2><p>Register to unlock your workspace, saved watchlists and purchase history.</p><div class="benefits"><div class="benefit"><div class="ico">ϟ</div><div><b>Unlock Full Access</b><small>Get access to your RugWithMe workspace.</small></div></div><div class="benefit"><div class="ico">⌁</div><div><b>Save Your Watchlists</b><small>Keep track of tokens and opportunities.</small></div></div><div class="benefit"><div class="ico">▣</div><div><b>Track Purchase History</b><small>Manage plans and account activity.</small></div></div></div><i class="float-dot d1"></i><i class="float-dot d2"></i><i class="float-dot d3"></i><i class="float-dot d4"></i></section><section class="register-form"><div class="step">STEP 1 OF 2</div><div class="progress"><i></i></div><h3>Create your <span>RugWithMe</span> account</h3><p class="lead">Register first to unlock your workspace, saved watchlists and purchase history.</p><div class="field"><span class="field-ico">✉</span><input id="regEmail" placeholder="Email address" autocomplete="email"><span class="field-end">○</span></div><div class="field"><span class="field-ico">⌑</span><input id="regPassword" type="password" placeholder="Create a strong password" autocomplete="new-password"><span class="field-end">◉</span></div><div class="rules"><span>At least 8 characters</span><span>Include a number</span><span>Include a symbol</span></div><button class="register-cta" onclick="submitRegister()">REGISTER ACCOUNT &nbsp; →</button><div class="or">OR</div><div class="socials"><button class="social" onclick="toast('Google sign-up selected')">G&nbsp; Continue with Google</button><button class="social" onclick="toast('Apple sign-up selected')">&nbsp; Continue with Apple</button><button class="social" onclick="toast('Telegram sign-up selected')">➤&nbsp; Continue with Telegram</button></div><div class="signin">Already have an account? <button onclick="toast('Sign in flow ready')">Sign in&nbsp; →</button></div><div class="security"><span>♢ <b>Secure</b></span><span>⌑ <b>Encrypted</b></span><span>◌ <b>Private</b></span></div></section></div></div></div>
+<div class="modal purchase-modal" id="purchasesModal" onclick="if(event.target===this)closePurchases()">
+  <div class="modal-card">
+    <div class="modal-head">
+      <b>Access Plans</b>
+      <button class="modal-close" onclick="closePurchases()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="purchase-hero">
+        <div>
+          <div class="purchase-kicker">RUGWITHME ACCESS PLANS</div>
+          <h2>Choose your workspace tier</h2>
+          <p>Select the access level that fits your project. Every plan includes the RugWithMe workspace, wallet management, and the project tools available to that tier.</p>
+        </div>
+        <div class="network-pills">
+          <span class="network-pill active" data-network="SOL" onclick="switchPurchaseNetwork('SOL')">◈ SOLANA</span>
+          <span class="network-pill" data-network="ETH" onclick="switchPurchaseNetwork('ETH')">◆ ETHEREUM</span>
+        </div>
+      </div>
+
+      <div class="purchase-grid">
+        <div class="purchase-card" onclick="selectPlan('STARTER',this)">
+          <div class="plan-row">
+            <span class="plan-badge"><i class="plan-dot"></i> LIMITED-TIME</span>
+          </div>
+          <h3>STARTER</h3>
+          <p class="plan-desc">Essential workspace access for getting started.</p>
+          <div class="plan-price"><strong class="sol-price">1.5 SOL</strong><strong class="eth-price">0.066940 ETH</strong></div>
+          <div class="plan-access">5 DAYS ACCESS</div>
+          <ul class="feature-list">
+            <li class="yes">Up to 4 wallets</li>
+            <li class="yes">Core workspace tools</li>
+            <li class="yes">Wallet management</li>
+          </ul>
+          <div class="wallet-cap"><span>WALLET CAPACITY</span><b>04</b></div>
+        </div>
+
+        <div class="purchase-card" onclick="selectPlan('STANDARD',this)">
+          <div class="plan-row">
+            <span class="plan-badge popular"><i class="plan-dot green"></i> MOST POPULAR</span>
+          </div>
+          <h3>STANDARD</h3>
+          <p class="plan-desc">Expanded workspace access for active projects.</p>
+          <div class="plan-price"><strong class="sol-price">3 SOL</strong><strong class="eth-price">0.133879 ETH</strong></div>
+          <div class="plan-access">7 DAYS ACCESS</div>
+          <ul class="feature-list">
+            <li class="yes">Market Cap Based Strategy</li>
+            <li class="yes">Automatic Liquidity Control</li>
+            <li class="yes">Basic Market Simulation</li>
+            <li class="no">Token Promotion Tools</li>
+            <li class="no">Custom Website</li>
+            <li class="no">AI Generated Content</li>
+          </ul>
+          <div class="wallet-cap"><span>WALLET CAPACITY</span><b>10</b></div>
+        </div>
+
+        <div class="purchase-card" onclick="selectPlan('LIFETIME',this)">
+          <div class="plan-row">
+            <span class="plan-badge lifetime"><i class="plan-dot blue"></i> LIFETIME</span>
+          </div>
+          <h3>LIFETIME</h3>
+          <p class="plan-desc">Long-term workspace access with more capacity.</p>
+          <div class="plan-price"><strong class="sol-price">6 SOL</strong><strong class="eth-price">0.267759 ETH</strong></div>
+          <div class="plan-access">LIFETIME ACCESS</div>
+          <ul class="feature-list">
+            <li class="yes">All Basic Features</li>
+            <li class="yes">Advanced Market Simulation</li>
+            <li class="yes">Token Promotion Tools</li>
+            <li class="yes">AI Generated Website &amp; Domain</li>
+            <li class="yes">Priority Support</li>
+            <li class="no">Social Media Ad Automation</li>
+          </ul>
+          <div class="wallet-cap"><span>WALLET CAPACITY</span><b>20</b></div>
+        </div>
+
+        <div class="purchase-card" onclick="selectPlan('ULTIMATE',this)">
+          <div class="plan-row">
+            <span class="plan-badge popular"><i class="plan-dot purple"></i> MAX CAPACITY</span>
+          </div>
+          <h3>ULTIMATE</h3>
+          <p class="plan-desc">Maximum wallet capacity and full workspace access.</p>
+          <div class="plan-price"><strong class="sol-price">8 SOL</strong><strong class="eth-price">0.357011 ETH</strong></div>
+          <div class="plan-access">LIFETIME ACCESS</div>
+          <ul class="feature-list">
+            <li class="yes">All Advanced Features</li>
+            <li class="yes">Handcrafted Professional Website</li>
+            <li class="yes">Full Marketing Package</li>
+            <li class="yes">Social Media Ad Automation</li>
+            <li class="yes">Telegram &amp; Twitter Adbots</li>
+            <li class="yes">24/7 Priority Support</li>
+          </ul>
+          <div class="wallet-cap"><span>WALLET CAPACITY</span><b>50</b></div>
+        </div>
+      </div>
+
+      <div class="purchase-bottom">
+        <div class="purchase-note"><b>RugWithMe Access</b> · SOL + ETH supported · Select a tier to continue to registration and checkout.</div>
+        <button class="plan-select" onclick="openRegister();closePurchases()">REGISTER &amp; CONTINUE →</button>
+      </div>
+    </div>
+  </div>
+</div></div></div></div>
+<script>
+const fallbackCoins=[{id:'bitcoin',sym:'BTC',name:'Bitcoin',price:84170,change:1.40,open:83006,icon:'₿'},{id:'ethereum',sym:'ETH',name:'Ethereum',price:2720,change:2.00,open:2667,icon:'◆'},{id:'solana',sym:'SOL',name:'Solana',price:119.20,change:.70,open:118.37,icon:'≋'},{id:'ripple',sym:'XRP',name:'XRP',price:1.49,change:1.80,open:1.46,icon:'✕'},{id:'binancecoin',sym:'BNB',name:'BNB',price:758,change:.55,open:752,icon:'◆'}];
+let coins=[...fallbackCoins];
+const fallbackNews=[
+['Bitcoin rally shows signs of cooling even as a bull-score gauge nears its ceiling','CoinDesk','just now','₿'],
+['Bitcoin rebounds above $84,000 as ETF flows draw fresh attention','CoinDesk','fresh','₿'],
+['Solana ETFs attract strong inflows as traders watch the network','CoinDesk','fresh','≋'],
+['Aave and DeFi tokens move higher as traders assess rate pressure','CoinDesk','fresh','A'],
+['Chainlink infrastructure upgrades put interoperability back in focus','CoinDesk','fresh','⬡'],
+['NEAR ecosystem security tools highlight the importance of transaction screening','CoinDesk','fresh','N'],
+['Crypto markets remain sensitive to bond yields and macro data','Cointelegraph','fresh','◈'],
+['Altcoin liquidity conditions remain a key variable for risk appetite','Cointelegraph','fresh','◌']
+];
+function money(n){if(n>=1000)return '$'+n.toLocaleString(undefined,{maximumFractionDigits:0}); if(n<2)return '$'+n.toFixed(2); return '$'+n.toLocaleString(undefined,{maximumFractionDigits:2})}
+function render(){
+ document.getElementById('ticker').innerHTML=[...coins,...coins].map(c=>`<span class="tick ${c.change>=0?'up':'down'}">${c.sym} <b>${money(c.price)}</b> ${c.change>=0?'▲':'▼'} ${Math.abs(c.change).toFixed(2)}%</span>`).join('');
+ document.getElementById('market').innerHTML=coins.slice(0,5).map(c=>`<tr><td><div class="asset"><div class="coin-icon">${c.icon}</div><div><b>${c.sym}</b><small>${c.name}</small></div></div></td><td class="mono">${money(c.price)}</td><td class="mono ${c.change>=0?'green':'red'}">${c.change>=0?'+':''}${c.change.toFixed(2)}%</td><td class="mono">${money(c.open)}</td><td><svg class="spark" viewBox="0 0 90 28"><polyline points="0,21 12,18 21,22 31,14 42,16 54,9 66,13 76,7 90,4" fill="none" stroke="${c.change>=0?'#42dca8':'#ff5570'}" stroke-width="2"/></svg></td><td><span class="tag">● LIVE</span></td></tr>`).join('');
+ document.getElementById('kpis').innerHTML=[['TOTAL MARKET','~$3.21T','+1.08% 24H','up'],['BTC DOMINANCE','58.7%','+0.2% today','up'],['24H VOLUME','$128.4B','active flow','up'],['FEAR / GREED','64 / GREED','sentiment index','warn'],['RISK ENGINE','LOW','18 signals clear','up']].map(k=>`<div class="kpi"><div class="kpi-label">${k[0]}</div><div class="kpi-value">${k[1]}</div><div class="kpi-meta ${k[3]} ">${k[2]}</div></div>`).join('');
+}
+function renderRadar(){const data=[['ORBIT / USDC','Liquidity concentration · 2 wallets control most depth',84],['NOVA / SOL','Sell pressure accelerating · LP depth falling',67],['MINTY / SOL','Holder distribution improving',39],['WAVE / USDC','Contract activity elevated',31]];document.getElementById('radar').innerHTML=data.map(x=>`<div class="row"><div><b>${x[0]}</b><small>${x[1]}</small></div><div class="bar"><i style="width:${x[2]}%"></i></div><div class="score">${x[2]}/100</div></div>`).join('')}
+function renderWhales(){const data=[['SOL → CEX','1,240 SOL','3m ago'],['USDC → DEX','482K USDC','8m ago'],['BTC → Cold','72.4 BTC','13m ago'],['ETH → CEX','418 ETH','21m ago']];document.getElementById('whales').innerHTML=data.map((x,i)=>`<div class="row"><div><b>${x[0]}</b><small>${x[2]} · monitored flow</small></div><div class="mono">${x[1]}</div><div class="score ${i%3===1?'green':''}">${i%2?'INFLOW':'OUTFLOW'}</div></div>`).join('')}
+function renderActivity(){document.getElementById('activity').innerHTML=[['Signal engine initialized','All modules responding'],['News feed connected','Public headline sources available'],['Market snapshot loaded','Reference prices refreshed']].map(x=>`<div class="event"><span class="event-dot"></span><div><b>${x[0]}</b><small>${x[1]}</small></div></div>`).join('')}
+function renderNews(items){document.getElementById('news').innerHTML=items.map(n=>`<article class="news-item"><div class="news-img">${n[3]}</div><div><div class="news-title">${escapeHtml(n[0])}</div><div class="news-meta">${n[1]} · ${n[2]} <b>●</b></div></div></article>`).join('')}
+function escapeHtml(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+async function loadNews(){
+ renderNews(fallbackNews);
+ try{const u='https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent('https://www.coindesk.com/arc/outboundfeeds/rss/');const r=await fetch(u,{cache:'no-store'});const j=await r.json();if(j.items?.length){const arr=j.items.slice(0,12).map((x,i)=>[x.title||'Crypto market update','CoinDesk',i<2?'just now':'fresh',['₿','◆','≋','A','⬡','N','◈','◌'][i%8]]);renderNews(arr)}}catch(e){/* fallback stays visible */}
+}
+async function loadPrices(){try{const u='https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple,binancecoin&vs_currencies=usd&include_24hr_change=true';const r=await fetch(u,{cache:'no-store'});const j=await r.json();coins=coins.map(c=>j[c.id]?({...c,price:j[c.id].usd,change:j[c.id].usd_24h_change||c.change,open:j[c.id].usd/(1+(j[c.id].usd_24h_change||0)/100)}):c);render();}catch(e){render()}}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(window._toast);window._toast=setTimeout(()=>t.classList.remove('show'),1800)}
+function openModal(){document.getElementById('modal').classList.add('show')}function closeModal(){document.getElementById('modal').classList.remove('show')}
+function submitRegister(){const e=document.getElementById('regEmail').value.trim();const p=document.getElementById('regPassword').value;if(!e||!p){toast('Enter your email and password');return}if(p.length<8){toast('Password must be at least 8 characters');return}closeRegister();toast('Registration started — welcome to RugWithMe')}
+function openRegister(){document.getElementById('registerModal').classList.add('show')}function closeRegister(){document.getElementById('registerModal').classList.remove('show')}
+function openPurchases(){document.getElementById('purchasesModal').classList.add('show')}function closePurchases(){document.getElementById('purchasesModal').classList.remove('show')}
+function selectPlan(plan,el){
+  document.querySelectorAll('.purchase-card').forEach(x=>x.classList.remove('selected'));
+  if(el) el.classList.add('selected');
+  window.selectedPlan=plan;
+  toast(plan+' plan selected');
+  setTimeout(()=>{closePurchases();openRegister()},350);
+}
+document.querySelectorAll('.nav button[data-view]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');const v=b.dataset.view;const map={overview:'.content',markets:'#market-panel',radar:'#radar-panel',news:'#news-panel',wallets:'.activity-panel'};document.querySelector(map[v]).scrollIntoView({behavior:'smooth',block:'start'});toast(v==='overview'?'Command Center active':v.toUpperCase()+' module active')}));
+document.getElementById('search').addEventListener('input',e=>{const q=e.target.value.toLowerCase().trim();document.querySelectorAll('.news-item,.market tr').forEach(el=>{if(!q){el.style.display='';return}el.style.display=el.textContent.toLowerCase().includes(q)?'':'none'})});
+document.querySelectorAll('.chart-tabs button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.chart-tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');const r=b.dataset.range;document.getElementById('chartValue').textContent=money(coins.find(c=>c.sym==='SOL')?.price||119.2);toast('Momentum range: '+r)}));
+// Make utility/action buttons behave like polished dashboard links.
+document.querySelectorAll('.nav button[data-view]').forEach(b=>b.setAttribute('title','Open '+b.textContent.trim()));
+document.querySelectorAll('button').forEach(b=>b.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ') b.classList.add('pressed')}));
+render();renderRadar();renderWhales();renderActivity();renderNews(fallbackNews);loadPrices();loadNews();setInterval(loadPrices,90000);setInterval(loadNews,180000);
+</script>
+
+<div class="modal verify-modal" id="verifyModal" onclick="if(event.target===this)closeVerify()">
+  <div class="modal-card">
+    <div class="modal-head">
+      <b>✉️ Verify your email</b>
+      <button class="modal-close" onclick="closeVerify()">✕</button>
+    </div>
+    <div class="verify-content">
+      <div class="verify-icon">✉</div>
+      <div class="verify-kicker">STEP 2 OF 2 · EMAIL VERIFICATION</div>
+      <h2>Check your inbox</h2>
+      <p>
+        We sent a 6-digit verification code to
+        <span class="verify-email" id="verifyEmail">your email address</span>.
+        Enter the code below to finish creating your RugWithMe account.
+      </p>
+      <input id="verificationCode" class="code-input" inputmode="numeric" autocomplete="one-time-code"
+             maxlength="6" placeholder="000000" aria-label="6 digit verification code">
+      <button class="verify-btn" onclick="verifyEmailCode()">VERIFY EMAIL →</button>
+      <div class="verify-status" id="verifyStatus">The code expires in 10 minutes.</div>
+      <div class="verify-row">
+        <button class="verify-link" onclick="resendVerificationCode()">↻ Resend code</button>
+        <button class="verify-link" onclick="closeVerify()">Use a different email</button>
+      </div>
+      <div class="verify-security">
+        <span>✓ EMAIL CONFIRMATION</span>
+        <span>⌁ SECURE SIGN-UP</span>
+        <span>◈ RUGWITHME ACCOUNT</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+(function(){
+  window.registrationEmail = "";
+  window.demoVerificationCode = "";
+
+  function showModal(id){
+    const el=document.getElementById(id);
+    if(el) el.classList.add('open');
+  }
+  function hideModal(id){
+    const el=document.getElementById(id);
+    if(el) el.classList.remove('open');
+  }
+
+  window.closeVerify=function(){ hideModal('verifyModal'); };
+
+  window.startEmailVerification=function(){
+    const emailInput = document.querySelector('#registerModal input[type="email"]') ||
+                       document.querySelector('#registerModal input[placeholder*="Email"]');
+    const passwordInput = document.querySelector('#registerModal input[type="password"]') ||
+                          document.querySelector('#registerModal input[placeholder*="password" i]');
+    const email = emailInput ? emailInput.value.trim() : "";
+    const password = passwordInput ? passwordInput.value : "";
+
+    if(!email || !email.includes('@')){
+      if(window.toast) toast('Enter a valid email address first');
+      else alert('Enter a valid email address first');
+      return;
+    }
+    if(password.length < 8){
+      if(window.toast) toast('Password must be at least 8 characters');
+      else alert('Password must be at least 8 characters');
+      return;
+    }
+
+    window.registrationEmail = email;
+
+    // Demo-only local verification flow. Production requires a backend/email provider.
+    window.demoVerificationCode = String(Math.floor(100000 + Math.random()*900000));
+    const emailEl=document.getElementById('verifyEmail');
+    if(emailEl) emailEl.textContent=email;
+    const codeEl=document.getElementById('verificationCode');
+    const status=document.getElementById('verifyStatus');
+    if(codeEl) codeEl.value="";
+    if(status){
+      status.className="verify-status";
+      status.textContent="A verification code was generated for this demo.";
+    }
+
+    hideModal('registerModal');
+    showModal('verifyModal');
+
+    // Helpful for testing a static mockup; never use this as a real production email system.
+    console.info("RugWithMe demo verification code:", window.demoVerificationCode);
+  };
+
+  window.verifyEmailCode=function(){
+    const input=(document.getElementById('verificationCode')?.value || '').trim();
+    const status=document.getElementById('verifyStatus');
+    if(input === window.demoVerificationCode){
+      if(status){status.className="verify-status success";status.textContent="✓ Email verified. Your RugWithMe account is ready.";}
+      if(window.toast) toast("Email verified — account created");
+      setTimeout(function(){
+        hideModal('verifyModal');
+        if(window.toast) toast("Welcome to RugWithMe");
+      },700);
+    }else{
+      if(status){status.className="verify-status error";status.textContent="Invalid code. Please check your email and try again.";}
+    }
+  };
+
+  window.resendVerificationCode=function(){
+    window.demoVerificationCode = String(Math.floor(100000 + Math.random()*900000));
+    const status=document.getElementById('verifyStatus');
+    if(status){status.className="verify-status";status.textContent="A new verification code was generated for this demo.";}
+    console.info("RugWithMe demo verification code:", window.demoVerificationCode);
+    if(window.toast) toast("New verification code generated");
+  };
+})();
+</script>
+
+
+<script>
+window.switchPurchaseNetwork=function(network){
+  const modal=document.getElementById('purchasesModal');
+  if(!modal) return;
+  const isEth=network==='ETH';
+  modal.classList.toggle('eth-mode',isEth);
+  modal.querySelectorAll('.network-pill').forEach(p=>{
+    p.classList.toggle('active',p.dataset.network===network);
+  });
+  if(window.toast) toast(isEth ? 'Ethereum pricing selected' : 'Solana pricing selected');
+};
+</script>
+
+
+<script>
+window.filterMemecoins=function(kind,btn){
+  document.querySelectorAll('.meme-filter').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.querySelectorAll('.meme-item').forEach(item=>{
+    item.style.display=(kind==='all'||item.dataset.kind===kind)?'grid':'none';
+  });
+};
+</script>
+
+</body></html>
