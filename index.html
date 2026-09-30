@@ -330,7 +330,7 @@ button,input{font:inherit}.app{display:grid;grid-template-columns:236px 1fr;min-
   padding:12px 14px;border-bottom:1px solid #211c27;
 }
 .meme-panel-title{display:grid;grid-template-columns:7px minmax(0,1fr);align-items:center;gap:7px;min-width:0}
-.meme-live{width:7px;height:7px;border-radius:50%;background:#52e6b6;box-shadow:0 0 12px #52e6b6;animation:memePulse 1.7s infinite}
+.meme-live{display:block!important;width:7px!important;min-width:7px!important;max-width:7px!important;height:7px!important;min-height:7px!important;max-height:7px!important;aspect-ratio:1/1;flex:none;border-radius:50%!important;background:#52e6b6;box-shadow:0 0 12px #52e6b6;animation:memePulse 1.7s infinite;transform-origin:center}
 @keyframes memePulse{50%{opacity:.35;transform:scale(.7)}}
 .meme-panel-title b{font-size:8px;letter-spacing:.01em;line-height:1.15}
 .meme-panel-title span{grid-column:2;font:700 6px 'JetBrains Mono';color:#68606f;margin-top:-3px}
