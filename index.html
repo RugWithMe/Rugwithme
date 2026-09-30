@@ -800,6 +800,99 @@ button,input{font:inherit}.app{display:grid;grid-template-columns:236px 1fr;min-
   .register-form{padding:24px 20px 18px!important}
 }
 </style>
+<style id="dashboard-top-pass">
+.dashboard-hero{
+  align-items:center!important;
+  margin-bottom:26px!important;
+  padding-top:2px!important;
+}
+.dashboard-hero .eyebrow{
+  color:#8f88a0!important;
+  letter-spacing:.16em!important;
+}
+.dashboard-hero h1{
+  font-size:25px!important;
+  margin:9px 0 7px!important;
+  letter-spacing:-.04em!important;
+}
+.dashboard-hero p{
+  font-size:12px!important;
+  color:#a69fb0!important;
+}
+.dashboard-actions{
+  align-items:center!important;
+  gap:13px!important;
+}
+.dashboard-actions .btn{
+  min-width:145px;
+  height:45px;
+  padding:0 22px;
+  font-size:10px;
+  border-radius:9px;
+}
+.dashboard-actions .btn.primary{
+  min-width:146px;
+}
+.market-overview-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin:0 0 13px;
+}
+.market-overview-head h2{
+  margin:0;
+  font-size:18px;
+  letter-spacing:-.03em;
+}
+.market-overview-actions{
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+.overview-live{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  color:#2ce59a;
+  font-size:9px;
+  font-weight:700;
+  margin-right:4px;
+}
+.overview-live i{
+  width:7px;height:7px;border-radius:50%;
+  background:#2ce59a;
+  box-shadow:0 0 10px rgba(44,229,154,.65);
+  animation:overviewPulse 1.8s ease-in-out infinite;
+}
+.overview-btn{
+  height:31px;
+  padding:0 12px;
+  border:1px solid #2b2633;
+  border-radius:7px;
+  background:#0c0b10;
+  color:#e7e2ec;
+  font-size:8px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.18s ease;
+}
+.overview-btn:hover{
+  border-color:#7550a9;
+  background:#13101a;
+  transform:translateY(-1px);
+}
+.kpis{margin-bottom:12px!important}
+@keyframes overviewPulse{50%{transform:scale(1.18);opacity:.65}}
+@media(max-width:1050px){
+  .dashboard-hero{grid-template-columns:1fr!important}
+  .dashboard-actions{flex-wrap:wrap}
+}
+@media(max-width:650px){
+  .dashboard-actions{display:grid!important;grid-template-columns:1fr}
+  .dashboard-actions .btn{width:100%}
+  .market-overview-head{align-items:flex-start;gap:10px;flex-direction:column}
+}
+</style>
 </head>
 <body>
 <div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
@@ -846,7 +939,22 @@ button,input{font:inherit}.app{display:grid;grid-template-columns:236px 1fr;min-
 <header class="topbar"><div class="crumb">RUGWITHME / <b>COMMAND CENTER</b></div><div class="search"><span>⌕</span><input id="search" placeholder="Search token, wallet, headline…"></div><button class="topbtn" onclick="toast('Scanner queued')">SCAN</button><button class="topbtn register-btn" onclick="openRegister()">REGISTER</button><button class="topbtn primary" onclick="openPurchases()">PURCHASES</button><div class="profile"><div class="avatar">K</div>LOG IN</div></header>
 <div class="ticker"><div class="ticker-label">● LIVE MARKET</div><div class="ticker-track" id="ticker"></div></div>
 <main class="content">
-<section class="hero"><div><div class="eyebrow">PRIVATE CRYPTO INTELLIGENCE / LIVE WORKSPACE</div><h1>See the market before it gets loud.</h1><p>A premium command center for tracking momentum, liquidity behavior, wallet activity and the headlines moving crypto.</p></div><div class="hero-actions"><button class="btn primary" onclick="toast('Watchlist created')">＋ CREATE WATCHLIST</button><button class="btn" onclick="document.querySelector('[data-view=radar]').click()">OPEN RADAR ↗</button></div></section>
+<section class="hero dashboard-hero">
+  <div>
+    <div class="eyebrow">DASHBOARD</div>
+    <h1>Welcome back, Krugerstupid</h1>
+    <p>Monitor the latest rugs and market movements</p>
+  </div>
+  <div class="hero-actions dashboard-actions">
+    <button class="btn primary" onclick="toast('Rug launch workspace opened')">Launch a rug</button>
+    <button class="btn" onclick="document.querySelector('[data-view=wallets]')?.click()">Create new wallets</button>
+    <button class="btn" onclick="document.querySelector('[data-view=wallets]')?.click()">Import wallets</button>
+  </div>
+</section>
+<section class="market-overview-head">
+  <h2>Market overview</h2>
+  <div class="market-overview-actions"><span class="overview-live"><i></i> Live</span><button class="overview-btn" onclick="toast('Market cards toggled')">☷ Cards</button><button class="overview-btn" onclick="document.getElementById('kpis').scrollIntoView({behavior:'smooth',block:'start'})">⌃ Hide cards</button></div>
+</section>
 <section class="kpis" id="kpis"></section>
 <div class="dashboard-grid">
 <section class="panel" id="market-panel"><div class="panel-head"><div><div class="panel-title">Market pulse</div><div class="panel-sub">REFERENCE PRICES / 24H CHANGE</div></div><div class="panel-sub live">● STREAMING</div></div><div class="market-wrap"><table class="market"><thead><tr><th>ASSET</th><th>PRICE</th><th>24H</th><th>OPEN</th><th>MICRO TREND</th><th>STATE</th></tr></thead><tbody id="market"></tbody></table></div></section>
