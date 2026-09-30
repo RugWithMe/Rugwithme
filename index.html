@@ -1289,6 +1289,9 @@ document.addEventListener('DOMContentLoaded',renderDemoRugActivity);
 .user-count small{font-size:5.5px;color:#71697b}
 .user-dot{width:5px;height:5px;border-radius:50%;background:#9d59ff;box-shadow:0 0 10px rgba(157,89,255,.8)}
 @media(max-width:700px){.user-count{padding:0 5px}.user-count small{display:none}}
+</style><style id="live-rug-nav">
+.nav button[data-view="rugactivity"] i{color:#30e6aa;text-shadow:0 0 10px rgba(48,230,170,.45)}
+.nav button[data-view="rugactivity"].active i{color:#9d59ff}
 </style></head>
 <body>
 <div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
@@ -1301,6 +1304,7 @@ document.addEventListener('DOMContentLoaded',renderDemoRugActivity);
     <button data-view="markets"><i>◒</i> Market Pulse</button>
     <button data-view="radar"><i>⌁</i> Rug Radar</button>
     <button data-view="news"><i>◫</i> News Room</button>
+    <button data-view="rugactivity"><i>◉</i> Live Rug Activity</button>
 
 <div class="meme-panel" id="memecoinPanel">
   <div class="meme-panel-head">
@@ -1561,11 +1565,12 @@ function selectPlan(plan,el){
   toast(plan+' plan selected');
   setTimeout(()=>{closePurchases();openRegister()},350);
 }
-document.querySelectorAll('.nav button[data-view]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');const v=b.dataset.view;const map={overview:'.content',markets:'#market-panel',radar:'#radar-panel',news:'#news-panel',wallets:'.activity-panel'};document.querySelector(map[v]).scrollIntoView({behavior:'smooth',block:'start'});toast(v==='overview'?'Command Center active':v.toUpperCase()+' module active')}));
+document.querySelectorAll('.nav button[data-view]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');const v=b.dataset.view;const map={overview:'.content',markets:'#market-panel',radar:'#radar-panel',news:'#news-panel',rugactivity:'#rug-activity-panel',wallets:'.activity-panel'};document.querySelector(map[v]).scrollIntoView({behavior:'smooth',block:'start'});toast(v==='overview'?'Dashboard active':v==='rugactivity'?'Live Rug Activity active':v.toUpperCase()+' module active')}));
 const sectionNavMap=[
  {view:'overview',el:()=>document.querySelector('.dashboard-hero')},
  {view:'markets',el:()=>document.getElementById('market-panel')},
  {view:'news',el:()=>document.getElementById('news-panel')},
+ {view:'rugactivity',el:()=>document.getElementById('rug-activity-panel')},
  {view:'radar',el:()=>document.getElementById('radar-panel')},
  {view:'wallets',el:()=>document.querySelector('.activity-panel')}
 ];
