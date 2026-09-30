@@ -375,6 +375,20 @@ button,input{font:inherit}.app{display:grid;grid-template-columns:236px 1fr;min-
   display:flex;justify-content:space-between;gap:10px;
 }
 
+
+#news-panel{overflow:hidden;background:linear-gradient(180deg,rgba(18,13,29,.96),rgba(8,8,13,.99));border-color:rgba(157,89,255,.3);box-shadow:0 22px 70px rgba(83,34,155,.14)}
+#news-panel .panel-head{padding:18px 20px;background:linear-gradient(90deg,rgba(157,89,255,.12),transparent 50%);border-bottom:1px solid rgba(157,89,255,.18)}
+.news{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:14px;background:radial-gradient(circle at 15% 10%,rgba(150,70,255,.08),transparent 30%)}
+.news-item{display:grid;grid-template-columns:148px 1fr;min-height:112px;overflow:hidden;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:linear-gradient(135deg,rgba(24,18,38,.97),rgba(10,10,16,.97));transition:.2s;cursor:pointer}
+.news-item:hover{transform:translateY(-2px);border-color:rgba(181,109,255,.55);box-shadow:0 14px 34px rgba(76,27,130,.22)}
+.news-img{position:relative;min-height:112px;overflow:hidden;background:linear-gradient(135deg,#24113d,#6d32b8,#120d1c)}
+.news-img img{display:block;width:100%;height:100%;min-height:112px;object-fit:cover;transition:transform .35s ease}
+.news-item:hover .news-img img{transform:scale(1.06)}
+.news-copy{padding:15px;display:flex;flex-direction:column;justify-content:center;min-width:0}
+.news-title{font-size:12px;line-height:1.45;font-weight:800;color:#f7f2ff;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.news-meta{margin-top:10px;font-size:9px;color:#766b86}.news-meta b{color:#55efba}
+.news-badge{position:absolute;left:9px;top:9px;z-index:2;padding:4px 7px;border:1px solid rgba(255,255,255,.14);border-radius:999px;background:rgba(7,6,11,.72);font-size:8px;font-weight:800;letter-spacing:.12em;color:#fff}
+@media(max-width:1050px){.news{grid-template-columns:1fr}}@media(max-width:700px){.news-item{grid-template-columns:105px 1fr}.news-img,.news-img img{min-height:105px}}
 </style>
 </head>
 <body>
@@ -567,14 +581,12 @@ button,input{font:inherit}.app{display:grid;grid-template-columns:236px 1fr;min-
 const fallbackCoins=[{id:'bitcoin',sym:'BTC',name:'Bitcoin',price:84170,change:1.40,open:83006,icon:'₿'},{id:'ethereum',sym:'ETH',name:'Ethereum',price:2720,change:2.00,open:2667,icon:'◆'},{id:'solana',sym:'SOL',name:'Solana',price:119.20,change:.70,open:118.37,icon:'≋'},{id:'ripple',sym:'XRP',name:'XRP',price:1.49,change:1.80,open:1.46,icon:'✕'},{id:'binancecoin',sym:'BNB',name:'BNB',price:758,change:.55,open:752,icon:'◆'}];
 let coins=[...fallbackCoins];
 const fallbackNews=[
-['Bitcoin rally shows signs of cooling even as a bull-score gauge nears its ceiling','CoinDesk','just now','₿'],
-['Bitcoin rebounds above $84,000 as ETF flows draw fresh attention','CoinDesk','fresh','₿'],
-['Solana ETFs attract strong inflows as traders watch the network','CoinDesk','fresh','≋'],
-['Aave and DeFi tokens move higher as traders assess rate pressure','CoinDesk','fresh','A'],
-['Chainlink infrastructure upgrades put interoperability back in focus','CoinDesk','fresh','⬡'],
-['NEAR ecosystem security tools highlight the importance of transaction screening','CoinDesk','fresh','N'],
-['Crypto markets remain sensitive to bond yields and macro data','Cointelegraph','fresh','◈'],
-['Altcoin liquidity conditions remain a key variable for risk appetite','Cointelegraph','fresh','◌']
+['Bitcoin rally shows signs of cooling even as a bull-score gauge nears its ceiling','CoinDesk','just now','₿','https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=900&q=80'],
+['Bitcoin rebounds above $84,000 as ETF flows draw fresh attention','CoinDesk','fresh','₿','https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&fit=crop&w=900&q=80'],
+['Solana ETFs attract strong inflows as traders watch the network','Solana','fresh','≋','https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=900&q=80'],
+['Aave and DeFi tokens move higher as traders assess rate pressure','DeFi','fresh','A','https://images.unsplash.com/photo-1639322537228-f710d846310a?auto=format&fit=crop&w=900&q=80'],
+['Chainlink infrastructure upgrades put interoperability back in focus','Chainlink','fresh','⬡','https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?auto=format&fit=crop&w=900&q=80'],
+['Crypto markets remain sensitive to bond yields and macro data','Markets','fresh','◈','https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=900&q=80']
 ];
 function money(n){if(n>=1000)return '$'+n.toLocaleString(undefined,{maximumFractionDigits:0}); if(n<2)return '$'+n.toFixed(2); return '$'+n.toLocaleString(undefined,{maximumFractionDigits:2})}
 function render(){
@@ -585,12 +597,9 @@ function render(){
 function renderRadar(){const data=[['ORBIT / USDC','Liquidity concentration · 2 wallets control most depth',84],['NOVA / SOL','Sell pressure accelerating · LP depth falling',67],['MINTY / SOL','Holder distribution improving',39],['WAVE / USDC','Contract activity elevated',31]];document.getElementById('radar').innerHTML=data.map(x=>`<div class="row"><div><b>${x[0]}</b><small>${x[1]}</small></div><div class="bar"><i style="width:${x[2]}%"></i></div><div class="score">${x[2]}/100</div></div>`).join('')}
 function renderWhales(){const data=[['SOL → CEX','1,240 SOL','3m ago'],['USDC → DEX','482K USDC','8m ago'],['BTC → Cold','72.4 BTC','13m ago'],['ETH → CEX','418 ETH','21m ago']];document.getElementById('whales').innerHTML=data.map((x,i)=>`<div class="row"><div><b>${x[0]}</b><small>${x[2]} · monitored flow</small></div><div class="mono">${x[1]}</div><div class="score ${i%3===1?'green':''}">${i%2?'INFLOW':'OUTFLOW'}</div></div>`).join('')}
 function renderActivity(){document.getElementById('activity').innerHTML=[['Signal engine initialized','All modules responding'],['News feed connected','Public headline sources available'],['Market snapshot loaded','Reference prices refreshed']].map(x=>`<div class="event"><span class="event-dot"></span><div><b>${x[0]}</b><small>${x[1]}</small></div></div>`).join('')}
-function renderNews(items){document.getElementById('news').innerHTML=items.map(n=>`<article class="news-item"><div class="news-img">${n[3]}</div><div><div class="news-title">${escapeHtml(n[0])}</div><div class="news-meta">${n[1]} · ${n[2]} <b>●</b></div></div></article>`).join('')}
+function renderNews(items){document.getElementById('news').innerHTML=items.map((n,i)=>`<article class="news-item" onclick="toast('Opening headline')"><div class="news-img"><span class="news-badge">${i<2?'BREAKING':'MARKET'}</span><img src="${n[4]||''}" alt="" loading="lazy"><div class="news-fallback-icon">${n[3]||'◈'}</div></div><div class="news-copy"><div class="news-title">${escapeHtml(n[0])}</div><div class="news-meta">${escapeHtml(n[1])} · ${escapeHtml(n[2])} <b>●</b></div></div></article>`).join('')}
 function escapeHtml(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-async function loadNews(){
- renderNews(fallbackNews);
- try{const u='https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent('https://www.coindesk.com/arc/outboundfeeds/rss/');const r=await fetch(u,{cache:'no-store'});const j=await r.json();if(j.items?.length){const arr=j.items.slice(0,12).map((x,i)=>[x.title||'Crypto market update','CoinDesk',i<2?'just now':'fresh',['₿','◆','≋','A','⬡','N','◈','◌'][i%8]]);renderNews(arr)}}catch(e){/* fallback stays visible */}
-}
+async function loadNews(){renderNews(fallbackNews);try{const u='https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent('https://www.coindesk.com/arc/outboundfeeds/rss/');const r=await fetch(u,{cache:'no-store'});const j=await r.json();if(j.items?.length){const arr=j.items.slice(0,10).map((x,i)=>[x.title||'Crypto market update','CoinDesk',i<2?'just now':'fresh',['₿','◆','≋','A','⬡','N','◈','◌'][i%8],x.thumbnail||x.enclosure?.link||'']);renderNews(arr)}}catch(e){}}
 async function loadPrices(){try{const u='https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple,binancecoin&vs_currencies=usd&include_24hr_change=true';const r=await fetch(u,{cache:'no-store'});const j=await r.json();coins=coins.map(c=>j[c.id]?({...c,price:j[c.id].usd,change:j[c.id].usd_24h_change||c.change,open:j[c.id].usd/(1+(j[c.id].usd_24h_change||0)/100)}):c);render();}catch(e){render()}}
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(window._toast);window._toast=setTimeout(()=>t.classList.remove('show'),1800)}
 function openModal(){document.getElementById('modal').classList.add('show')}function closeModal(){document.getElementById('modal').classList.remove('show')}
