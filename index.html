@@ -1269,7 +1269,7 @@ function renderDemoRugActivity(){
  const el=document.getElementById('rugActivityRows'); if(!el)return;
  el.innerHTML=demoRugActivity.map(x=>'<div class="rug-activity-row"><div class="rug-user">@'+x.user+'</div><div class="rug-token">'+x.token+'<small>'+x.name+' · RECENT RUG ALERT</small></div><div class="rug-invest">'+x.invest+'</div><div class="rug-profit">'+x.profit+'</div><div class="rug-status">SIMULATED</div></div>').join('')+'<div class="rug-demo-note">DEMO DATA ONLY · NAMES, TOKENS AND PROFITS ARE SIMULATED FOR UI PREVIEW</div>';
 }
-renderDemoRugActivity();
+document.addEventListener('DOMContentLoaded',renderDemoRugActivity);
 </script></head>
 <body>
 <div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
