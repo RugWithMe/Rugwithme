@@ -1254,7 +1254,7 @@ body:after{
 .rug-activity-row:hover{background:linear-gradient(90deg,rgba(139,77,255,.06),transparent,rgba(139,77,255,.035));transform:translateX(2px)}
 .rug-token-cell{display:flex;align-items:center;gap:11px;min-width:0}
 .rug-coin-logo{width:36px!important;height:36px!important;border-radius:50%!important;display:grid;place-items:center;flex:0 0 36px;border:0;background:#111;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 5px 16px rgba(0,0,0,.45);overflow:hidden}
-.rug-coin-logo img{width:100%;height:100%;object-fit:cover;display:block}
+.rug-coin-logo img{width:36px!important;height:36px!important;min-width:36px!important;min-height:36px!important;object-fit:cover!important;display:block!important;opacity:1!important;visibility:visible!important}
 .rug-token-text{min-width:0}
 .rug-token-line{display:flex;align-items:center;gap:6px;white-space:nowrap}
 .rug-token{color:#f4eff9;font-weight:900}
@@ -1906,7 +1906,7 @@ setInterval(loadCoinFeed,120000);
       const userLogo=rugAvatar(x.user);
       const asset=x.network==="BNB"?"◆":"▰";
       return '<div class="rug-activity-row">'
-       +'<div class="rug-token-cell"><div class="rug-coin-logo"><img src="'+logo+'" alt="" loading="eager" decoding="sync" width="36" height="36"></div><div class="rug-token-text"><div class="rug-token-line"><span class="rug-token">'+escapeHtml(x.token)+'</span>'+(x.ai?'<span class="rug-ai-badge">• AI MODE</span>':'')+'</div><span class="rug-token-name">'+escapeHtml(x.name)+'</span><div class="rug-token-icons"><i>↕</i><i>◉</i><i>◯</i></div></div></div>'
+       +'<div class="rug-token-cell"><div class="rug-coin-logo" aria-label="Token logo"><img src="'+logo+'" alt="'+escapeHtml(x.token)+' logo" loading="eager" decoding="sync" width="36" height="36" style="display:block!important;width:36px!important;height:36px!important;min-width:36px!important;min-height:36px!important;opacity:1!important;visibility:visible!important;object-fit:cover!important"></div><div class="rug-token-text"><div class="rug-token-line"><span class="rug-token">'+escapeHtml(x.token)+'</span>'+(x.ai?'<span class="rug-ai-badge">• AI MODE</span>':'')+'</div><span class="rug-token-name">'+escapeHtml(x.name)+'</span><div class="rug-token-icons"><i>↕</i><i>◉</i><i>◯</i></div></div></div>'
        +'<div class="rug-user-cell"><div class="rug-user-avatar"><img src="'+userLogo+'" alt=""></div><div class="rug-user '+(x.hidden?'hidden':'')+'">'+(x.hidden?'♟ &nbsp;Hidden':'@'+escapeHtml(x.user))+'</div></div>'
        +'<div class="rug-time">'+escapeHtml(x.time)+'</div>'
        +'<div class="rug-invest">'+escapeHtml(x.invest)+' <span class="rug-asset-mini">'+asset+' <b>'+escapeHtml(x.network)+'</b></span></div>'
