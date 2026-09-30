@@ -958,6 +958,10 @@ button,input{font:inherit}.app{display:grid;grid-template-columns:236px 1fr;min-
  #market-panel .spark{width:78px}
  #market-panel .market td{height:60px}
 }
+</style><style id="ticker-gap-fix">
+.ticker{overflow:hidden!important}
+.ticker-track{width:max-content!important;min-width:max-content!important;flex:none!important;gap:28px!important;animation-name:marquee!important;animation-timing-function:linear!important;animation-iteration-count:infinite!important}
+@keyframes marquee{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
 </style></head>
 <body>
 <div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
@@ -1163,7 +1167,7 @@ const fallbackNews=[
 ];
 function money(n){if(n>=1000)return '$'+n.toLocaleString(undefined,{maximumFractionDigits:0}); if(n<2)return '$'+n.toFixed(2); return '$'+n.toLocaleString(undefined,{maximumFractionDigits:2})}
 function render(){
- document.getElementById('ticker').innerHTML=[...coins,...coins].map(c=>{
+ document.getElementById('ticker').innerHTML=[...coins,...coins,...coins,...coins,...coins,...coins,...coins,...coins].map(c=>{
  const prev=previousLivePrices[c.id];
  const direction=typeof prev==='number' ? (c.price>prev?'up':c.price<prev?'down':(c.change>=0?'up':'down')) : (c.change>=0?'up':'down');
  return `<span class="tick ${direction}">${c.sym} <b>${money(c.price)}</b> <span class="live-arrow">${direction==='up'?'▲':'▼'}</span> ${Math.abs(c.change).toFixed(2)}%</span>`;
