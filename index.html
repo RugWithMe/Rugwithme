@@ -1269,31 +1269,7 @@ body:after{
 .rug-demo-note{padding:9px 0 2px;color:#4e4859;font:600 5.5px 'JetBrains Mono';letter-spacing:.08em}
 @media(max-width:700px){.rug-activity-head,.rug-activity-row{grid-template-columns:1fr 1.2fr 1fr 1fr}.rug-activity-head span:nth-child(3),.rug-activity-row .rug-invest{display:none}.rug-status{display:none}}
 </style>
-<script>
-const demoRugActivity=[
- {user:'milanyarrow',token:'$STARDIS',name:'TarDis',invest:'7.44 SOL',profit:'+18.66 SOL'},
- {user:'gus_w',token:'$SCATZO',name:'CATZO',invest:'11.31 SOL',profit:'+25.14 SOL'},
- {user:'sorensalt',token:'$STEEZY',name:'Steezy',invest:'4.40 SOL',profit:'+10.73 SOL'},
- {user:'cyrusthorn',token:'$PUPS',name:'Musk Pups',invest:'34.46 SOL',profit:'+17.32 SOL'},
- {user:'hidden_user',token:'$STICKLEFNBR',name:'sticklefnbr',invest:'11.26 SOL',profit:'+4.09 SOL'}
-];
-function renderDemoRugActivity(){
- const el=document.getElementById('rugActivityRows'); if(!el)return;
- el.innerHTML=demoRugActivity.map(x=>{
-   const sym=String(x.token).replace('$','');
-   const logo=memeLogo(sym);
-   const initial=String(x.user||'?').slice(0,2).toUpperCase();
-   const network=String(x.invest||'SOL').includes('BNB')?'BNB':'SOL';
-   const networkMark=network==='BNB'?'◆':'≈';
-   return '<div class="rug-activity-row">'
-    +'<div class="rug-user-cell"><div class="rug-user-avatar">'+initial+'</div><div class="rug-user">@'+escapeHtml(x.user)+'</div></div>'
-    +'<div class="rug-token-cell"><div class="rug-coin-logo"><img src="'+logo+'" alt=""></div><div class="rug-token-text"><div class="rug-token-line"><span class="rug-token">'+escapeHtml(x.token)+'</span><span class="rug-network-mini"><i></i>'+network+'</span></div><small>'+escapeHtml(x.name)+' · RECENT RUG ALERT</small></div></div>'
-    +'<div class="rug-invest">'+escapeHtml(x.invest)+' <span class="rug-asset-mini">'+networkMark+' <b>'+network+'</b></span></div>'
-    +'<div class="rug-profit">'+escapeHtml(x.profit)+' <span class="rug-asset-mini">'+networkMark+' <b>'+network+'</b></span></div>'
-    +'<div class="rug-status">SIMULATED</div></div>';
- }).join('')+'<div class="rug-demo-note">DEMO DATA ONLY · NAMES, TOKENS AND PROFITS ARE SIMULATED FOR UI PREVIEW</div>';
-}
-document.addEventListener('DOMContentLoaded',renderDemoRugActivity);</script><style id="user-count-style">
+<style id="user-count-style">
 .user-count{height:42px;display:flex;align-items:center;gap:6px;padding:0 10px;color:#a59caf;font:700 7px 'JetBrains Mono';letter-spacing:.08em;white-space:nowrap}
 .user-count strong{font-size:10px;color:#f0eafa;letter-spacing:0}
 .user-count small{font-size:5.5px;color:#71697b}
@@ -2455,4 +2431,30 @@ loadCoinFeed();
 setInterval(loadCoinFeed,120000);
 </script>
 
-</body></html>
+<script id="rug-activity-render">
+(function(){
+  const rows=[
+    {user:"milanyarrow",token:"$STARDIS",name:"TarDis",invest:"7.44 SOL",profit:"+18.66 SOL"},
+    {user:"gus_w",token:"$SCATZO",name:"CATZO",invest:"11.31 SOL",profit:"+25.14 SOL"},
+    {user:"sorensalt",token:"$STEEZY",name:"Steezy",invest:"4.40 SOL",profit:"+10.73 SOL"},
+    {user:"cyrusthorn",token:"$PUPS",name:"Musk Pups",invest:"34.46 SOL",profit:"+17.32 SOL"},
+    {user:"hidden_user",token:"$STICKLEFNBR",name:"sticklefnbr",invest:"11.26 SOL",profit:"+4.09 SOL"}
+  ];
+  function render(){
+    const el=document.getElementById("rugActivityRows");
+    if(!el)return;
+    el.innerHTML=rows.map(function(x){
+      const sym=x.token.replace("$","");
+      const logo=typeof memeLogo==="function"?memeLogo(sym):"";
+      const initial=x.user.slice(0,2).toUpperCase();
+      return '<div class="rug-activity-row">'
+       +'<div class="rug-user-cell"><div class="rug-user-avatar">'+initial+'</div><div class="rug-user">@'+escapeHtml(x.user)+'</div></div>'
+       +'<div class="rug-token-cell"><div class="rug-coin-logo">'+(logo?'<img src="'+logo+'" alt="">':'◈')+'</div><div class="rug-token-text"><div class="rug-token-line"><span class="rug-token">'+escapeHtml(x.token)+'</span><span class="rug-network-mini"><i></i>SOL</span></div><small>'+escapeHtml(x.name)+' · RECENT RUG ALERT</small></div></div>'
+       +'<div class="rug-invest">'+escapeHtml(x.invest)+' <span class="rug-asset-mini">≈ <b>SOL</b></span></div>'
+       +'<div class="rug-profit">'+escapeHtml(x.profit)+' <span class="rug-asset-mini">≈ <b>SOL</b></span></div>'
+       +'<div class="rug-status">SIMULATED</div></div>';
+    }).join("")+'<div class="rug-demo-note">DEMO DATA ONLY · NAMES, TOKENS AND PROFITS ARE SIMULATED FOR UI PREVIEW</div>';
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",render); else render();
+})();
+</script></body></html>
