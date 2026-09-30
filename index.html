@@ -1548,24 +1548,39 @@ function coinMcap(n){
 function renderCoinFeed(items){
   const track=document.getElementById('memeTrack');
   if(!track)return;
-  if(!items.length){
-    track.innerHTML='<div class="meme-empty" style="height:224px">LIVE TOKEN FEED<br><span>OPEN DEXSCREENER TO BROWSE CURRENT COINS</span></div>';
+  const list=(items||[]).slice(0,6);
+  if(!list.length){
+    track.innerHTML='<div class="meme-empty" style="height:350px">LIVE TOKEN FEED<br><span>WAITING FOR SOLANA TOKENS…</span></div>';
     return;
   }
-  const cards=items.slice(0,6).map(c=>{
-    const url=c.url||('https://dexscreener.com/solana/'+(c.tokenAddress||''));
-    const name=c.name||c.baseToken?.name||c.baseToken?.symbol||c.symbol||'UNKNOWN';
-    const symbol=c.symbol||c.baseToken?.symbol||'';
-    const img=c.icon||c.info?.imageUrl||(c.tokenAddress?'https://dd.dexscreener.com/ds-data/tokens/solana/'+encodeURIComponent(c.tokenAddress)+'.png':'')||memeLogo(symbol);
+  const cards=list.map(c=>{
+    const url=String(c.url||'https://dexscreener.com/solana/'+(c.tokenAddress||''));
+    const name=String(c.name||c.baseToken?.name||c.baseToken?.symbol||c.symbol||'UNKNOWN');
+    const symbol=String(c.symbol||c.baseToken?.symbol||'');
+    const logo=c.icon||c.info?.imageUrl||memeLogo(symbol);
     const age=coinAge(c.pairCreatedAt);
     const mc=coinMcap(c.marketCap||c.fdv||0);
-    return '<div class="meme-item" onclick="openCoin(\''+url.replace(/'/g,'%27')+'\')" title="Open '+escapeHtml(name)+'">'
-      +'<div class="meme-icon">'+(()=>{const fallbackLogo=memeLogo(symbol);return '<img src="'+escapeHtml(img||fallbackLogo)+'" alt="" loading="lazy" onerror="this.onerror=null;this.src=\\''+fallbackLogo+'\\'">';})()+'</div>'
-      +'<div class="meme-main"><div class="meme-name">'+escapeHtml(name)+(symbol?' <span class="meme-symbol">$'+escapeHtml(symbol)+'</span>':'')+'</div>'
+    const safeUrl=url.replace(/"/g,'&quot;');
+    const safeName=escapeHtml(name);
+    const safeSymbol=escapeHtml(symbol);
+    const safeLogo=escapeHtml(logo);
+    return '<div class="meme-item" data-url="'+safeUrl+'" title="Open '+safeName+'">'
+      +'<div class="meme-icon"><img src="'+safeLogo+'" alt="" loading="lazy"></div>'
+      +'<div class="meme-main"><div class="meme-name">'+safeName+(symbol?' <span class="meme-symbol">$'+safeSymbol+'</span>':'')+'</div>'
       +'<div class="meme-meta">SOLANA · '+age+' · '+mc+'</div></div>'
       +'<div class="meme-stat"><div class="meme-price">'+mc+'</div><div class="meme-change up">● LIVE</div></div></div>';
   }).join('');
   track.innerHTML=cards+cards;
+  track.querySelectorAll('.meme-item').forEach(item=>{
+    item.addEventListener('click',()=>openCoin(item.dataset.url));
+  });
+  track.querySelectorAll('.meme-icon img').forEach((img,index)=>{
+    img.addEventListener('error',()=>{
+      const item=track.querySelectorAll('.meme-item')[index];
+      const symbol=item?.querySelector('.meme-symbol')?.textContent?.replace('$','')||'◈';
+      img.src=memeLogo(symbol);
+    },{once:true});
+  });
 }
 async function loadCoinFeed(){
   try{
@@ -1601,6 +1616,15 @@ window.filterMemecoins=function(kind,btn){
   if(btn)btn.classList.add('active');
   loadCoinFeed();
 };
+const emergencyMemeFeed=[
+{name:'STONKBLEND',symbol:'STONKBLEND',marketCap:903210,url:'https://dexscreener.com/solana/2Ngvnnkwrwq5u4RYV5WYKJ2wiQoEkKaVCc4LuuhYSTNK'},
+{name:'Dap',symbol:'DAP',marketCap:88230,url:'https://dexscreener.com/solana/8LHgAXXPbMVqd3wmAQbTu4NxuRRe3qowgUSLiKmFpumplaunchdap'},
+{name:'ELONCOIN',symbol:'ELONCOIN',marketCap:149560,url:'https://dexscreener.com/solana/2sztT8K9Xu3cfp6WTEEB44Hdibmj3Pv6G2pWGM1vqzXP'},
+{name:'JOLLY',symbol:'JOLLY',marketCap:3080000,url:'https://dexscreener.com/solana/0xcD0B3b43d8632cE600a13E4519754c138998a93c'},
+{name:'goon',symbol:'GOON',marketCap:1840000,url:'https://dexscreener.com/solana/HSUMi4rMgjrx7zRUabw3ogGu1pa5hmF2eVcXj9Apump'},
+{name:'CHONK',symbol:'CHONK',marketCap:156610,url:'https://dexscreener.com/solana/5pSEZw1iytqYznD7crsGyKNek7q5JkjBqj2KmfqxUVZdH'}
+];
+renderCoinFeed(emergencyMemeFeed);
 loadCoinFeed();
 setInterval(loadCoinFeed,120000);
 </script>
