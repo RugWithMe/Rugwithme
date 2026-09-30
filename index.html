@@ -1906,7 +1906,7 @@ setInterval(loadCoinFeed,120000);
       const userLogo=rugAvatar(x.user);
       const asset=x.network==="BNB"?"◆":"▰";
       return '<div class="rug-activity-row">'
-       +'<div class="rug-token-cell"><div class="rug-coin-logo"><img src="'+logo+'" alt="" loading="eager"></div><div class="rug-token-text"><div class="rug-token-line"><span class="rug-token">'+escapeHtml(x.token)+'</span>'+(x.ai?'<span class="rug-ai-badge">• AI MODE</span>':'')+'</div><span class="rug-token-name">'+escapeHtml(x.name)+'</span><div class="rug-token-icons"><i>↕</i><i>◉</i><i>◯</i></div></div></div>'
+       +'<div class="rug-token-cell"><div class="rug-coin-logo"><img src="'+logo+'" alt="" loading="eager" decoding="sync" width="36" height="36"></div><div class="rug-token-text"><div class="rug-token-line"><span class="rug-token">'+escapeHtml(x.token)+'</span>'+(x.ai?'<span class="rug-ai-badge">• AI MODE</span>':'')+'</div><span class="rug-token-name">'+escapeHtml(x.name)+'</span><div class="rug-token-icons"><i>↕</i><i>◉</i><i>◯</i></div></div></div>'
        +'<div class="rug-user-cell"><div class="rug-user-avatar"><img src="'+userLogo+'" alt=""></div><div class="rug-user '+(x.hidden?'hidden':'')+'">'+(x.hidden?'♟ &nbsp;Hidden':'@'+escapeHtml(x.user))+'</div></div>'
        +'<div class="rug-time">'+escapeHtml(x.time)+'</div>'
        +'<div class="rug-invest">'+escapeHtml(x.invest)+' <span class="rug-asset-mini">'+asset+' <b>'+escapeHtml(x.network)+'</b></span></div>'
