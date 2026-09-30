@@ -1862,16 +1862,30 @@ setInterval(loadCoinFeed,120000);
     {user:"cyrusthorn",token:"$PUPS",name:"Musk Pups",invest:"34.46 SOL",profit:"+17.32 SOL"},
     {user:"hidden_user",token:"$STICKLEFNBR",name:"sticklefnbr",invest:"11.26 SOL",profit:"+4.09 SOL"}
   ];
-  function render(){
+  function rugAvatar(seed){
+  const t=String(seed||'USER'); let h=0; for(let i=0;i<t.length;i++)h=(h*37+t.charCodeAt(i))>>>0;
+  const a=h%360,b=(a+70)%360,c=(a+145)%360;
+  return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><defs><linearGradient id="a" x1="0" y1="0" x2="1" y2="1"><stop stop-color="hsl('+a+',90%,62%)"/><stop offset=".55" stop-color="hsl('+b+',90%,58%)"/><stop offset="1" stop-color="hsl('+c+',85%,48%)"/></linearGradient><filter id="g"><feGaussianBlur stdDeviation="2"/></filter></defs><rect width="80" height="80" rx="20" fill="#09070f"/><circle cx="40" cy="40" r="30" fill="url(#a)" opacity=".2" filter="url(#g)"/><path d="M17 52 Q25 25 40 40 T63 22 L68 57 Q48 68 17 52Z" fill="url(#a)" opacity=".9"/><circle cx="31" cy="37" r="6" fill="#fff"/><circle cx="51" cy="37" r="6" fill="#fff"/><circle cx="31" cy="37" r="2.5" fill="#0b0810"/><circle cx="51" cy="37" r="2.5" fill="#0b0810"/><path d="M29 51 Q40 58 51 51" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>');
+}
+function rugAvatarFallback(seed){return rugAvatar(seed||'USER')}
+function memeLogo(symbol){
+  const text=String(symbol||'◈').slice(0,2).toUpperCase();
+  let h=0; for(let i=0;i<text.length;i++) h=(h*31+text.charCodeAt(i))>>>0;
+  const hue=h%360;
+  const hue2=(hue+65)%360;
+  const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="hsl('+hue+',90%,68%)"/><stop offset=".55" stop-color="hsl('+hue2+',88%,58%)"/><stop offset="1" stop-color="hsl('+((hue+150)%360)+',88%,52%)"/></linearGradient><filter id="s"><feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#000" flood-opacity=".5"/></filter></defs><rect x="2" y="2" width="76" height="76" rx="20" fill="#09070f" stroke="url(#g)" stroke-width="2"/><circle cx="40" cy="40" r="25" fill="url(#g)" opacity=".2"/><path d="M19 47 Q24 20 40 31 Q53 17 62 39 Q66 54 49 58 Q31 65 19 47Z" fill="url(#g)" filter="url(#s)"/><circle cx="31" cy="39" r="4" fill="#fff"/><circle cx="49" cy="39" r="4" fill="#fff"/><circle cx="31" cy="39" r="1.8" fill="#101018"/><circle cx="49" cy="39" r="1.8" fill="#101018"/><path d="M29 49 Q40 56 51 49" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/><text x="40" y="72" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" font-weight="900" fill="#fff">'+text+'</text></svg>';
+  return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg);
+}
+function render(){
     const el=document.getElementById("rugActivityRows");
     if(!el)return;
     el.innerHTML=rows.map(function(x){
       const sym=x.token.replace("$","");
       const logo=typeof memeLogo==="function"?memeLogo(sym):"";
-      const userLogo='https://api.dicebear.com/9.x/shapes/svg?seed='+encodeURIComponent(x.user)+'&backgroundColor=0b0810&backgroundType=solid&shape1Color=8b5cf6&shape2Color=22d3ee&shape3Color=a855f7';
+      const userLogo=typeof rugAvatar==="function"?rugAvatar(x.user):"";
       return '<div class="rug-activity-row">'
-       +'<div class="rug-user-cell"><div class="rug-user-avatar"><img src="'+userLogo+'" alt=""></div><div class="rug-user">@'+escapeHtml(x.user)+'</div></div>'
-       +'<div class="rug-token-cell"><div class="rug-coin-logo">'+(logo?'<img src="'+logo+'" alt="">':'◈')+'</div><div class="rug-token-text"><div class="rug-token-line"><span class="rug-token">'+escapeHtml(x.token)+'</span><span class="rug-network-mini"><i></i>SOL</span></div><small>'+escapeHtml(x.name)+' · RECENT RUG ALERT</small></div></div>'
+       +'<div class="rug-user-cell"><div class="rug-user-avatar"><img src="'+userLogo+'" alt="" onerror="this.onerror=null;this.src=rugAvatarFallback(this.alt)"></div><div class="rug-user">@'+escapeHtml(x.user)+'</div></div>'
+       +'<div class="rug-token-cell"><div class="rug-coin-logo"><img src="'+logo+'" alt=""></div><div class="rug-token-text"><div class="rug-token-line"><span class="rug-token">'+escapeHtml(x.token)+'</span><span class="rug-network-mini"><i></i>SOL</span></div><small>'+escapeHtml(x.name)+' · RECENT RUG ALERT</small></div></div>'
        +'<div class="rug-invest">'+escapeHtml(x.invest)+' <span class="rug-asset-mini">≈ <b>SOL</b></span></div>'
        +'<div class="rug-profit">'+escapeHtml(x.profit)+' <span class="rug-asset-mini">≈ <b>SOL</b></span></div>'
        +'<div class="rug-status">SIMULATED</div></div>';
