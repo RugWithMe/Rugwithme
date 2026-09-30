@@ -1856,11 +1856,11 @@ setInterval(loadCoinFeed,120000);
 <script id="rug-activity-render">
 (function(){
   const rows=[
-    {user:"milanyarrow",token:"$STARDIS",name:"TarDis",invest:"7.44 SOL",profit:"+18.66 SOL"},
-    {user:"gus_w",token:"$SCATZO",name:"CATZO",invest:"11.31 SOL",profit:"+25.14 SOL"},
-    {user:"sorensalt",token:"$STEEZY",name:"Steezy",invest:"4.40 SOL",profit:"+10.73 SOL"},
-    {user:"cyrusthorn",token:"$PUPS",name:"Musk Pups",invest:"34.46 SOL",profit:"+17.32 SOL"},
-    {user:"hidden_user",token:"$STICKLEFNBR",name:"sticklefnbr",invest:"11.26 SOL",profit:"+4.09 SOL"}
+    {user:"milanyarrow",token:"$NOOT",name:"NOOT",invest:"7.44 SOL",profit:"+18.66 SOL",logo:"https://dd.dexscreener.com/ds-data/tokens/solana/c7sabtwgxenhcq2wngx5pxdgcglvhby4szs93s9p9huy.png"},
+    {user:"gus_w",token:"$JIMBO",name:"JIM don’t believe",invest:"11.31 SOL",profit:"+25.14 SOL",logo:"https://dd.dexscreener.com/ds-data/tokens/solana/frknjmdjvhxn2zaynsn1xu6g7fjzncnd9plv77hrpgln.png"},
+    {user:"sorensalt",token:"$PENGUSEUS",name:"Penguseus Maximus",invest:"4.40 SOL",profit:"+10.73 SOL",logo:"https://dd.dexscreener.com/ds-data/tokens/solana/gfc7hacmnomvbytf2celeqyxmkzcivngvxavagmhjchj.png"},
+    {user:"cyrusthorn",token:"$CHICKYEN",name:"CHICKYEN",invest:"34.46 SOL",profit:"+17.32 SOL",logo:"https://dd.dexscreener.com/ds-data/tokens/solana/H8aAUMaqt7eiiTQ43EgVY9zAv2f8EFb6Mn7sAD9As3ud.png"},
+    {user:"hidden_user",token:"$ASS",name:"Autonomous Stinky Supply",invest:"11.26 SOL",profit:"+4.09 SOL",logo:"https://dd.dexscreener.com/ds-data/tokens/solana/4utyixbxpkanvn7uk2ncs13ukxqxuu2rumqre9kworjn.png"}
   ];
   function rugAvatar(seed){
   const t=String(seed||'USER'); let h=0; for(let i=0;i<t.length;i++)h=(h*37+t.charCodeAt(i))>>>0;
@@ -1906,7 +1906,7 @@ const logoCache={};
     if(!el)return;
     el.innerHTML=rows.map(function(x){
       const sym=x.token.replace("$","");
-      const logo=typeof memeLogo==="function"?memeLogo(sym):"";
+      const logo=x.logo || (typeof memeLogo==="function"?memeLogo(sym):"");
       const userLogo=typeof rugAvatar==="function"?rugAvatar(x.user):"";
       const key=(x.token+" "+x.name).trim().toLowerCase();
       return '<div class="rug-activity-row">'
@@ -1918,7 +1918,7 @@ const logoCache={};
     }).join("")+'<div class="rug-demo-note">DEMO DATA ONLY · NAMES, TOKENS AND PROFITS ARE SIMULATED FOR UI PREVIEW</div>';
     rows.forEach(async function(x){
       const key=(x.token+" "+x.name).trim().toLowerCase();
-      const img=await findActualTokenLogo(x);
+      const img=x.logo || await findActualTokenLogo(x);
       if(img)paintTokenLogo(key,img);
     });
   }
