@@ -915,6 +915,7 @@ button,input{font:inherit}.app{display:grid;grid-template-columns:236px 1fr;min-
   color:#b88aff;
 }
 </style>
+<style id="all-coin-logo-fix">.market .coin-icon,.meme-icon{overflow:hidden!important;position:relative!important;display:grid!important;place-items:center!important}.market .coin-icon img,.meme-icon img{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important;border-radius:inherit!important}</style>
 </head>
 <body>
 <div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
@@ -1304,7 +1305,7 @@ function renderCoinFeed(items){
     const url=c.url||('https://dexscreener.com/solana/'+(c.tokenAddress||''));
     const name=c.name||c.baseToken?.name||c.baseToken?.symbol||c.symbol||'UNKNOWN';
     const symbol=c.symbol||c.baseToken?.symbol||'';
-    const img=c.icon||c.info?.imageUrl||'';
+    const img=c.icon||c.info?.imageUrl||(c.tokenAddress?'https://dd.dexscreener.com/ds-data/tokens/solana/'+encodeURIComponent(c.tokenAddress)+'.png':'');
     const age=coinAge(c.pairCreatedAt);
     const mc=coinMcap(c.marketCap||c.fdv||0);
     return '<div class="meme-item" onclick="openCoin(\''+url.replace(/'/g,'%27')+'\')" title="Open '+escapeHtml(name)+'">'
@@ -1326,7 +1327,7 @@ async function loadCoinFeed(){
         const q=await fetch('https://api.dexscreener.com/latest/dex/tokens/'+encodeURIComponent(p.tokenAddress),{cache:'no-store'});
         const j=await q.json();
         const pair=(j.pairs||[]).sort((a,b)=>(b.liquidity?.usd||0)-(a.liquidity?.usd||0))[0];
-        return {...p,...(pair||{}),name:p.name||pair?.baseToken?.name||pair?.baseToken?.symbol||'',symbol:p.symbol||pair?.baseToken?.symbol||'',icon:p.icon||pair?.info?.imageUrl||'',url:pair?.url||p.url||('https://dexscreener.com/solana/'+p.tokenAddress)};
+        return {...p,...(pair||{}),name:p.name||pair?.baseToken?.name||pair?.baseToken?.symbol||'',symbol:p.symbol||pair?.baseToken?.symbol||'',icon:p.icon||pair?.info?.imageUrl||((p.tokenAddress)?'https://dd.dexscreener.com/ds-data/tokens/solana/'+encodeURIComponent(p.tokenAddress)+'.png':''),url:pair?.url||p.url||('https://dexscreener.com/solana/'+p.tokenAddress)};
       }catch(e){return p;}
     }));
     window.pumpCoins.new=detailed.filter(x=>x.tokenAddress);
