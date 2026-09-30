@@ -1354,6 +1354,14 @@ body:after{
 <section class="panel" id="market-panel"><div class="panel-head"><div><div class="panel-title">Market pulse</div><div class="panel-sub">REFERENCE PRICES / 24H CHANGE</div></div><div class="panel-sub live">● STREAMING</div></div><div class="market-wrap"><table class="market"><thead><tr><th>ASSET</th><th>PRICE</th><th>24H</th><th>OPEN</th><th>MICRO TREND</th><th>STATE</th></tr></thead><tbody id="market"></tbody></table></div></section>
 <section class="panel"><div class="panel-head"><div><div class="panel-title">Momentum engine</div><div class="panel-sub">COMPOSITE MARKET SIGNAL</div></div><div class="panel-sub">SOL / USD</div></div><div class="chart-box"><div class="chart-top"><div><div class="chart-value" id="chartValue">$119.20</div><div class="chart-change">▲ +0.70% today</div></div><div class="chart-tabs"><button class="active" data-range="1H">1H</button><button data-range="4H">4H</button><button data-range="1D">1D</button><button data-range="1W">1W</button></div></div><div class="chart-svg"><svg viewBox="0 0 620 180" preserveAspectRatio="none"><defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9d59ff" stop-opacity=".32"/><stop offset="1" stop-color="#9d59ff" stop-opacity="0"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g opacity=".18" stroke="#8c829b"><line x1="0" y1="30" x2="620" y2="30"/><line x1="0" y1="75" x2="620" y2="75"/><line x1="0" y1="120" x2="620" y2="120"/><line x1="0" y1="165" x2="620" y2="165"/></g><path d="M0 145 C35 139 48 146 73 124 S114 136 140 111 S183 123 207 94 S244 108 275 82 S312 101 342 68 S379 86 408 61 S444 78 474 45 S518 55 548 31 S587 46 620 18 L620 180 L0 180Z" fill="url(#area)"/><path d="M0 145 C35 139 48 146 73 124 S114 136 140 111 S183 123 207 94 S244 108 275 82 S312 101 342 68 S379 86 408 61 S444 78 474 45 S518 55 548 31 S587 46 620 18" fill="none" stroke="#b56dff" stroke-width="2.5" filter="url(#glow)"/><circle cx="620" cy="18" r="4" fill="#fff"/></svg></div><div class="chart-footer"><div class="micro"><label>BREADTH</label><b class="green">72%</b></div><div class="micro"><label>FLOW</label><b>$2.91B</b></div><div class="micro"><label>RISK</label><b class="green">LOW</b></div></div></div></section>
 </div>
+
+<div class="right-stack" style="margin-top:10px">
+<section class="panel" id="news-panel"><div class="panel-head"><div><div class="panel-title">Crypto news room</div><div class="panel-sub">LATEST HEADLINES / PUBLIC FEEDS</div></div><div><span class="panel-sub live">● LIVE</span> <button class="news-refresh" onclick="loadNews()">↻</button></div></div><div class="news-viewport"><div class="news" id="news"></div></div></section>
+</div>
+<div class="bottom-grid">
+
+
+</div>
 <section class="panel rug-activity-panel" id="rug-activity-panel">
   <div class="panel-head">
     <div><div class="panel-title">Live Rug Activity</div><div class="panel-sub">SIMULATED DEMO FEED · RECENT RUG ALERTS</div></div>
@@ -1364,13 +1372,6 @@ body:after{
     <div id="rugActivityRows"></div>
   </div>
 </section>
-<div class="right-stack" style="margin-top:10px">
-<section class="panel" id="news-panel"><div class="panel-head"><div><div class="panel-title">Crypto news room</div><div class="panel-sub">LATEST HEADLINES / PUBLIC FEEDS</div></div><div><span class="panel-sub live">● LIVE</span> <button class="news-refresh" onclick="loadNews()">↻</button></div></div><div class="news-viewport"><div class="news" id="news"></div></div></section>
-</div>
-<div class="bottom-grid">
-
-
-</div>
 <div class="footer">RUGWITHME · INTELLIGENCE TERMINAL · VERIFY CONTRACTS AND SOURCES BEFORE MAKING FINANCIAL DECISIONS</div>
 </main></div></div>
 <div class="toast" id="toast"></div>
