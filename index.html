@@ -1192,6 +1192,59 @@ button,input{font:inherit}.app{display:grid;grid-template-columns:236px 1fr;min-
  .dashboard-grid{grid-template-columns:1fr!important}
  .dashboard-grid>.panel:nth-child(2) .chart-svg{height:180px!important}
 }
+</style><style id="cosmic-background">
+body{
+ background:
+  radial-gradient(900px 520px at 8% 18%,rgba(91,43,226,.16),transparent 62%),
+  radial-gradient(850px 500px at 88% 28%,rgba(38,126,255,.12),transparent 62%),
+  radial-gradient(760px 500px at 52% 100%,rgba(177,57,255,.10),transparent 65%),
+  #030307!important;
+ position:relative;overflow-x:hidden;
+}
+body:before{
+ content:"";position:fixed;inset:-20%;pointer-events:none;z-index:-3;
+ background:
+  radial-gradient(ellipse 55% 9% at 12% 18%,rgba(101,67,255,.22),transparent 70%),
+  radial-gradient(ellipse 52% 8% at 86% 42%,rgba(0,205,255,.16),transparent 70%),
+  radial-gradient(ellipse 48% 7% at 35% 88%,rgba(177,69,255,.17),transparent 70%);
+ filter:blur(28px);
+ transform:rotate(-8deg);
+ animation:cosmicDrift 18s ease-in-out infinite alternate;
+}
+body:after{
+ content:"";position:fixed;inset:0;pointer-events:none;z-index:-2;
+ opacity:.34;
+ background:
+  radial-gradient(circle at 18% 24%,rgba(255,255,255,.8) 0 1px,transparent 1.5px),
+  radial-gradient(circle at 72% 17%,rgba(139,77,255,.9) 0 1px,transparent 1.5px),
+  radial-gradient(circle at 84% 72%,rgba(98,220,255,.8) 0 1px,transparent 1.5px),
+  radial-gradient(circle at 38% 78%,rgba(255,255,255,.55) 0 1px,transparent 1.5px);
+ background-size:260px 220px,330px 280px,390px 320px,470px 360px;
+ animation:starFloat 24s linear infinite;
+}
+.app{position:relative;z-index:1}
+.main{position:relative}
+.main:before,.main:after{
+ content:"";position:absolute;pointer-events:none;z-index:-1;border-radius:50%;
+ filter:blur(18px);opacity:.48;
+}
+.main:before{
+ width:620px;height:180px;right:7%;top:180px;
+ background:linear-gradient(90deg,transparent,rgba(126,69,255,.13),rgba(51,199,255,.11),transparent);
+ transform:rotate(-13deg);animation:ribbonOne 14s ease-in-out infinite alternate;
+}
+.main:after{
+ width:560px;height:150px;left:12%;bottom:14%;
+ background:linear-gradient(90deg,transparent,rgba(174,69,255,.10),rgba(72,120,255,.12),transparent);
+ transform:rotate(9deg);animation:ribbonTwo 17s ease-in-out infinite alternate;
+}
+@keyframes cosmicDrift{from{transform:rotate(-8deg) translate3d(-2%,0,0) scale(1)}to{transform:rotate(-5deg) translate3d(3%,-2%,0) scale(1.05)}}
+@keyframes starFloat{from{transform:translate3d(0,0,0)}to{transform:translate3d(-18px,12px,0)}}
+@keyframes ribbonOne{from{transform:rotate(-13deg) translateX(-40px)}to{transform:rotate(-8deg) translateX(80px)}}
+@keyframes ribbonTwo{from{transform:rotate(9deg) translateX(50px)}to{transform:rotate(4deg) translateX(-70px)}}
+@media(prefers-reduced-motion:reduce){
+ body:before,body:after,.main:before,.main:after{animation:none}
+}
 </style></head>
 <body>
 <div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
