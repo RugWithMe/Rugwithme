@@ -1560,7 +1560,7 @@ function renderCoinFeed(items){
     const age=coinAge(c.pairCreatedAt);
     const mc=coinMcap(c.marketCap||c.fdv||0);
     return '<div class="meme-item" onclick="openCoin(\''+url.replace(/'/g,'%27')+'\')" title="Open '+escapeHtml(name)+'">'
-      +'<div class="meme-icon">'+(()=>{const fallbackLogo=memeLogo(symbol);return '<img src="'+escapeHtml(img||fallbackLogo)+'" alt="" loading="lazy" onerror="this.onerror=null;this.src=\\''+fallbackLogo+'\\'">';})()++'</div>'
+      +'<div class="meme-icon">'+(()=>{const fallbackLogo=memeLogo(symbol);return '<img src="'+escapeHtml(img||fallbackLogo)+'" alt="" loading="lazy" onerror="this.onerror=null;this.src=\\''+fallbackLogo+'\\'">';})()+'</div>'
       +'<div class="meme-main"><div class="meme-name">'+escapeHtml(name)+(symbol?' <span class="meme-symbol">$'+escapeHtml(symbol)+'</span>':'')+'</div>'
       +'<div class="meme-meta">SOLANA · '+age+' · '+mc+'</div></div>'
       +'<div class="meme-stat"><div class="meme-price">'+mc+'</div><div class="meme-change up">● LIVE</div></div></div>';
@@ -1582,7 +1582,8 @@ async function loadCoinFeed(){
       }catch(e){return p;}
     }));
     window.pumpCoins.new=detailed.filter(x=>x.tokenAddress);
-    renderCoinFeed(window.pumpCoins.new);
+    if(window.pumpCoins.new.length) renderCoinFeed(window.pumpCoins.new);
+    else throw new Error('No live Solana tokens returned');
   }catch(e){
     const fallback=[
       {name:'STONKBLEND',symbol:'STONKBLEND',marketCap:903210,url:'https://dexscreener.com/solana/2Ngvnnkwrwq5u4RYV5WYKJ2wiQoEkKaVCc4LuuhYSTNK',icon:'https://dd.dexscreener.com/ds-data/tokens/solana/2Ngvnnkwrwq5u4RYV5WYKJ2wiQoEkKaVCc4LuuhYSTNK.png'},
