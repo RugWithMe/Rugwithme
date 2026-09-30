@@ -1856,73 +1856,58 @@ setInterval(loadCoinFeed,120000);
 <script id="rug-activity-render">
 (function(){
   const rows=[
-    {user:"milanyarrow",token:"$NOOT",name:"NOOT",invest:"7.44 SOL",profit:"+18.66 SOL",logo:"https://dd.dexscreener.com/ds-data/tokens/solana/c7sabtwgxenhcq2wngx5pxdgcglvhby4szs93s9p9huy.png"},
-    {user:"gus_w",token:"$JIMBO",name:"JIM don’t believe",invest:"11.31 SOL",profit:"+25.14 SOL",logo:"https://dd.dexscreener.com/ds-data/tokens/solana/frknjmdjvhxn2zaynsn1xu6g7fjzncnd9plv77hrpgln.png"},
-    {user:"sorensalt",token:"$PENGUSEUS",name:"Penguseus Maximus",invest:"4.40 SOL",profit:"+10.73 SOL",logo:"https://dd.dexscreener.com/ds-data/tokens/solana/gfc7hacmnomvbytf2celeqyxmkzcivngvxavagmhjchj.png"},
-    {user:"cyrusthorn",token:"$CHICKYEN",name:"CHICKYEN",invest:"34.46 SOL",profit:"+17.32 SOL",logo:"https://dd.dexscreener.com/ds-data/tokens/solana/H8aAUMaqt7eiiTQ43EgVY9zAv2f8EFb6Mn7sAD9As3ud.png"},
-    {user:"hidden_user",token:"$ASS",name:"Autonomous Stinky Supply",invest:"11.26 SOL",profit:"+4.09 SOL",logo:"https://dd.dexscreener.com/ds-data/tokens/solana/4utyixbxpkanvn7uk2ncs13ukxqxuu2rumqre9kworjn.png"}
+    {user:"milanyarrow",token:"$NOOT",name:"NOOT",invest:"7.44 SOL",profit:"+18.66 SOL",art:"frog"},
+    {user:"gus_w",token:"$JIMBO",name:"JIMBO",invest:"11.31 SOL",profit:"+25.14 SOL",art:"dog"},
+    {user:"sorensalt",token:"$PENGUSEUS",name:"PENGUSEUS",invest:"4.40 SOL",profit:"+10.73 SOL",art:"penguin"},
+    {user:"cyrusthorn",token:"$CHICKYEN",name:"CHICKYEN",invest:"34.46 SOL",profit:"+17.32 SOL",art:"chicken"},
+    {user:"hidden_user",token:"$ASS",name:"ASS",invest:"11.26 SOL",profit:"+4.09 SOL",art:"ape"}
   ];
+
   function rugAvatar(seed){
-  const t=String(seed||'USER'); let h=0; for(let i=0;i<t.length;i++)h=(h*37+t.charCodeAt(i))>>>0;
-  const a=h%360,b=(a+70)%360,c=(a+145)%360;
-  return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><defs><linearGradient id="a" x1="0" y1="0" x2="1" y2="1"><stop stop-color="hsl('+a+',90%,62%)"/><stop offset=".55" stop-color="hsl('+b+',90%,58%)"/><stop offset="1" stop-color="hsl('+c+',85%,48%)"/></linearGradient><filter id="g"><feGaussianBlur stdDeviation="2"/></filter></defs><rect width="80" height="80" rx="20" fill="#09070f"/><circle cx="40" cy="40" r="30" fill="url(#a)" opacity=".2" filter="url(#g)"/><path d="M17 52 Q25 25 40 40 T63 22 L68 57 Q48 68 17 52Z" fill="url(#a)" opacity=".9"/><circle cx="31" cy="37" r="6" fill="#fff"/><circle cx="51" cy="37" r="6" fill="#fff"/><circle cx="31" cy="37" r="2.5" fill="#0b0810"/><circle cx="51" cy="37" r="2.5" fill="#0b0810"/><path d="M29 51 Q40 58 51 51" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>');
-}
-function rugAvatarFallback(seed){return rugAvatar(seed||'USER')}
-function memeLogo(symbol){
-  const text=String(symbol||'◈').slice(0,2).toUpperCase();
-  let h=0; for(let i=0;i<text.length;i++) h=(h*31+text.charCodeAt(i))>>>0;
-  const hue=h%360;
-  const hue2=(hue+65)%360;
-  const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="hsl('+hue+',90%,68%)"/><stop offset=".55" stop-color="hsl('+hue2+',88%,58%)"/><stop offset="1" stop-color="hsl('+((hue+150)%360)+',88%,52%)"/></linearGradient><filter id="s"><feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#000" flood-opacity=".5"/></filter></defs><rect x="2" y="2" width="76" height="76" rx="20" fill="#09070f" stroke="url(#g)" stroke-width="2"/><circle cx="40" cy="40" r="25" fill="url(#g)" opacity=".2"/><path d="M19 47 Q24 20 40 31 Q53 17 62 39 Q66 54 49 58 Q31 65 19 47Z" fill="url(#g)" filter="url(#s)"/><circle cx="31" cy="39" r="4" fill="#fff"/><circle cx="49" cy="39" r="4" fill="#fff"/><circle cx="31" cy="39" r="1.8" fill="#101018"/><circle cx="49" cy="39" r="1.8" fill="#101018"/><path d="M29 49 Q40 56 51 49" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/><text x="40" y="72" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" font-weight="900" fill="#fff">'+text+'</text></svg>';
-  return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg);
-}
-const logoCache={};
-  async function findActualTokenLogo(x){
-    const key=(x.token+" "+x.name).trim().toLowerCase();
-    if(logoCache[key])return logoCache[key];
-    try{
-      const q=encodeURIComponent(x.token.replace("$","")+" "+x.name);
-      const r=await fetch("https://api.dexscreener.com/latest/dex/search/?q="+q,{cache:"no-store"});
-      if(!r.ok)throw new Error("search failed");
-      const j=await r.json();
-      const pairs=(j.pairs||[]).filter(p=>String(p.chainId).toLowerCase()==="solana");
-      const exact=pairs.find(p=>{
-        const s=String(p.baseToken?.symbol||"").toLowerCase();
-        const n=String(p.baseToken?.name||"").toLowerCase();
-        return s===x.token.replace("$","").toLowerCase() || n===x.name.toLowerCase();
-      }) || pairs[0];
-      const img=exact?.info?.imageUrl || (exact?.baseToken?.address ? "https://dd.dexscreener.com/ds-data/tokens/solana/"+encodeURIComponent(exact.baseToken.address)+".png" : "");
-      if(img){logoCache[key]=img;return img;}
-    }catch(e){}
-    return typeof memeLogo==="function"?memeLogo(x.token.replace("$","")):"";
+    const t=String(seed||"USER"); let h=0;
+    for(let i=0;i<t.length;i++)h=(h*37+t.charCodeAt(i))>>>0;
+    const a=h%360,b=(a+70)%360,c=(a+145)%360;
+    const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><defs><linearGradient id="a" x1="0" y1="0" x2="1" y2="1"><stop stop-color="hsl('+a+',90%,62%)"/><stop offset=".55" stop-color="hsl('+b+',90%,58%)"/><stop offset="1" stop-color="hsl('+c+',85%,48%)"/></linearGradient></defs><rect width="80" height="80" rx="20" fill="#09070f"/><circle cx="40" cy="40" r="30" fill="url(#a)" opacity=".2"/><path d="M17 52 Q25 25 40 40 T63 22 L68 57 Q48 68 17 52Z" fill="url(#a)"/><circle cx="31" cy="37" r="6" fill="#fff"/><circle cx="51" cy="37" r="6" fill="#fff"/><circle cx="31" cy="37" r="2.5" fill="#0b0810"/><circle cx="51" cy="37" r="2.5" fill="#0b0810"/><path d="M29 51 Q40 58 51 51" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>';
+    return "data:image/svg+xml;charset=UTF-8,"+encodeURIComponent(svg);
   }
-  function paintTokenLogo(key,img){
-    document.querySelectorAll("#rugActivityRows .rug-coin-logo img[data-logo-key]").forEach(el=>{
-      if(el.dataset.logoKey===key && img){el.src=img;el.classList.add("real-token-art");}
-    });
+  function rugAvatarFallback(seed){return rugAvatar(seed||"USER")}
+
+  function realMemeArt(type,symbol){
+    const colors={
+      frog:["#7cff4f","#18c96e","#10250f"],
+      dog:["#ffbf55","#ff7b36","#241509"],
+      penguin:["#5ee7ff","#2377ff","#08152c"],
+      chicken:["#fff06a","#ff7a32","#2a1608"],
+      ape:["#d48cff","#7c39d6","#170b25"]
+    };
+    const [c1,c2,bg]=colors[type]||colors.frog;
+    const txt=String(symbol||"MEME").replace("$","").slice(0,6).toUpperCase();
+    let shape="";
+    if(type==="frog")shape='<ellipse cx="40" cy="43" rx="27" ry="23" fill="url(#g)"/><circle cx="27" cy="27" r="11" fill="url(#g)"/><circle cx="53" cy="27" r="11" fill="url(#g)"/><circle cx="29" cy="29" r="5" fill="#fff"/><circle cx="51" cy="29" r="5" fill="#fff"/><circle cx="29" cy="29" r="2" fill="#111"/><circle cx="51" cy="29" r="2" fill="#111"/><path d="M26 47 Q40 58 54 47" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>';
+    else if(type==="dog")shape='<path d="M19 33 Q15 17 29 20 Q40 12 52 20 Q66 17 61 35 L59 53 Q40 64 21 53Z" fill="url(#g)"/><path d="M21 24 Q10 15 15 39" fill="'+c2+'"/><path d="M59 24 Q70 15 65 39" fill="'+c2+'"/><circle cx="30" cy="36" r="5" fill="#fff"/><circle cx="50" cy="36" r="5" fill="#fff"/><circle cx="30" cy="36" r="2" fill="#111"/><circle cx="50" cy="36" r="2" fill="#111"/><ellipse cx="40" cy="48" rx="7" ry="5" fill="#111"/>';
+    else if(type==="penguin")shape='<ellipse cx="40" cy="42" rx="25" ry="28" fill="url(#g)"/><ellipse cx="40" cy="46" rx="17" ry="19" fill="#eafaff"/><circle cx="31" cy="35" r="4" fill="#fff"/><circle cx="49" cy="35" r="4" fill="#fff"/><circle cx="31" cy="35" r="1.8" fill="#111"/><circle cx="49" cy="35" r="1.8" fill="#111"/><path d="M34 42 L40 46 L46 42 L40 50Z" fill="#ff9f32"/>';
+    else if(type==="chicken")shape='<path d="M20 51 Q16 31 31 27 Q34 16 40 23 Q47 16 50 27 Q66 31 60 51Z" fill="url(#g)"/><circle cx="33" cy="36" r="5" fill="#fff"/><circle cx="47" cy="36" r="5" fill="#fff"/><circle cx="33" cy="36" r="2" fill="#111"/><circle cx="47" cy="36" r="2" fill="#111"/><path d="M36 43 L40 49 L44 43Z" fill="#ff7d32"/><circle cx="40" cy="20" r="5" fill="#ff4b4b"/>';
+    else shape='<path d="M18 52 Q17 22 40 20 Q63 22 62 52 Q53 64 40 60 Q27 64 18 52Z" fill="url(#g)"/><circle cx="30" cy="38" r="5" fill="#fff"/><circle cx="50" cy="38" r="5" fill="#fff"/><circle cx="30" cy="38" r="2" fill="#111"/><circle cx="50" cy="38" r="2" fill="#111"/><path d="M29 49 Q40 56 51 49" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>';
+    const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="'+c1+'"/><stop offset="1" stop-color="'+c2+'"/></linearGradient><filter id="s"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-opacity=".55"/></filter></defs><rect width="96" height="96" rx="25" fill="'+bg+'"/><circle cx="18" cy="17" r="38" fill="'+c1+'" opacity=".09"/><circle cx="78" cy="79" r="35" fill="'+c2+'" opacity=".12"/><g filter="url(#s)">'+shape+'</g><rect x="7" y="7" width="82" height="82" rx="21" fill="none" stroke="'+c1+'" stroke-opacity=".32"/><text x="48" y="87" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" font-weight="900" fill="#fff">'+txt+'</text></svg>';
+    return "data:image/svg+xml;charset=UTF-8,"+encodeURIComponent(svg);
   }
+
   function render(){
     const el=document.getElementById("rugActivityRows");
     if(!el)return;
     el.innerHTML=rows.map(function(x){
       const sym=x.token.replace("$","");
-      const logo=x.logo || (typeof memeLogo==="function"?memeLogo(sym):"");
-      const userLogo=typeof rugAvatar==="function"?rugAvatar(x.user):"";
-      const key=(x.token+" "+x.name).trim().toLowerCase();
+      const logo=realMemeArt(x.art,sym);
+      const userLogo=rugAvatar(x.user);
       return '<div class="rug-activity-row">'
-       +'<div class="rug-user-cell"><div class="rug-user-avatar"><img src="'+userLogo+'" alt="" onerror="this.onerror=null;this.src=rugAvatarFallback("USER")"></div><div class="rug-user">@'+escapeHtml(x.user)+'</div></div>'
-       +'<div class="rug-token-cell"><div class="rug-coin-logo"><img data-logo-key="'+escapeHtml(key)+'" src="'+logo+'" alt="" loading="lazy" onerror="this.onerror=null"></div><div class="rug-token-text"><div class="rug-token-line"><span class="rug-token">'+escapeHtml(x.token)+'</span><span class="rug-network-mini"><i></i>SOL</span></div><small>'+escapeHtml(x.name)+' · RECENT RUG ALERT</small></div></div>'
+       +'<div class="rug-user-cell"><div class="rug-user-avatar"><img src="'+userLogo+'" alt=""></div><div class="rug-user">@'+escapeHtml(x.user)+'</div></div>'
+       +'<div class="rug-token-cell"><div class="rug-coin-logo"><img src="'+logo+'" alt="" loading="eager"></div><div class="rug-token-text"><div class="rug-token-line"><span class="rug-token">'+escapeHtml(x.token)+'</span><span class="rug-network-mini"><i></i>SOL</span></div><small>'+escapeHtml(x.name)+' · RECENT RUG ALERT</small></div></div>'
        +'<div class="rug-invest">'+escapeHtml(x.invest)+' <span class="rug-asset-mini">≈ <b>SOL</b></span></div>'
        +'<div class="rug-profit">'+escapeHtml(x.profit)+' <span class="rug-asset-mini">≈ <b>SOL</b></span></div>'
        +'<div class="rug-status">SIMULATED</div></div>';
     }).join("")+'<div class="rug-demo-note">DEMO DATA ONLY · NAMES, TOKENS AND PROFITS ARE SIMULATED FOR UI PREVIEW</div>';
-    rows.forEach(async function(x){
-      const key=(x.token+" "+x.name).trim().toLowerCase();
-      const img=x.logo || await findActualTokenLogo(x);
-      if(img)paintTokenLogo(key,img);
-    });
   }
-  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",render); else render();
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",render);else render();
 })();
 </script><script id="news-boot-fix">
 (function(){
