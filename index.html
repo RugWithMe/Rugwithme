@@ -516,6 +516,69 @@ button,input{font:inherit}.app{display:grid;grid-template-columns:236px 1fr;min-
   .register-form{padding:32px 22px 22px!important}
 }
 </style>
+<style id="register-motion-pass">
+/* Smaller, smoother registration modal */
+#registerModal{padding:10px}
+.rwm-register-card{
+  width:min(820px,calc(100vw - 20px))!important;
+  max-height:min(590px,calc(100vh - 20px))!important;
+  border-radius:18px!important;
+  animation:registerIn .55s cubic-bezier(.16,1,.3,1) both;
+}
+.register-layout{grid-template-columns:37% 63%!important}
+.register-visual{padding:22px 22px 20px!important}
+.register-visual img{max-width:82px!important}
+.register-form{padding:27px 34px 20px!important}
+.register-form h3{font-size:24px!important}
+.register-form .lead{font-size:9px!important;margin-bottom:13px!important}
+.progress{margin:8px 0 17px!important}
+.field{margin:5px 0!important}
+.field input{height:43px!important;font-size:10px!important}
+.rules{padding:7px 9px!important;margin:3px 0 9px!important}
+.register-cta{height:43px!important}
+.or{margin:9px 0!important}
+.social{height:32px!important}
+.signin{margin-top:9px!important}
+.security{margin-top:10px!important}
+.benefit{padding:8px 10px!important}
+.register-visual:after{
+  animation:registerAurora 7s ease-in-out infinite alternate;
+}
+.register-form:after{
+  content:"";
+  position:absolute;
+  width:180px;height:180px;
+  right:-100px;bottom:-110px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(151,78,255,.18),transparent 68%);
+  pointer-events:none;
+  animation:registerOrb 5s ease-in-out infinite alternate;
+}
+.register-form>*{position:relative;z-index:1}
+.rwm-register-card .modal-close{transition:transform .25s ease,box-shadow .25s ease}
+.rwm-register-card .modal-close:hover{transform:rotate(90deg) scale(1.05)}
+.field input{transition:border-color .22s ease,box-shadow .22s ease,transform .22s ease}
+.field input:focus{transform:translateY(-1px)}
+@keyframes registerIn{
+  from{opacity:0;transform:translateY(18px) scale(.975);filter:blur(3px)}
+  to{opacity:1;transform:none;filter:none}
+}
+@keyframes registerAurora{
+  from{transform:translate3d(-2%,0,0) rotate(0deg);opacity:.55}
+  to{transform:translate3d(3%,-2%,0) rotate(7deg);opacity:1}
+}
+@keyframes registerOrb{
+  from{transform:translate(-10px,8px) scale(.8);opacity:.35}
+  to{transform:translate(-35px,-25px) scale(1.25);opacity:.9}
+}
+@media(max-width:760px){
+  #registerModal{padding:6px}
+  .rwm-register-card{width:calc(100vw - 12px)!important;max-height:calc(100vh - 12px)!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .rwm-register-card,.register-visual:after,.register-form:after{animation:none!important}
+}
+</style>
 </head>
 <body>
 <div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
