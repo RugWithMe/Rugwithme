@@ -390,12 +390,14 @@ button,input{font:inherit}.app{display:grid;grid-template-columns:236px 1fr;min-
 .news-badge{position:absolute;left:9px;top:9px;z-index:2;padding:4px 7px;border:1px solid rgba(255,255,255,.14);border-radius:999px;background:rgba(7,6,11,.72);font-size:8px;font-weight:800;letter-spacing:.12em;color:#fff}
 @media(max-width:1050px){.news{grid-template-columns:1fr}}@media(max-width:700px){.news-item{grid-template-columns:105px 1fr}.news-img,.news-img img{min-height:105px}}
 
-#news-panel .news-viewport{height:470px;overflow:hidden;position:relative}
-#news-panel .news{animation:none!important;transform:none!important}
+#news-panel .news-viewport{height:390px;overflow:hidden;position:relative}
+#news-panel .news{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:14px;animation:newsAutoScroll 36s linear infinite!important;will-change:transform}
+#news-panel .news:hover{animation-play-state:paused!important}
 #news-panel .news-item{height:112px;min-height:112px}
-#news-panel .news-img{width:148px;height:112px;min-height:112px;overflow:hidden}
+#news-panel .news-img{width:148px;height:112px;min-height:112px;overflow:hidden;position:relative}
 #news-panel .news-img img{width:100%;height:100%;min-height:0;display:block;object-fit:cover;object-position:center}
-@media(max-width:1050px){#news-panel .news-viewport{height:520px}}
+@keyframes newsAutoScroll{0%{transform:translateY(0)}100%{transform:translateY(-50%)}}
+@media(max-width:1050px){#news-panel .news-viewport{height:390px}.news{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -604,9 +606,8 @@ function render(){
 function renderRadar(){const data=[['ORBIT / USDC','Liquidity concentration · 2 wallets control most depth',84],['NOVA / SOL','Sell pressure accelerating · LP depth falling',67],['MINTY / SOL','Holder distribution improving',39],['WAVE / USDC','Contract activity elevated',31]];document.getElementById('radar').innerHTML=data.map(x=>`<div class="row"><div><b>${x[0]}</b><small>${x[1]}</small></div><div class="bar"><i style="width:${x[2]}%"></i></div><div class="score">${x[2]}/100</div></div>`).join('')}
 function renderWhales(){const data=[['SOL → CEX','1,240 SOL','3m ago'],['USDC → DEX','482K USDC','8m ago'],['BTC → Cold','72.4 BTC','13m ago'],['ETH → CEX','418 ETH','21m ago']];document.getElementById('whales').innerHTML=data.map((x,i)=>`<div class="row"><div><b>${x[0]}</b><small>${x[2]} · monitored flow</small></div><div class="mono">${x[1]}</div><div class="score ${i%3===1?'green':''}">${i%2?'INFLOW':'OUTFLOW'}</div></div>`).join('')}
 function renderActivity(){document.getElementById('activity').innerHTML=[['Signal engine initialized','All modules responding'],['News feed connected','Public headline sources available'],['Market snapshot loaded','Reference prices refreshed']].map(x=>`<div class="event"><span class="event-dot"></span><div><b>${x[0]}</b><small>${x[1]}</small></div></div>`).join('')}
-let newsScrollFrame=0,newsLastTime=0,newsLoopHeight=0;
-function startNewsScroll(){const vp=document.querySelector('#news-panel .news-viewport');const track=document.getElementById('news');if(!vp||!track)return;cancelAnimationFrame(newsScrollFrame);newsLastTime=0;const tick=(now)=>{if(!newsLastTime)newsLastTime=now;const dt=Math.min(50,now-newsLastTime);newsLastTime=now;newsLoopHeight=track.scrollHeight/2;if(newsLoopHeight>vp.clientHeight+2){vp.scrollTop+=dt*0.025;if(vp.scrollTop>=newsLoopHeight)vp.scrollTop-=newsLoopHeight}else{vp.scrollTop=0}newsScrollFrame=requestAnimationFrame(tick)};newsScrollFrame=requestAnimationFrame(tick)}
-function renderNews(items){const list=[...items,...items];document.getElementById('news').innerHTML=list.map((n,i)=>`<article class="news-item" onclick="toast('Opening headline')"><div class="news-img"><span class="news-badge">${i<items.length&&i<2?'BREAKING':'MARKET'}</span><img src="${n[4]||''}" alt="" loading="lazy"><div class="news-fallback-icon">${n[3]||'◈'}</div></div><div class="news-copy"><div class="news-title">${escapeHtml(n[0])}</div><div class="news-meta">${escapeHtml(n[1])} · ${escapeHtml(n[2])} <b>●</b></div></div></article>`).join('');requestAnimationFrame(startNewsScroll)}
+function startNewsScroll(){return}
+function renderNews(items){const list=[...items,...items];document.getElementById('news').innerHTML=list.map((n,i)=>`<article class="news-item" onclick="toast('Opening headline')"><div class="news-img"><span class="news-badge">${i<items.length&&i<2?'BREAKING':'MARKET'}</span><img src="${n[4]||''}" alt="" loading="lazy"><div class="news-fallback-icon">${n[3]||'◈'}</div></div><div class="news-copy"><div class="news-title">${escapeHtml(n[0])}</div><div class="news-meta">${escapeHtml(n[1])} · ${escapeHtml(n[2])} <b>●</b></div></div></article>`).join('')}
 function escapeHtml(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 async function loadNews(){renderNews(fallbackNews);try{const u='https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent('https://www.coindesk.com/arc/outboundfeeds/rss/');const r=await fetch(u,{cache:'no-store'});const j=await r.json();if(j.items?.length){const arr=j.items.slice(0,10).map((x,i)=>[x.title||'Crypto market update','CoinDesk',i<2?'just now':'fresh',['₿','◆','≋','A','⬡','N','◈','◌'][i%8],x.thumbnail||x.enclosure?.link||'']);renderNews(arr)}}catch(e){}}
 async function loadPrices(){try{const u='https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple,binancecoin&vs_currencies=usd&include_24hr_change=true';const r=await fetch(u,{cache:'no-store'});const j=await r.json();coins=coins.map(c=>j[c.id]?({...c,price:j[c.id].usd,change:j[c.id].usd_24h_change||c.change,open:j[c.id].usd/(1+(j[c.id].usd_24h_change||0)/100)}):c);render();}catch(e){render()}}
