@@ -1245,7 +1245,32 @@ body:after{
 @media(prefers-reduced-motion:reduce){
  body:before,body:after,.main:before,.main:after{animation:none}
 }
-</style></head>
+</style><style id="rug-activity-style">
+.rug-activity-panel{grid-column:1/-1!important;overflow:hidden!important}
+.rug-activity-wrap{position:relative;z-index:1;padding:0 18px 10px}
+.rug-activity-head,.rug-activity-row{display:grid;grid-template-columns:1.1fr 1.5fr 1fr 1fr .8fr;align-items:center;gap:14px}
+.rug-activity-head{height:36px;color:#5f5969;font:700 6px 'JetBrains Mono';letter-spacing:.14em;border-bottom:1px solid rgba(255,255,255,.05)}
+.rug-activity-row{min-height:62px;border-bottom:1px solid rgba(255,255,255,.045);font:700 8px 'JetBrains Mono';transition:.2s}
+.rug-activity-row:hover{background:linear-gradient(90deg,rgba(139,77,255,.08),transparent,rgba(139,77,255,.05));transform:translateX(3px)}
+.rug-user{color:#cfc7d8}.rug-token{color:#f1ecf8}.rug-token small{display:block;color:#625b6c;font-size:5.5px;margin-top:3px}.rug-invest{color:#e8e1f0}.rug-profit{color:#30e6aa;text-shadow:0 0 12px rgba(48,230,170,.18)}.rug-status{justify-self:start;color:#54efbc;border:1px solid rgba(48,230,170,.17);background:rgba(48,230,170,.045);border-radius:999px;padding:6px 8px;font-size:5.5px}
+.rug-status:before{content:"";display:inline-block;width:4px;height:4px;border-radius:50%;background:#30e6aa;box-shadow:0 0 8px #30e6aa;margin-right:5px}
+.rug-demo-note{padding:9px 0 2px;color:#4e4859;font:600 5.5px 'JetBrains Mono';letter-spacing:.08em}
+@media(max-width:700px){.rug-activity-head,.rug-activity-row{grid-template-columns:1fr 1.2fr 1fr 1fr}.rug-activity-head span:nth-child(3),.rug-activity-row .rug-invest{display:none}.rug-status{display:none}}
+</style>
+<script>
+const demoRugActivity=[
+ {user:'milanyarrow',token:'$STARDIS',name:'TarDis',invest:'7.44 SOL',profit:'+18.66 SOL'},
+ {user:'gus_w',token:'$SCATZO',name:'CATZO',invest:'11.31 SOL',profit:'+25.14 SOL'},
+ {user:'sorensalt',token:'$STEEZY',name:'Steezy',invest:'4.40 SOL',profit:'+10.73 SOL'},
+ {user:'cyrusthorn',token:'$PUPS',name:'Musk Pups',invest:'34.46 SOL',profit:'+17.32 SOL'},
+ {user:'hidden_user',token:'$STICKLEFNBR',name:'sticklefnbr',invest:'11.26 SOL',profit:'+4.09 SOL'}
+];
+function renderDemoRugActivity(){
+ const el=document.getElementById('rugActivityRows'); if(!el)return;
+ el.innerHTML=demoRugActivity.map(x=>'<div class="rug-activity-row"><div class="rug-user">@'+x.user+'</div><div class="rug-token">'+x.token+'<small>'+x.name+' · RECENT RUG ALERT</small></div><div class="rug-invest">'+x.invest+'</div><div class="rug-profit">'+x.profit+'</div><div class="rug-status">SIMULATED</div></div>').join('')+'<div class="rug-demo-note">DEMO DATA ONLY · NAMES, TOKENS AND PROFITS ARE SIMULATED FOR UI PREVIEW</div>';
+}
+renderDemoRugActivity();
+</script></head>
 <body>
 <div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
 <div class="app">
@@ -1312,6 +1337,16 @@ body:after{
 <section class="panel" id="market-panel"><div class="panel-head"><div><div class="panel-title">Market pulse</div><div class="panel-sub">REFERENCE PRICES / 24H CHANGE</div></div><div class="panel-sub live">● STREAMING</div></div><div class="market-wrap"><table class="market"><thead><tr><th>ASSET</th><th>PRICE</th><th>24H</th><th>OPEN</th><th>MICRO TREND</th><th>STATE</th></tr></thead><tbody id="market"></tbody></table></div></section>
 <section class="panel"><div class="panel-head"><div><div class="panel-title">Momentum engine</div><div class="panel-sub">COMPOSITE MARKET SIGNAL</div></div><div class="panel-sub">SOL / USD</div></div><div class="chart-box"><div class="chart-top"><div><div class="chart-value" id="chartValue">$119.20</div><div class="chart-change">▲ +0.70% today</div></div><div class="chart-tabs"><button class="active" data-range="1H">1H</button><button data-range="4H">4H</button><button data-range="1D">1D</button><button data-range="1W">1W</button></div></div><div class="chart-svg"><svg viewBox="0 0 620 180" preserveAspectRatio="none"><defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9d59ff" stop-opacity=".32"/><stop offset="1" stop-color="#9d59ff" stop-opacity="0"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g opacity=".18" stroke="#8c829b"><line x1="0" y1="30" x2="620" y2="30"/><line x1="0" y1="75" x2="620" y2="75"/><line x1="0" y1="120" x2="620" y2="120"/><line x1="0" y1="165" x2="620" y2="165"/></g><path d="M0 145 C35 139 48 146 73 124 S114 136 140 111 S183 123 207 94 S244 108 275 82 S312 101 342 68 S379 86 408 61 S444 78 474 45 S518 55 548 31 S587 46 620 18 L620 180 L0 180Z" fill="url(#area)"/><path d="M0 145 C35 139 48 146 73 124 S114 136 140 111 S183 123 207 94 S244 108 275 82 S312 101 342 68 S379 86 408 61 S444 78 474 45 S518 55 548 31 S587 46 620 18" fill="none" stroke="#b56dff" stroke-width="2.5" filter="url(#glow)"/><circle cx="620" cy="18" r="4" fill="#fff"/></svg></div><div class="chart-footer"><div class="micro"><label>BREADTH</label><b class="green">72%</b></div><div class="micro"><label>FLOW</label><b>$2.91B</b></div><div class="micro"><label>RISK</label><b class="green">LOW</b></div></div></div></section>
 </div>
+<section class="panel rug-activity-panel" id="rug-activity-panel">
+  <div class="panel-head">
+    <div><div class="panel-title">Live Rug Activity</div><div class="panel-sub">SIMULATED DEMO FEED · RECENT RUG ALERTS</div></div>
+    <div class="panel-sub live">● DEMO STREAM</div>
+  </div>
+  <div class="rug-activity-wrap">
+    <div class="rug-activity-head"><span>USER</span><span>TOKEN</span><span>INVESTED</span><span>PROFIT</span><span>STATUS</span></div>
+    <div id="rugActivityRows"></div>
+  </div>
+</section>
 <div class="right-stack" style="margin-top:10px">
 <section class="panel" id="news-panel"><div class="panel-head"><div><div class="panel-title">Crypto news room</div><div class="panel-sub">LATEST HEADLINES / PUBLIC FEEDS</div></div><div><span class="panel-sub live">● LIVE</span> <button class="news-refresh" onclick="loadNews()">↻</button></div></div><div class="news-viewport"><div class="news" id="news"></div></div></section>
 </div>
