@@ -893,6 +893,28 @@ button,input{font:inherit}.app{display:grid;grid-template-columns:236px 1fr;min-
   .market-overview-head{align-items:flex-start;gap:10px;flex-direction:column}
 }
 </style>
+<style id="coin-logo-polish">
+.market .coin-icon{
+  overflow:hidden!important;
+  position:relative;
+  background:linear-gradient(145deg,#17121f,#0d0b12)!important;
+}
+.market .coin-icon img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  display:block!important;
+  border-radius:inherit!important;
+}
+.market .coin-icon.icon-fallback:after{
+  content:"◈";
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  color:#b88aff;
+}
+</style>
 </head>
 <body>
 <div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
@@ -1088,7 +1110,7 @@ const fallbackNews=[
 function money(n){if(n>=1000)return '$'+n.toLocaleString(undefined,{maximumFractionDigits:0}); if(n<2)return '$'+n.toFixed(2); return '$'+n.toLocaleString(undefined,{maximumFractionDigits:2})}
 function render(){
  document.getElementById('ticker').innerHTML=[...coins,...coins].map(c=>`<span class="tick ${c.change>=0?'up':'down'}">${c.sym} <b>${money(c.price)}</b> ${c.change>=0?'▲':'▼'} ${Math.abs(c.change).toFixed(2)}%</span>`).join('');
- document.getElementById('market').innerHTML=coins.slice(0,5).map(c=>`<tr><td><div class="asset"><div class="coin-icon">${c.icon}</div><div><b>${c.sym}</b><small>${c.name}</small></div></div></td><td class="mono">${money(c.price)}</td><td class="mono ${c.change>=0?'green':'red'}">${c.change>=0?'+':''}${c.change.toFixed(2)}%</td><td class="mono">${money(c.open)}</td><td><svg class="spark" viewBox="0 0 90 28"><polyline points="0,21 12,18 21,22 31,14 42,16 54,9 66,13 76,7 90,4" fill="none" stroke="${c.change>=0?'#42dca8':'#ff5570'}" stroke-width="2"/></svg></td><td><span class="tag">● LIVE</span></td></tr>`).join('');
+ document.getElementById('market').innerHTML=coins.slice(0,5).map(c=>`<tr><td><div class="asset"><div class="coin-icon">${c.icon?.startsWith('http')?`<img src="${c.icon}" alt="${c.sym}" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('icon-fallback')">`:`<span>${c.icon||c.sym[0]}</span>`}</div><div><b>${c.sym}</b><small>${c.name}</small></div></div></td><td class="mono">${money(c.price)}</td><td class="mono ${c.change>=0?'green':'red'}">${c.change>=0?'+':''}${c.change.toFixed(2)}%</td><td class="mono">${money(c.open)}</td><td><svg class="spark" viewBox="0 0 90 28"><polyline points="0,21 12,18 21,22 31,14 42,16 54,9 66,13 76,7 90,4" fill="none" stroke="${c.change>=0?'#42dca8':'#ff5570'}" stroke-width="2"/></svg></td><td><span class="tag">● LIVE</span></td></tr>`).join('');
  document.getElementById('kpis').innerHTML=[['TOTAL MARKET','~$3.21T','+1.08% 24H','up'],['BTC DOMINANCE','58.7%','+0.2% today','up'],['24H VOLUME','$128.4B','active flow','up'],['FEAR / GREED','64 / GREED','sentiment index','warn'],['RISK ENGINE','LOW','18 signals clear','up']].map(k=>`<div class="kpi"><div class="kpi-label">${k[0]}</div><div class="kpi-value">${k[1]}</div><div class="kpi-meta ${k[3]} ">${k[2]}</div></div>`).join('');
 }
 function renderRadar(){const data=[['ORBIT / USDC','Liquidity concentration · 2 wallets control most depth',84],['NOVA / SOL','Sell pressure accelerating · LP depth falling',67],['MINTY / SOL','Holder distribution improving',39],['WAVE / USDC','Contract activity elevated',31]];document.getElementById('radar').innerHTML=data.map(x=>`<div class="row"><div><b>${x[0]}</b><small>${x[1]}</small></div><div class="bar"><i style="width:${x[2]}%"></i></div><div class="score">${x[2]}/100</div></div>`).join('')}
