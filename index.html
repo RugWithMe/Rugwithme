@@ -1065,6 +1065,9 @@ button,input{font:inherit}.app{display:grid;grid-template-columns:236px 1fr;min-
 .meme-icon{width:36px!important;height:36px!important;border-radius:10px!important;box-shadow:0 0 0 1px rgba(157,89,255,.12),0 8px 22px rgba(0,0,0,.3)}
 .meme-icon img{width:100%!important;height:100%!important;object-fit:cover!important}
 .meme-item:hover .meme-icon{box-shadow:0 0 18px rgba(157,89,255,.3),0 8px 22px rgba(0,0,0,.35);transform:scale(1.05)}
+</style><style id="profile-login-upgrade">
+.topbar .profile{cursor:pointer;background:transparent;border:0;color:#cfc7d8;font:800 8px 'JetBrains Mono';letter-spacing:.04em;padding:8px 10px;white-space:nowrap}
+.topbar .profile:hover{color:#fff}
 </style></head>
 <body>
 <div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
@@ -1108,7 +1111,7 @@ button,input{font:inherit}.app{display:grid;grid-template-columns:236px 1fr;min-
   <div class="side-bottom"><div class="statusbox"><div class="online"><span class="pulse"></span>All systems operational</div><p>Market data, headlines and risk modules are connected where supported.</p></div><div class="version">RWM TERMINAL / v3.0.1</div></div>
 </aside>
 <div class="main">
-<header class="topbar"><div class="crumb">RUGWITHME / <b>COMMAND CENTER</b></div><div class="search"><span>⌕</span><input id="search" placeholder="Search token, wallet, headline…"></div><button class="topbtn" onclick="toast('Scanner queued')">SCAN</button><button class="topbtn register-btn" onclick="openRegister()">REGISTER</button><button class="topbtn primary" onclick="openPurchases()">PURCHASES</button><div class="profile"><div class="avatar">K</div>LOG IN</div></header>
+<header class="topbar"><div class="crumb">RUGWITHME / <b>COMMAND CENTER</b></div><div class="search"><span>⌕</span><input id="search" placeholder="Search token, wallet, headline…"></div><button class="topbtn" onclick="toast('Scanner queued')">SCAN</button><button class="topbtn primary" onclick="openPurchases()">PURCHASES</button><button class="profile" onclick="openRegister()" aria-label="Log in or sign up">LOG IN / SIGN UP</button></header>
 <div class="ticker"><div class="ticker-label">● LIVE MARKET</div><div class="ticker-track" id="ticker"></div></div>
 <main class="content">
 <section class="hero dashboard-hero">
