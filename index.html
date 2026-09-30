@@ -1320,6 +1320,40 @@ function selectPlan(plan,el){
   setTimeout(()=>{closePurchases();openRegister()},350);
 }
 document.querySelectorAll('.nav button[data-view]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');const v=b.dataset.view;const map={overview:'.content',markets:'#market-panel',radar:'#radar-panel',news:'#news-panel',wallets:'.activity-panel'};document.querySelector(map[v]).scrollIntoView({behavior:'smooth',block:'start'});toast(v==='overview'?'Command Center active':v.toUpperCase()+' module active')}));
+const sectionNavMap=[
+ {view:'overview',el:()=>document.querySelector('.dashboard-hero')},
+ {view:'markets',el:()=>document.getElementById('market-panel')},
+ {view:'news',el:()=>document.getElementById('news-panel')},
+ {view:'radar',el:()=>document.getElementById('radar-panel')},
+ {view:'wallets',el:()=>document.querySelector('.activity-panel')}
+];
+let navScrollTick=false;
+function setScrollActive(view){
+ const btn=document.querySelector('.nav button[data-view="'+view+'"]');
+ if(!btn)return;
+ document.querySelectorAll('.nav button[data-view]').forEach(x=>x.classList.toggle('active',x===btn));
+}
+function updateNavFromScroll(){
+ navScrollTick=false;
+ const y=window.scrollY;
+ const focus=y+Math.max(120,window.innerHeight*0.32);
+ let current='overview';
+ for(const item of sectionNavMap){
+  const el=item.el();
+  if(!el)continue;
+  const top=el.getBoundingClientRect().top+window.scrollY;
+  if(top<=focus) current=item.view;
+ }
+ setScrollActive(current);
+}
+window.addEventListener('scroll',()=>{
+ if(navScrollTick)return;
+ navScrollTick=true;
+ requestAnimationFrame(updateNavFromScroll);
+},{passive:true});
+window.addEventListener('resize',updateNavFromScroll);
+setTimeout(updateNavFromScroll,100);
+
 document.getElementById('search').addEventListener('input',e=>{const q=e.target.value.toLowerCase().trim();document.querySelectorAll('.news-item,.market tr').forEach(el=>{if(!q){el.style.display='';return}el.style.display=el.textContent.toLowerCase().includes(q)?'':'none'})});
 document.querySelectorAll('.chart-tabs button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.chart-tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');const r=b.dataset.range;document.getElementById('chartValue').textContent=money(coins.find(c=>c.sym==='SOL')?.price||119.2);toast('Momentum range: '+r)}));
 // Make utility/action buttons behave like polished dashboard links.
