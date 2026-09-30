@@ -1278,6 +1278,9 @@ body:after{
 </style><style id="live-rug-nav">
 .nav button[data-view="rugactivity"] i{color:#30e6aa;text-shadow:0 0 10px rgba(48,230,170,.45)}
 .nav button[data-view="rugactivity"].active i{color:#9d59ff}
+</style><style id="live-rug-nav-fix">
+.nav button[data-view="rugactivity"] i{color:#30e6aa;text-shadow:0 0 10px rgba(48,230,170,.45)}
+.nav button[data-view="rugactivity"].active i{color:#9d59ff}
 </style></head><body>
 <div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
 <div class="app">
@@ -1289,6 +1292,7 @@ body:after{
     <button data-view="markets"><i>◒</i> Market Pulse</button>
     <button data-view="radar"><i>⌁</i> Rug Radar</button>
     <button data-view="news"><i>◫</i> News Room</button>
+    <button data-view="rugactivity"><i>◉</i> Live Rug Activity</button>
 
 <div class="meme-panel" id="memecoinPanel">
   <div class="meme-panel-head">
@@ -1549,11 +1553,12 @@ function selectPlan(plan,el){
   toast(plan+' plan selected');
   setTimeout(()=>{closePurchases();openRegister()},350);
 }
-document.querySelectorAll('.nav button[data-view]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');const v=b.dataset.view;const map={overview:'.content',markets:'#market-panel',radar:'#radar-panel',news:'#news-panel',wallets:'.activity-panel'};document.querySelector(map[v]).scrollIntoView({behavior:'smooth',block:'start'});toast(v==='overview'?'Command Center active':v.toUpperCase()+' module active')}));
+document.querySelectorAll('.nav button[data-view]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');const v=b.dataset.view;const map={overview:'.content',markets:'#market-panel',radar:'#radar-panel',news:'#news-panel',rugactivity:'#rug-activity-panel',wallets:'.activity-panel'};document.querySelector(map[v]).scrollIntoView({behavior:'smooth',block:'start'});toast(v==='overview'?'Command Center active':v.toUpperCase()+' module active')}));
 const sectionNavMap=[
  {view:'overview',el:()=>document.querySelector('.dashboard-hero')},
  {view:'markets',el:()=>document.getElementById('market-panel')},
  {view:'news',el:()=>document.getElementById('news-panel')},
+ {view:'rugactivity',el:()=>document.getElementById('rug-activity-panel')},
  {view:'radar',el:()=>document.getElementById('radar-panel')},
  {view:'wallets',el:()=>document.querySelector('.activity-panel')}
 ];
