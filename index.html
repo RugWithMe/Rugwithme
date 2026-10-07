@@ -1406,6 +1406,18 @@ body [class*="panel"],body [class*="card"],body [class*="widget"]{
 }
 #loginModal .rwm-login-card .modal-close:hover::before{color:#fff}
 @media(max-width:600px){#loginModal .rwm-login-card .modal-close{top:18px!important;right:18px!important}}
+</style><style id="rwm-sol-live-chart-style">
+.sol-live-panel{background:radial-gradient(500px 250px at 80% 15%,rgba(147,51,255,.18),transparent 70%),linear-gradient(145deg,#0c0913,#07060b 70%)!important;position:relative}
+.sol-live-panel:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(120deg,transparent 30%,rgba(165,75,255,.035),transparent 65%)}
+.sol-title{display:flex;align-items:center;gap:8px!important}.sol-title em{font:700 6px 'JetBrains Mono';font-style:normal;color:#756b82;padding:4px 6px;border-radius:5px;background:rgba(255,255,255,.035)}
+.sol-mark{width:24px;height:24px;border-radius:8px;display:grid;place-items:center;font-size:18px;color:#b65cff;background:linear-gradient(145deg,rgba(69,255,198,.12),rgba(150,62,255,.15));box-shadow:0 0 22px rgba(161,69,255,.12)}
+.sol-live-state{font:800 6px 'JetBrains Mono';letter-spacing:.15em;color:#55efbd}.sol-live-state i{display:inline-block;width:5px;height:5px;border-radius:50%;background:#45efb8;box-shadow:0 0 12px #45efb8;margin-right:5px;animation:solBlink 1.2s infinite}
+.sol-live-panel .chart-value{font-size:34px!important;background:linear-gradient(90deg,#fff,#d6b8ff);-webkit-background-clip:text;color:transparent}
+.sol-live-panel .chart-change{font-size:7px!important}.sol-chart-meta{display:flex;gap:14px;margin-top:9px;color:#625b6c;font:600 6px 'JetBrains Mono';letter-spacing:.08em}.sol-chart-meta span:last-child{margin-left:auto;color:#6e5b81}
+.sol-candle-wrap{height:220px!important;margin-top:7px!important;border-radius:10px;overflow:hidden;background:linear-gradient(rgba(255,255,255,.01),rgba(123,50,255,.025))}
+#solLiveChart{overflow:visible}.sol-live-panel .chart-tabs button{min-width:38px}.sol-live-panel .chart-tabs button.active{border-color:#9e55ff!important;box-shadow:0 0 20px rgba(158,85,255,.18)!important}
+.sol-live-panel .micro{background:rgba(8,7,12,.68)!important;border-color:rgba(139,80,191,.14)!important}.sol-live-panel .micro b{font-size:9px!important}
+@keyframes solBlink{50%{opacity:.3;transform:scale(.7)}}
 </style></head><body>
 <div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
 <div class="app">
@@ -1471,7 +1483,7 @@ body [class*="panel"],body [class*="card"],body [class*="widget"]{
 <section class="kpis" id="kpis"></section>
 <div class="dashboard-grid">
 <section class="panel" id="market-panel"><div class="panel-head"><div><div class="panel-title">Market pulse</div><div class="panel-sub">REFERENCE PRICES / 24H CHANGE</div></div><div class="panel-sub live">● STREAMING</div></div><div class="market-wrap"><table class="market"><thead><tr><th>ASSET</th><th>PRICE</th><th>24H</th><th>OPEN</th><th>MICRO TREND</th><th>STATE</th></tr></thead><tbody id="market"></tbody></table></div></section>
-<section class="panel"><div class="panel-head"><div><div class="panel-title">Momentum engine</div><div class="panel-sub">COMPOSITE MARKET SIGNAL</div></div><div class="panel-sub">SOL / USD</div></div><div class="chart-box"><div class="chart-top"><div><div class="chart-value" id="chartValue">$119.20</div><div class="chart-change">▲ +0.70% today</div></div><div class="chart-tabs"><button class="active" data-range="1H">1H</button><button data-range="4H">4H</button><button data-range="1D">1D</button><button data-range="1W">1W</button></div></div><div class="chart-svg"><svg viewBox="0 0 620 180" preserveAspectRatio="none"><defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9d59ff" stop-opacity=".32"/><stop offset="1" stop-color="#9d59ff" stop-opacity="0"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g opacity=".18" stroke="#8c829b"><line x1="0" y1="30" x2="620" y2="30"/><line x1="0" y1="75" x2="620" y2="75"/><line x1="0" y1="120" x2="620" y2="120"/><line x1="0" y1="165" x2="620" y2="165"/></g><path d="M0 145 C35 139 48 146 73 124 S114 136 140 111 S183 123 207 94 S244 108 275 82 S312 101 342 68 S379 86 408 61 S444 78 474 45 S518 55 548 31 S587 46 620 18 L620 180 L0 180Z" fill="url(#area)"/><path d="M0 145 C35 139 48 146 73 124 S114 136 140 111 S183 123 207 94 S244 108 275 82 S312 101 342 68 S379 86 408 61 S444 78 474 45 S518 55 548 31 S587 46 620 18" fill="none" stroke="#b56dff" stroke-width="2.5" filter="url(#glow)"/><circle cx="620" cy="18" r="4" fill="#fff"/></svg></div><div class="chart-footer"><div class="micro"><label>BREADTH</label><b class="green">72%</b></div><div class="micro"><label>FLOW</label><b>$2.91B</b></div><div class="micro"><label>RISK</label><b class="green">LOW</b></div></div></div></section>
+<section class="panel sol-live-panel"><div class="panel-head"><div><div class="panel-title sol-title"><span class="sol-mark">≋</span><span>Solana</span><em>SOL</em></div><div class="panel-sub">LIVE MARKET / SOL · USD</div></div><div class="sol-live-state"><i></i> LIVE</div></div><div class="chart-box"><div class="chart-top"><div><div class="chart-value" id="chartValue">Loading…</div><div class="chart-change" id="solChange">Connecting to market feed</div></div><div class="chart-tabs"><button class="active" data-range="1H">1H</button><button data-range="4H">4H</button><button data-range="1D">1D</button><button data-range="1W">1W</button></div></div><div class="sol-chart-meta"><span id="solHigh">H —</span><span id="solLow">L —</span><span id="solUpdated">LIVE FEED</span></div><div class="chart-svg sol-candle-wrap"><svg id="solLiveChart" viewBox="0 0 620 220" preserveAspectRatio="none"></svg></div><div class="chart-footer"><div class="micro"><label>ASSET</label><b>SOLANA</b></div><div class="micro"><label>PRICE</label><b id="solFooterPrice">—</b></div><div class="micro"><label>STATUS</label><b class="green">● STREAMING</b></div></div></div></section>
 </div>
 
 <div class="right-stack" style="margin-top:10px">
@@ -2145,5 +2157,37 @@ rwmAuth.auth.onAuthStateChange((event,session)=>setTimeout(()=>loadRwmProfile(se
   }
   render();
   setInterval(tick,STEP_MS);
+})();
+</script><script id="rwm-sol-live-chart">
+(function(){
+ let range='1H',timer;
+ const ranges={ '1H':{days:1,points:36},'4H':{days:1,points:48},'1D':{days:1,points:60},'1W':{days:7,points:70} };
+ const money=n=>'</html>
++Number(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+ function makeCandles(prices,count){
+  if(!prices.length)return[]; const step=Math.max(1,Math.floor(prices.length/count)),out=[];
+  for(let i=0;i<prices.length;i+=step){const a=prices.slice(i,i+step);if(!a.length)continue;const vals=a.map(x=>+x[1]);const o=vals[0],cl=vals[vals.length-1],hi=Math.max(...vals),lo=Math.min(...vals);out.push({o,c:cl,h:hi,l:lo,t:a[a.length-1][0]})}return out.slice(-count);
+ }
+ function draw(cs){
+  const svg=document.getElementById('solLiveChart');if(!svg||!cs.length)return;
+  const W=620,H=220,pad=12,min=Math.min(...cs.map(x=>x.l)),max=Math.max(...cs.map(x=>x.h)),span=Math.max(.0001,max-min),y=v=>pad+(max-v)/span*(H-pad*2),cw=W/cs.length,body=Math.max(2.5,cw*.48);
+  let s='<defs><linearGradient id="solBg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a45cff" stop-opacity=".07"/><stop offset="1" stop-color="#a45cff" stop-opacity="0"/></linearGradient></defs>';
+  for(let i=1;i<5;i++){const yy=(H/5)*i;s+='<line x1="0" y1="'+yy+'" x2="'+W+'" y2="'+yy+'" stroke="rgba(150,130,170,.13)" stroke-width="1"/>'}
+  cs.forEach((d,i)=>{const x=i*cw+cw/2,up=d.c>=d.o,col=up?'#38efb1':'#ff5570',yo=y(d.o),yc=y(d.c),yh=y(d.h),yl=y(d.l),top=Math.min(yo,yc),bh=Math.max(2,Math.abs(yc-yo));s+='<line x1="'+x+'" y1="'+yh+'" x2="'+x+'" y2="'+yl+'" stroke="'+col+'" stroke-width="1.2" opacity=".9"/><rect x="'+(x-body/2)+'" y="'+top+'" width="'+body+'" height="'+bh+'" rx="1" fill="'+col+'" opacity=".94"/>'});
+  const last=cs[cs.length-1],ly=y(last.c);s+='<line x1="0" y1="'+ly+'" x2="'+W+'" y2="'+ly+'" stroke="#b36cff" stroke-width="1" stroke-dasharray="4 5" opacity=".55"/><circle cx="'+(W-3)+'" cy="'+ly+'" r="3" fill="#fff"/><circle cx="'+(W-3)+'" cy="'+ly+'" r="8" fill="none" stroke="#b36cff" opacity=".35"/>';
+  svg.innerHTML=s;
+  const first=cs[0].o,lastp=last.c,ch=(lastp-first)/first*100;
+  document.getElementById('chartValue').textContent=money(lastp);document.getElementById('solFooterPrice').textContent=money(lastp);
+  const ce=document.getElementById('solChange');ce.textContent=(ch>=0?'▲ +':'▼ ')+ch.toFixed(2)+'% · '+range;ce.className='chart-change '+(ch>=0?'green':'red');
+  document.getElementById('solHigh').textContent='H '+money(max);document.getElementById('solLow').textContent='L '+money(min);document.getElementById('solUpdated').textContent='UPDATED '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+ }
+ async function load(){
+  try{
+   const cfg=ranges[range],u='https://api.coingecko.com/api/v3/coins/solana/market_chart?vs_currency=usd&days='+cfg.days;
+   const r=await fetch(u,{cache:'no-store'});if(!r.ok)throw 0;const j=await r.json();draw(makeCandles(j.prices||[],cfg.points));
+  }catch(e){const ce=document.getElementById('solChange');if(ce)ce.textContent='LIVE FEED RETRYING…'}
+ }
+ document.querySelectorAll('.sol-live-panel .chart-tabs button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.sol-live-panel .chart-tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');range=b.dataset.range;load()}));
+ load();timer=setInterval(load,30000);
 })();
 </script></body></html>
