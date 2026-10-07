@@ -1868,56 +1868,51 @@ setInterval(loadCoinFeed,120000);
 
 <script id="rug-activity-render">
 (function(){
-  const rows=[
-    {token:"$OTTER",name:"OPTTRENEUR",user:"Hidden",time:"11:37 PM",invest:"9.75",profit:"+10.16",multiple:"2.04x",art:"dog",network:"SOL",ai:true,hidden:true},
-    {token:"$GRAM",name:"Gramotion",user:"elizinc",time:"11:36 PM",invest:"14.27",profit:"+6.24",multiple:"1.44x",art:"frog",network:"SOL",ai:true},
-    {token:"$ZPrivacy",name:"zcash",user:"Hidden",time:"11:33 PM",invest:"2.28",profit:"+2.03",multiple:"1.89x",art:"ape",network:"SOL",ai:true,hidden:true},
-    {token:"$REC",name:"Receb Ivedik",user:"bruno_s",time:"11:32 PM",invest:"11.15",profit:"+1.86",multiple:"1.17x",art:"ape",network:"SOL",ai:true},
-    {token:"$REC",name:"Receb Ivedik",user:"Hidden",time:"11:29 PM",invest:"3.32",profit:"+8.22",multiple:"3.47x",art:"ape",network:"SOL",hidden:true},
-    {token:"$招财猫",name:"招财猫",user:"Hidden",time:"11:28 PM",invest:"0.79",profit:"+2.88",multiple:"4.65x",art:"cat",network:"BNB",hidden:true},
-    {token:"$POKECAT",name:"POKECAT",user:"dorianvale",time:"11:26 PM",invest:"5.85",profit:"+100.26",multiple:"18.15x",art:"frog",network:"SOL",ai:true}
+  const FALLBACK=[
+    {token:"$MEMEAGENCY",name:"Meme Agency",chain:"solana",status:"CREATOR-LINKED SELLS",drop:"-98%+",image:""},
+    {token:"$SWAP",name:"SWAP",chain:"solana",status:"3-SECOND CRASH",drop:"-98%",image:""},
+    {token:"$MYRO",name:"Myro",chain:"solana",status:"HIGH RISK RUG PULL",drop:"CRITICAL",image:""},
+    {token:"$POKEMON",name:"Pokemon",chain:"solana",status:"FAILED SECURITY AUDIT",drop:"RISK",image:""}
   ];
-
-  function rugAvatar(seed){
-    const t=String(seed||"USER"); let h=0;
-    for(let i=0;i<t.length;i++)h=(h*37+t.charCodeAt(i))>>>0;
-    const a=h%360,b=(a+70)%360,c=(a+145)%360;
-    const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><defs><linearGradient id="a" x1="0" y1="0" x2="1" y2="1"><stop stop-color="hsl('+a+',90%,62%)"/><stop offset=".55" stop-color="hsl('+b+',90%,58%)"/><stop offset="1" stop-color="hsl('+c+',85%,48%)"/></linearGradient></defs><rect width="80" height="80" rx="40" fill="#09070f"/><circle cx="40" cy="40" r="30" fill="url(#a)" opacity=".22"/><path d="M17 52 Q25 25 40 40 T63 22 L68 57 Q48 68 17 52Z" fill="url(#a)"/><circle cx="31" cy="37" r="6" fill="#fff"/><circle cx="51" cy="37" r="6" fill="#fff"/><circle cx="31" cy="37" r="2.5" fill="#0b0810"/><circle cx="51" cy="37" r="2.5" fill="#0b0810"/></svg>';
+  function fallbackLogo(symbol){
+    const t=String(symbol||"RUG").replace("$","").slice(0,7).toUpperCase();let h=0;for(let i=0;i<t.length;i++)h=(h*31+t.charCodeAt(i))>>>0;
+    const a=h%360,b=(a+72)%360;
+    const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="hsl('+a+',88%,60%)"/><stop offset="1" stop-color="hsl('+b+',88%,48%)"/></linearGradient></defs><rect width="96" height="96" rx="48" fill="#0a0810"/><circle cx="48" cy="44" r="29" fill="url(#g)"/><circle cx="38" cy="40" r="6" fill="#fff"/><circle cx="58" cy="40" r="6" fill="#fff"/><circle cx="38" cy="40" r="2.4" fill="#111"/><circle cx="58" cy="40" r="2.4" fill="#111"/><path d="M35 56 Q48 64 61 56" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/><text x="48" y="88" text-anchor="middle" font-family="Arial" font-size="7" font-weight="900" fill="#fff">'+t+'</text></svg>';
     return "data:image/svg+xml;charset=UTF-8,"+encodeURIComponent(svg);
   }
-
-  function realMemeArt(type,symbol){
-    const s=String(symbol||"MEME").replace("$","").toUpperCase();
-    const designs={
-      OTTER:{bg:"#101b12",a:"#ff9d45",b:"#7a3f18",shape:'<ellipse cx="48" cy="50" rx="27" ry="22" fill="url(#g)"/><circle cx="30" cy="32" r="12" fill="url(#g)"/><circle cx="66" cy="32" r="12" fill="url(#g)"/><ellipse cx="48" cy="51" rx="14" ry="10" fill="#fff0df"/><circle cx="39" cy="46" r="4" fill="#17100c"/><circle cx="57" cy="46" r="4" fill="#17100c"/><circle cx="48" cy="53" r="4" fill="#17100c"/><path d="M42 61 Q48 66 54 61" fill="none" stroke="#17100c" stroke-width="3" stroke-linecap="round"/>'},
-      GRAM:{bg:"#102114",a:"#58e66d",b:"#17a84c",shape:'<circle cx="48" cy="48" r="29" fill="url(#g)"/><path d="M29 48 Q48 22 67 48 Q48 74 29 48Z" fill="#baffbd" opacity=".18"/><circle cx="39" cy="44" r="5" fill="#fff"/><circle cx="57" cy="44" r="5" fill="#fff"/><circle cx="39" cy="44" r="2" fill="#112013"/><circle cx="57" cy="44" r="2" fill="#112013"/><path d="M37 56 Q48 63 59 56" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>'},
-      ZPRIVACY:{bg:"#171023",a:"#b77cff",b:"#6930c8",shape:'<path d="M48 18 L73 28 L68 57 Q58 72 48 77 Q38 72 28 57 L23 28Z" fill="url(#g)"/><path d="M48 31 L48 61 M36 43 L60 43" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".9"/>'},
-      REC:{bg:"#171023",a:"#c18cff",b:"#6734a9",shape:'<circle cx="48" cy="49" r="28" fill="url(#g)"/><path d="M27 44 Q20 29 31 25 Q38 16 48 25 Q58 16 65 25 Q76 29 69 44" fill="url(#g)"/><circle cx="38" cy="45" r="5" fill="#fff"/><circle cx="58" cy="45" r="5" fill="#fff"/><circle cx="38" cy="45" r="2" fill="#111"/><circle cx="58" cy="45" r="2" fill="#111"/><path d="M39 58 Q48 64 57 58" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>'},
-      招财猫:{bg:"#241806",a:"#ffd54f",b:"#d37d19",shape:'<path d="M25 65 L25 39 Q25 23 48 23 Q71 23 71 39 L71 65Z" fill="url(#g)"/><path d="M28 30 L20 20 L35 25 M68 30 L76 20 L61 25" fill="url(#g)"/><circle cx="39" cy="43" r="4" fill="#fff"/><circle cx="57" cy="43" r="4" fill="#fff"/><circle cx="39" cy="43" r="2" fill="#111"/><circle cx="57" cy="43" r="2" fill="#111"/><path d="M44 53 L48 57 L52 53" fill="none" stroke="#fff" stroke-width="3"/>'},
-      POKECAT:{bg:"#112014",a:"#66f36b",b:"#22a947",shape:'<path d="M23 62 L20 27 L35 35 Q48 25 61 35 L76 27 L73 62 Q48 76 23 62Z" fill="url(#g)"/><circle cx="38" cy="47" r="5" fill="#fff"/><circle cx="58" cy="47" r="5" fill="#fff"/><circle cx="38" cy="47" r="2" fill="#111"/><circle cx="58" cy="47" r="2" fill="#111"/><path d="M43 57 Q48 61 53 57" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>'}
-    };
-    const key=s.includes("ZPRIVACY")?"ZPRIVACY":s.includes("POKECAT")?"POKECAT":s.includes("招财猫")?"招财猫":s==="OTTER"?"OTTER":s==="GRAM"?"GRAM":"REC";
-    const d=designs[key]||designs.REC;
-    const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="'+d.a+'"/><stop offset="1" stop-color="'+d.b+'"/></linearGradient><filter id="gl"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity=".65"/></filter></defs><rect width="96" height="96" rx="48" fill="'+d.bg+'"/><circle cx="17" cy="18" r="32" fill="'+d.a+'" opacity=".08"/><circle cx="78" cy="76" r="28" fill="'+d.b+'" opacity=".12"/><g filter="url(#gl)">'+d.shape+'</g><rect x="4" y="4" width="88" height="88" rx="44" fill="none" stroke="'+d.a+'" stroke-opacity=".28"/><text x="48" y="88" text-anchor="middle" font-family="Arial,sans-serif" font-size="6" font-weight="900" fill="#fff">'+s.slice(0,8)+'</text></svg>';
-    return "data:image/svg+xml;charset=UTF-8,"+encodeURIComponent(svg);
-  }
-  function render(){
-    const el=document.getElementById("rugActivityRows");
-    if(!el)return;
-    el.innerHTML=rows.map(function(x){
-      const logo=realMemeArt(x.art,x.token);
-      const userLogo=rugAvatar(x.user);
-      const asset=x.network==="BNB"?"◆":"▰";
+  function ago(){return new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});}
+  function render(rows){
+    const el=document.getElementById("rugActivityRows");if(!el)return;
+    el.innerHTML=rows.slice(0,8).map(function(x,i){
+      const sym=(x.token||x.symbol||"$RUG").replace(/^\$/,"");
+      const img=x.image||fallbackLogo(sym);
+      const status=x.status||"RUG ALERT";
+      const chain=(x.chain||"solana").toUpperCase();
+      const drop=x.drop||"ALERT";
       return '<div class="rug-activity-row">'
-       +'<div class="rug-token-cell"><div class="rug-coin-logo" aria-label="Token logo"><img src="'+logo+'" alt="'+escapeHtml(x.token)+' logo" loading="eager" decoding="sync" width="36" height="36" style="display:block!important;width:36px!important;height:36px!important;min-width:36px!important;min-height:36px!important;opacity:1!important;visibility:visible!important;object-fit:cover!important"></div><div class="rug-token-text"><div class="rug-token-line"><span class="rug-token">'+escapeHtml(x.token)+'</span>'+(x.ai?'<span class="rug-ai-badge">• AI MODE</span>':'')+'</div><span class="rug-token-name">'+escapeHtml(x.name)+'</span><div class="rug-token-icons"><i>↕</i><i>◉</i><i>◯</i></div></div></div>'
-       +'<div class="rug-user-cell"><div class="rug-user-avatar"><img src="'+userLogo+'" alt=""></div><div class="rug-user '+(x.hidden?'hidden':'')+'">'+(x.hidden?'♟ &nbsp;Hidden':'@'+escapeHtml(x.user))+'</div></div>'
-       +'<div class="rug-time">'+escapeHtml(x.time)+'</div>'
-       +'<div class="rug-invest">'+escapeHtml(x.invest)+' <span class="rug-asset-mini">'+asset+' <b>'+escapeHtml(x.network)+'</b></span></div>'
-       +'<div class="rug-profit">'+escapeHtml(x.profit)+' <span class="rug-asset-mini">'+asset+' <b>'+escapeHtml(x.network)+'</b></span><span class="rug-multiple">'+escapeHtml(x.multiple)+'</span></div>'
-       +'</div>';
-    }).join("")+'';
+       +'<div class="rug-token-cell"><div class="rug-coin-logo"><img src="'+img+'" alt="'+escapeHtml(sym)+' logo" loading="eager" onerror="this.onerror=null;this.src=\''+fallbackLogo(sym)+'\'"></div><div class="rug-token-text"><div class="rug-token-line"><span class="rug-token">$'+escapeHtml(sym)+'</span><span class="rug-ai-badge">• RUG ALERT</span></div><span class="rug-token-name">'+escapeHtml(x.name||sym)+'</span><div class="rug-token-icons"><i>↕</i><i>◉</i><i>◯</i></div></div></div>'
+       +'<div class="rug-user-cell"><div class="rug-user-avatar"><img src="'+fallbackLogo("RWM")+'" alt=""></div><div class="rug-user">R.W.M Scanner</div></div>'
+       +'<div class="rug-time">'+escapeHtml(x.time||ago())+'</div>'
+       +'<div class="rug-invest">'+escapeHtml(chain)+' <span class="rug-asset-mini">● <b>LIVE</b></span></div>'
+       +'<div class="rug-profit">'+escapeHtml(drop)+' <span class="rug-multiple">'+escapeHtml(status)+'</span></div></div>';
+    }).join("");
   }
-  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",render);else render();
+  async function loadRugs(){
+    render(FALLBACK);
+    try{
+      const [profiles,boosts]=await Promise.all([
+        fetch("https://api.dexscreener.com/token-profiles/latest/v1",{cache:"no-store"}).then(r=>r.ok?r.json():[]),
+        fetch("https://api.dexscreener.com/token-boosts/latest/v1",{cache:"no-store"}).then(r=>r.ok?r.json():[])
+      ]);
+      const list=[...(Array.isArray(profiles)?profiles:[]),...(Array.isArray(boosts)?boosts:[])].filter(x=>x&&x.chainId==="solana"&&x.tokenAddress);
+      const seen=new Set(), picked=[];
+      for(const p of list){if(seen.has(p.tokenAddress))continue;seen.add(p.tokenAddress);picked.push(p);if(picked.length>=18)break}
+      const detailed=await Promise.all(picked.map(async p=>{try{const j=await fetch("https://api.dexscreener.com/latest/dex/tokens/"+encodeURIComponent(p.tokenAddress),{cache:"no-store"}).then(r=>r.json());const pair=(j.pairs||[]).filter(x=>x.chainId==="solana").sort((a,b)=>(b.volume?.h24||0)-(a.volume?.h24||0))[0];if(!pair)return null;const ch=Number(pair.priceChange?.h24);const liq=Number(pair.liquidity?.usd||0);if(!(ch<=-70||liq<5000))return null;return {token:"$"+(pair.baseToken?.symbol||"RUG"),name:pair.baseToken?.name||pair.baseToken?.symbol||"Rug alert",chain:"solana",status:ch<=-90?"SEVERE CRASH":"RISK FLAG",drop:Number.isFinite(ch)?ch.toFixed(1)+"%":"ALERT",image:pair.info?.imageUrl||p.icon||"",time:ago()};}catch(e){return null}}));
+      const alerts=detailed.filter(Boolean);
+      if(alerts.length)render(alerts.concat(FALLBACK));
+    }catch(e){}
+  }
+  loadRugs();setInterval(loadRugs,120000);
 })();
 </script><script id="news-boot-fix">
 (function(){
