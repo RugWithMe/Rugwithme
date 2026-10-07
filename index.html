@@ -1452,9 +1452,9 @@ body.rwm-enter .app,body.rwm-enter .shell,body.rwm-enter main{animation:siteReve
 @keyframes bootPulse{50%{transform:scale(1.12);opacity:.72}}@keyframes bootFloat{to{transform:translateY(-7px);box-shadow:0 10px 70px rgba(142,52,255,.38)}}@keyframes bootRise{from{opacity:0;transform:translateY(18px) scale(.96)}to{opacity:1;transform:none}}@keyframes bootScan{from{transform:translateX(-110%)}to{transform:translateX(330%)}}@keyframes siteReveal{from{opacity:0;transform:translateY(14px) scale(.995);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
 @media(prefers-reduced-motion:reduce){#rwmBoot,.rwm-boot-core,.rwm-boot-logo,.rwm-boot-line i,body.rwm-enter .app,body.rwm-enter .shell,body.rwm-enter main{animation:none!important;transition:none!important}}
 </style><style id="rwm-service-disclosures">
-.service-disclosures{margin:0 0 24px;padding:22px;border:1px solid #745293;border-radius:16px;background:linear-gradient(135deg,#191121,#0d0b13);color:#ddd5e7}
-.service-disclosures h3{margin:0 0 12px;font-size:18px;color:#fff}
-.service-disclosures p{font-size:13px;line-height:1.65;margin:10px 0}
+.service-disclosures{margin:0 0 18px;padding:14px;border:1px solid #745293;border-radius:16px;background:linear-gradient(135deg,#191121,#0d0b13);color:#ddd5e7}
+.service-disclosures h3{margin:0 0 8px;font-size:15px;color:#fff}
+.service-disclosures p{font-size:13px;line-height:1.5;margin:8px 0}
 .service-disclosures strong{color:#f0e5ff}
 .service-disclosures .service-status{padding:12px 14px;border:1px solid #826033;border-radius:10px;background:#241b10;color:#f5d8a7}
 </style>
@@ -1587,11 +1587,9 @@ body.rwm-enter .app,body.rwm-enter .shell,body.rwm-enter main{animation:siteReve
       </div>
 
       <section class="service-disclosures" aria-labelledby="service-conditions-title">
-        <h3 id="service-conditions-title">Service conditions — read before payment</h3>
-        <p class="service-status"><strong>Checkout is not available on this page.</strong> Wallet creation, token launching, and admin review are not connected in this website interface. Do not send funds to activate the features shown below.</p>
-        <p><strong>Launch approval:</strong> Token launches require the operator's approval. Purchasing a plan does not guarantee that a launch request will be approved.</p>
-        <p><strong>Wallet custody:</strong> For any platform-controlled wallet offered by this service, the operator has access and can transfer funds. Such wallets are not exclusively controlled by the customer. A platform payment address is separate from a customer-owned wallet.</p>
-        <p><strong>Refunds:</strong> If the operator rejects your launch request, you may request a full refund of the plan payment by contacting the operator on Telegram. A verified Telegram support contact must be provided here before payments are enabled.</p>
+        <h3 id="service-conditions-title">Before you pay</h3>
+        <p class="service-status"><strong>Checkout unavailable.</strong> Wallets, launches and admin review aren’t connected. Do not send funds.</p>
+        <p>Launches require admin approval; payment doesn’t guarantee approval. Admins can transfer funds from platform-controlled wallets. Rejected launches qualify for a full plan-payment refund via Telegram; support contact pending.</p>
       </section>
 
       <div class="purchase-grid">
