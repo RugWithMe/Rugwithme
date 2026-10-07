@@ -2287,4 +2287,79 @@ function scrollAccessPlans(direction){
   content.scrollBy({top:direction*Math.max(160,content.clientHeight*0.7),behavior:reducedMotion?'instant':'smooth'});
 }
 </script>
-</body></html>
+<style id="rwm-mobile-responsive-2026">
+/* Mobile-first safety pass: appended last so it wins over legacy design layers. */
+html,body{max-width:100%;overflow-x:hidden}
+img,svg,video,canvas{max-width:100%}
+button,input,select,textarea{max-width:100%}
+@media(max-width:900px){
+  body{min-width:0!important}
+  .app,.shell,.layout,.main,.content,.dashboard,.dashboard-grid,.grid,.workspace,.page{min-width:0!important;max-width:100%!important}
+  .sidebar{width:100%!important;max-width:100%!important;position:relative!important;inset:auto!important;height:auto!important;max-height:none!important}
+  .topbar{max-width:100%!important;padding-left:14px!important;padding-right:14px!important}
+  .dashboard-grid,.kpis,.purchase-grid{grid-template-columns:1fr!important}
+  .dashboard-hero{grid-template-columns:1fr!important}
+  .dashboard-actions{width:100%!important;flex-wrap:wrap!important}
+  .panel,.card,.purchase-card{min-width:0!important;max-width:100%!important}
+  .market-wrap{max-width:100%!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch}
+  .market{min-width:620px}
+}
+@media(max-width:600px){
+  :root{--mobile-gutter:12px}
+  body{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  .topbar{min-height:58px!important;height:auto!important;padding:9px var(--mobile-gutter)!important;gap:8px!important;flex-wrap:wrap!important}
+  .topbar .profile{font-size:8px!important;max-width:48vw!important;overflow:hidden!important;text-overflow:ellipsis!important}
+  .content,.main,.dashboard,.workspace,.page{padding-left:var(--mobile-gutter)!important;padding-right:var(--mobile-gutter)!important}
+  .dashboard-hero{min-height:0!important;padding:18px 16px!important;border-radius:14px!important;margin-bottom:14px!important}
+  .dashboard-hero h1{font-size:24px!important;line-height:1.05!important;overflow-wrap:anywhere}
+  .dashboard-hero p{font-size:10px!important;line-height:1.55!important}
+  .dashboard-hero>div:first-child:after{font-size:5.5px!important;max-width:100%;white-space:normal}
+  .dashboard-actions{display:grid!important;grid-template-columns:1fr!important;gap:8px!important;margin-top:16px!important}
+  .dashboard-actions .btn{width:100%!important;min-width:0!important;height:46px!important}
+  .market-overview-head{flex-direction:column!important;align-items:stretch!important}
+  .market-overview-actions{flex-wrap:wrap!important}
+  .kpis{grid-template-columns:1fr 1fr!important;gap:8px!important}
+  .panel,.dashboard-grid>.panel{border-radius:14px!important}
+  .panel-head,.dashboard-grid>.panel .panel-head{padding-left:12px!important;padding-right:12px!important}
+  .chart-box,.dashboard-grid>.panel:nth-child(2) .chart-box{padding:12px!important}
+  .chart-top{gap:10px!important;flex-wrap:wrap!important}
+  .chart-value,.dashboard-grid>.panel:nth-child(2) .chart-value{font-size:30px!important}
+  .chart-tabs{max-width:100%;overflow-x:auto}
+  .chart-footer{display:grid!important;grid-template-columns:1fr 1fr!important}
+  .meme-list{height:300px!important}
+  .meme-item{padding-left:10px!important;padding-right:10px!important}
+  .purchase-modal{padding:0!important;align-items:flex-end!important}
+  .purchase-modal .modal-card{width:100vw!important;max-width:100vw!important;max-height:94dvh!important;border-radius:18px 18px 0 0!important}
+  .purchase-modal .modal-body{padding:16px 12px calc(18px + env(safe-area-inset-bottom))!important}
+  .purchase-hero{display:flex!important;flex-direction:column!important;gap:12px!important}
+  .purchase-hero h2{font-size:22px!important}
+  .purchase-grid{display:grid!important;grid-template-columns:1fr!important;gap:10px!important}
+  .purchase-card{min-height:0!important;padding:16px!important}
+  .plan-desc,.plan-price,.plan-access{min-height:0!important}
+  .network-pills{width:100%!important;display:flex!important}
+  .network-pill{min-width:0!important;flex:1!important}
+  #registerModal,#loginModal{padding:0!important;align-items:flex-end!important}
+  .rwm-register-card,.rwm-login-card{width:100vw!important;max-width:100vw!important;max-height:94dvh!important;border-radius:18px 18px 0 0!important;overflow-y:auto!important}
+  .register-form{padding:24px 16px calc(20px + env(safe-area-inset-bottom))!important;overflow-y:auto!important}
+  .field input{font-size:16px!important;height:48px!important}
+  .rwm-login-card{padding:28px 18px calc(24px + env(safe-area-inset-bottom))!important}
+  .auth-actions{gap:10px!important;flex-wrap:wrap!important}
+  .auth-user-menu{left:12px!important;right:12px!important;top:64px!important;width:auto!important}
+  .modal-close{min-width:40px!important;min-height:40px!important}
+  .ticker-track{gap:18px!important}
+}
+@media(max-width:380px){
+  .kpis{grid-template-columns:1fr!important}
+  .chart-footer{grid-template-columns:1fr!important}
+  .dashboard-hero h1{font-size:22px!important}
+}
+@media(hover:none) and (pointer:coarse){
+  button,.btn,a,.network-pill,.plan-select{min-height:44px}
+  .purchase-card:hover,.dashboard-actions .btn:hover{transform:none!important}
+}
+@supports(padding:max(0px)){
+  @media(max-width:600px){
+    .topbar{padding-left:max(var(--mobile-gutter),env(safe-area-inset-left))!important;padding-right:max(var(--mobile-gutter),env(safe-area-inset-right))!important}
+  }
+}
+</style>\n</body></html>
