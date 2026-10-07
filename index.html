@@ -1300,6 +1300,24 @@ body:after{
 </style><style id="news-load-fix">
 #news-panel .news{min-height:250px;opacity:1!important;visibility:visible!important}
 #news-panel .news-item{visibility:visible!important}
+</style><style id="rwm-login-ultra">
+#loginModal{background:radial-gradient(circle at 18% 12%,rgba(119,43,255,.22),transparent 28%),radial-gradient(circle at 82% 82%,rgba(71,21,160,.18),transparent 30%),rgba(2,2,7,.92)!important;backdrop-filter:blur(28px)!important}
+#loginModal:before{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(162,92,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(162,92,255,.035) 1px,transparent 1px);background-size:42px 42px;mask-image:radial-gradient(circle at center,#000,transparent 75%)}
+.rwm-login-card{width:min(520px,calc(100vw - 30px))!important;padding:46px 44px 38px!important;border-radius:26px!important;border:1px solid rgba(171,94,255,.55)!important;background:linear-gradient(145deg,rgba(18,12,29,.96),rgba(5,4,10,.98) 62%)!important;box-shadow:0 45px 130px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.025),0 0 80px rgba(129,49,255,.22)!important;overflow:hidden}
+.rwm-login-card:before{content:"";position:absolute;width:330px;height:330px;right:-170px;top:-190px;border-radius:50%;background:radial-gradient(circle,rgba(178,88,255,.25),transparent 67%);filter:blur(8px);animation:loginAura 5s ease-in-out infinite}
+.rwm-login-card:after{content:"R.W.M // AUTH GATEWAY";position:absolute;right:28px;bottom:18px;color:rgba(186,129,255,.22);font:700 7px 'JetBrains Mono';letter-spacing:.18em}
+.rwm-login-card .modal-close{top:18px!important;right:18px!important;width:38px!important;height:38px!important;border-radius:11px!important;background:rgba(18,12,29,.75)!important;border:1px solid rgba(171,94,255,.3)!important}
+.auth-kicker{display:inline-flex!important;align-items:center;gap:8px;font-size:8px!important;color:#c78cff!important}.auth-kicker:before{content:"";width:7px;height:7px;border-radius:50%;background:#a64cff;box-shadow:0 0 16px #a64cff;animation:loginPulse 1.7s infinite}
+.rwm-login-card h2{font-size:32px!important;letter-spacing:-.04em;margin:13px 0 8px!important;background:linear-gradient(90deg,#fff,#d7c7e9);-webkit-background-clip:text;color:transparent}
+.rwm-login-card p{font-size:11px!important;margin-bottom:28px!important}
+#loginModal .field{height:58px!important;margin:11px 0!important;border:1px solid rgba(136,93,176,.32)!important;border-radius:13px!important;background:rgba(7,6,12,.78)!important;transition:.2s;box-shadow:inset 0 1px rgba(255,255,255,.025)}
+#loginModal .field:focus-within{border-color:#9f55ff!important;box-shadow:0 0 0 3px rgba(147,71,255,.09),0 0 28px rgba(132,54,255,.11)!important;transform:translateY(-1px)}
+#loginModal .field-ico{color:#b46cff!important;text-shadow:0 0 12px rgba(180,108,255,.65)}
+#loginModal .register-cta{width:100%!important;height:52px!important;margin-top:5px!important;border-radius:13px!important;font-size:10px!important;letter-spacing:.12em!important;background:linear-gradient(100deg,#7b35ff,#b64fff,#7136ff)!important;background-size:200% 100%!important;box-shadow:0 12px 38px rgba(139,56,255,.34)!important}
+#loginModal .register-cta:hover{transform:translateY(-2px) scale(1.006)!important;box-shadow:0 18px 48px rgba(139,56,255,.48),0 0 35px rgba(175,72,255,.2)!important}
+.auth-error{margin:7px 0!important}.auth-actions{border-top:1px solid rgba(151,100,197,.13);padding-top:18px!important;margin-top:20px!important}.auth-link{font-size:10px!important;color:#b978ff!important;transition:.18s}.auth-link:hover{color:#e0bdff!important;text-shadow:0 0 15px rgba(177,104,255,.5)}
+@keyframes loginPulse{50%{opacity:.35;transform:scale(.72)}}@keyframes loginAura{50%{transform:scale(1.12);opacity:.7}}
+@media(max-width:600px){.rwm-login-card{padding:40px 24px 30px!important}.rwm-login-card h2{font-size:27px!important}}
 </style></head><body>
 <div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
 <div class="app">
