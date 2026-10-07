@@ -1426,7 +1426,22 @@ body [class*="panel"],body [class*="card"],body [class*="widget"]{
 </style><style id="rwm-sol-logo-fix">
 .sol-logo{width:28px!important;height:28px!important;padding:5px!important;display:grid!important;place-items:center!important;background:rgba(255,255,255,.045)!important;border:1px solid rgba(160,90,255,.18)!important;box-shadow:0 0 25px rgba(153,69,255,.16)!important}
 .sol-logo svg{width:20px;height:17px;display:block}
-</style></head><body>
+</style><style id="rwm-entry-sequence">
+#rwmBoot{position:fixed;inset:0;z-index:999999;background:#05030a;display:grid;place-items:center;overflow:hidden;transition:opacity .75s ease,visibility .75s ease}
+#rwmBoot.hide{opacity:0;visibility:hidden;pointer-events:none}
+#rwmBoot:before{content:"";position:absolute;width:55vw;height:55vw;max-width:700px;max-height:700px;border-radius:50%;background:radial-gradient(circle,rgba(139,52,255,.22),rgba(92,22,170,.07) 38%,transparent 68%);filter:blur(12px);animation:bootPulse 1.8s ease-in-out infinite}
+#rwmBoot:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 49.8%,rgba(171,88,255,.08) 50%,transparent 50.2%),linear-gradient(0deg,transparent 49.8%,rgba(171,88,255,.05) 50%,transparent 50.2%);background-size:64px 64px;mask-image:radial-gradient(circle,#000,transparent 68%);opacity:.5}
+.rwm-boot-core{position:relative;z-index:2;text-align:center;animation:bootRise .8s cubic-bezier(.2,.8,.2,1) both}
+.rwm-boot-logo{width:82px;height:82px;margin:auto;display:grid;place-items:center;border-radius:25px;background:linear-gradient(145deg,rgba(153,69,255,.22),rgba(8,6,13,.85));border:1px solid rgba(181,104,255,.25);box-shadow:0 0 55px rgba(142,52,255,.26);animation:bootFloat 1.4s ease-in-out infinite alternate}
+.rwm-boot-logo b{font:900 24px Arial;color:#fff;letter-spacing:-.08em;text-shadow:0 0 16px #a84fff}
+.rwm-boot-name{margin-top:22px;color:#f5efff;font:800 19px Arial;letter-spacing:.02em}
+.rwm-boot-sub{margin-top:8px;color:#a963ff;font:700 7px monospace;letter-spacing:.34em}
+.rwm-boot-line{width:180px;height:2px;margin:24px auto 0;background:rgba(255,255,255,.06);overflow:hidden;border-radius:10px}
+.rwm-boot-line i{display:block;height:100%;width:45%;background:linear-gradient(90deg,transparent,#9748ff,#e0b7ff);box-shadow:0 0 15px #9c4cff;animation:bootScan 1.15s ease-in-out infinite}
+body.rwm-enter .app,body.rwm-enter .shell,body.rwm-enter main{animation:siteReveal .9s cubic-bezier(.16,.8,.2,1) both}
+@keyframes bootPulse{50%{transform:scale(1.12);opacity:.72}}@keyframes bootFloat{to{transform:translateY(-7px);box-shadow:0 10px 70px rgba(142,52,255,.38)}}@keyframes bootRise{from{opacity:0;transform:translateY(18px) scale(.96)}to{opacity:1;transform:none}}@keyframes bootScan{from{transform:translateX(-110%)}to{transform:translateX(330%)}}@keyframes siteReveal{from{opacity:0;transform:translateY(14px) scale(.995);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
+@media(prefers-reduced-motion:reduce){#rwmBoot,.rwm-boot-core,.rwm-boot-logo,.rwm-boot-line i,body.rwm-enter .app,body.rwm-enter .shell,body.rwm-enter main{animation:none!important;transition:none!important}}
+</style></head><body><div id="rwmBoot" aria-hidden="true"><div class="rwm-boot-core"><div class="rwm-boot-logo"><b>RWM</b></div><div class="rwm-boot-name">RugWithMe</div><div class="rwm-boot-sub">INTELLIGENCE TERMINAL</div><div class="rwm-boot-line"><i></i></div></div></div>
 <div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
 <div class="app">
 <aside class="sidebar">
@@ -2214,7 +2229,7 @@ rwmAuth.auth.onAuthStateChange((event,session)=>setTimeout(()=>loadRwmProfile(se
  }
  setInterval(tick,3000);
 })();
-</script></body></html>+Number(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+</script><script id="rwm-entry-script">(function(){const b=document.getElementById('rwmBoot');if(!b)return;const finish=()=>{b.classList.add('hide');document.body.classList.add('rwm-enter');setTimeout(()=>b.remove(),900)};if(document.readyState==='complete')setTimeout(finish,1050);else window.addEventListener('load',()=>setTimeout(finish,1050),{once:true});setTimeout(finish,2600)})();</script></body></html>+Number(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
  function makeCandles(prices,count){
   if(!prices.length)return[]; const step=Math.max(1,Math.floor(prices.length/count)),out=[];
   for(let i=0;i<prices.length;i+=step){const a=prices.slice(i,i+step);if(!a.length)continue;const vals=a.map(x=>+x[1]);const o=vals[0],cl=vals[vals.length-1],hi=Math.max(...vals),lo=Math.min(...vals);out.push({o,c:cl,h:hi,l:lo,t:a[a.length-1][0]})}return out.slice(-count);
