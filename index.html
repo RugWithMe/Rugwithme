@@ -1423,6 +1423,9 @@ body [class*="panel"],body [class*="card"],body [class*="widget"]{
 #solLiveChart{overflow:visible}.sol-live-panel .chart-tabs button{min-width:38px}.sol-live-panel .chart-tabs button.active{border-color:#9e55ff!important;box-shadow:0 0 20px rgba(158,85,255,.18)!important}
 .sol-live-panel .micro{background:rgba(8,7,12,.68)!important;border-color:rgba(139,80,191,.14)!important}.sol-live-panel .micro b{font-size:9px!important}
 @keyframes solBlink{50%{opacity:.3;transform:scale(.7)}}
+</style><style id="rwm-sol-logo-fix">
+.sol-logo{width:28px!important;height:28px!important;padding:5px!important;display:grid!important;place-items:center!important;background:rgba(255,255,255,.045)!important;border:1px solid rgba(160,90,255,.18)!important;box-shadow:0 0 25px rgba(153,69,255,.16)!important}
+.sol-logo svg{width:20px;height:17px;display:block}
 </style></head><body>
 <div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
 <div class="app">
@@ -1488,7 +1491,7 @@ body [class*="panel"],body [class*="card"],body [class*="widget"]{
 <section class="kpis" id="kpis"></section>
 <div class="dashboard-grid">
 <section class="panel" id="market-panel"><div class="panel-head"><div><div class="panel-title">Market pulse</div><div class="panel-sub">REFERENCE PRICES / 24H CHANGE</div></div><div class="panel-sub live">● STREAMING</div></div><div class="market-wrap"><table class="market"><thead><tr><th>ASSET</th><th>PRICE</th><th>24H</th><th>OPEN</th><th>MICRO TREND</th><th>STATE</th></tr></thead><tbody id="market"></tbody></table></div></section>
-<section class="panel sol-live-panel"><div class="panel-head"><div><div class="panel-title sol-title"><span class="sol-mark">≋</span><span>Solana</span><em>SOL</em></div><div class="panel-sub">LIVE MARKET / SOL · USD</div></div><div class="sol-live-state"><i></i> LIVE</div></div><div class="chart-box"><div class="chart-top"><div><div class="chart-value" id="chartValue">Loading…</div><div class="chart-change" id="solChange">Connecting to market feed</div></div><div class="chart-tabs"><button class="active" data-range="1H">1H</button><button data-range="4H">4H</button><button data-range="1D">1D</button><button data-range="1W">1W</button></div></div><div class="sol-chart-meta"><span id="solHigh">H —</span><span id="solLow">L —</span><span id="solUpdated">LIVE FEED</span></div><div class="chart-svg sol-candle-wrap"><svg id="solLiveChart" viewBox="0 0 620 220" preserveAspectRatio="none"></svg></div><div class="chart-footer"><div class="micro"><label>ASSET</label><b>SOLANA</b></div><div class="micro"><label>PRICE</label><b id="solFooterPrice">—</b></div><div class="micro"><label>STATUS</label><b class="green">● STREAMING</b></div></div></div></section>
+<section class="panel sol-live-panel"><div class="panel-head"><div><div class="panel-title sol-title"><span class="sol-mark sol-logo" aria-label="Solana logo"><svg viewBox="0 0 64 52" aria-hidden="true"><defs><linearGradient id="solLogoGrad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#9945FF"/><stop offset=".52" stop-color="#14F195"/><stop offset="1" stop-color="#00D1FF"/></linearGradient></defs><path fill="url(#solLogoGrad)" d="M12 2h43l-8 9H4zM9 21h43l8 9H17zM12 40h43l-8 9H4z"/></svg></span><span>Solana</span><em>SOL</em></div><div class="panel-sub">LIVE MARKET / SOL · USD</div></div><div class="sol-live-state"><i></i> LIVE</div></div><div class="chart-box"><div class="chart-top"><div><div class="chart-value" id="chartValue">Loading…</div><div class="chart-change" id="solChange">Connecting to market feed</div></div><div class="chart-tabs"><button class="active" data-range="1H">1H</button><button data-range="4H">4H</button><button data-range="1D">1D</button><button data-range="1W">1W</button></div></div><div class="sol-chart-meta"><span id="solHigh">H —</span><span id="solLow">L —</span><span id="solUpdated">LIVE FEED</span></div><div class="chart-svg sol-candle-wrap"><svg id="solLiveChart" viewBox="0 0 620 220" preserveAspectRatio="none"></svg></div><div class="chart-footer"><div class="micro"><label>ASSET</label><b>SOLANA</b></div><div class="micro"><label>PRICE</label><b id="solFooterPrice">—</b></div><div class="micro"><label>STATUS</label><b class="green">● STREAMING</b></div></div></div></section>
 </div>
 
 <div class="right-stack" style="margin-top:10px">
@@ -2167,8 +2170,7 @@ rwmAuth.auth.onAuthStateChange((event,session)=>setTimeout(()=>loadRwmProfile(se
 (function(){
  let range='1H',timer;
  const ranges={ '1H':{days:1,points:36},'4H':{days:1,points:48},'1D':{days:1,points:60},'1W':{days:7,points:70} };
- const money=n=>'
- function makeCandles(prices,count){
+ const money=n=>'(prices,count){
   if(!prices.length)return[]; const step=Math.max(1,Math.floor(prices.length/count)),out=[];
   for(let i=0;i<prices.length;i+=step){const a=prices.slice(i,i+step);if(!a.length)continue;const vals=a.map(x=>+x[1]);const o=vals[0],cl=vals[vals.length-1],hi=Math.max(...vals),lo=Math.min(...vals);out.push({o,c:cl,h:hi,l:lo,t:a[a.length-1][0]})}return out.slice(-count);
  }
@@ -2205,8 +2207,7 @@ rwmAuth.auth.onAuthStateChange((event,session)=>setTimeout(()=>loadRwmProfile(se
  }
  setInterval(tick,3000);
 })();
-</script></body></html>
-+Number(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+</script></body></html>+Number(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
  function makeCandles(prices,count){
   if(!prices.length)return[]; const step=Math.max(1,Math.floor(prices.length/count)),out=[];
   for(let i=0;i<prices.length;i+=step){const a=prices.slice(i,i+step);if(!a.length)continue;const vals=a.map(x=>+x[1]);const o=vals[0],cl=vals[vals.length-1],hi=Math.max(...vals),lo=Math.min(...vals);out.push({o,c:cl,h:hi,l:lo,t:a[a.length-1][0]})}return out.slice(-count);
