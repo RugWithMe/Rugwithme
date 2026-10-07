@@ -1373,6 +1373,39 @@ body [class*="panel"],body [class*="card"],body [class*="widget"]{
 .rwm-login-card:after{content:"R.W.M  /  SECURE AUTHENTICATION NODE";right:36px!important;bottom:20px!important;letter-spacing:.22em!important}
 @keyframes rwmSweep{0%,100%{opacity:.25;transform:translateX(-22%)}50%{opacity:1;transform:translateX(22%)}}
 @media(max-width:600px){.rwm-login-card{padding:52px 25px 38px!important}.rwm-login-card h2{font-size:34px!important}#loginModal .modal-close{right:18px!important;top:18px!important}}
+</style><style id="rwm-close-fix">
+#loginModal .rwm-login-card .modal-close{
+ position:absolute!important;
+ top:24px!important;
+ right:24px!important;
+ left:auto!important;
+ bottom:auto!important;
+ margin:0!important;
+ width:42px!important;
+ height:42px!important;
+ min-width:42px!important;
+ padding:0!important;
+ display:flex!important;
+ align-items:center!important;
+ justify-content:center!important;
+ transform:none!important;
+ line-height:0!important;
+ font-size:0!important;
+ border-radius:12px!important;
+ z-index:999!important;
+}
+#loginModal .rwm-login-card .modal-close::before{
+ content:"×";
+ display:block;
+ font-family:Arial,sans-serif;
+ font-size:27px;
+ font-weight:200;
+ line-height:1;
+ color:#a99db3;
+ transform:translateY(-1px);
+}
+#loginModal .rwm-login-card .modal-close:hover::before{color:#fff}
+@media(max-width:600px){#loginModal .rwm-login-card .modal-close{top:18px!important;right:18px!important}}
 </style></head><body>
 <div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
 <div class="app">
