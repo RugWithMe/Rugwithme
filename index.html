@@ -1891,7 +1891,7 @@ setInterval(loadCoinFeed,120000);
       const drop=x.drop||"ALERT";
       return '<div class="rug-activity-row">'
        +'<div class="rug-token-cell"><div class="rug-coin-logo"><img src="'+img+'" alt="'+escapeHtml(sym)+' logo" loading="eager" onerror="this.onerror=null;this.src=\''+fallbackLogo(sym)+'\'"></div><div class="rug-token-text"><div class="rug-token-line"><span class="rug-token">$'+escapeHtml(sym)+'</span><span class="rug-ai-badge">• RUG ALERT</span></div><span class="rug-token-name">'+escapeHtml(x.name||sym)+'</span><div class="rug-token-icons"><i>↕</i><i>◉</i><i>◯</i></div></div></div>'
-       +'<div class="rug-user-cell"><div class="rug-user-avatar"><img src="'+fallbackLogo("RWM")+'" alt=""></div><div class="rug-user">R.W.M Scanner</div></div>'
+       +'<div class="rug-user-cell"><div class="rug-user-avatar"><img src="'+fallbackLogo("RWM")+'" alt=""></div><div class="rug-user">'+escapeHtml((i%2===0)?"Private":["solking","memevault","degenmax","moonboy","cryptojay","pumpchad","solace","rugbuster"][Math.floor(i/2)%8])+'</div></div>'
        +'<div class="rug-time">'+escapeHtml(x.time||ago())+'</div>'
        +'<div class="rug-invest">'+escapeHtml(chain)+' <span class="rug-asset-mini">● <b>LIVE</b></span></div>'
        +'<div class="rug-profit">'+escapeHtml(drop)+' <span class="rug-multiple">'+escapeHtml(status)+'</span></div></div>';
