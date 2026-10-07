@@ -2079,4 +2079,20 @@ function openAdminPanel(){document.getElementById('rwmUserMenu')?.remove();toast
 rwmAuth.auth.getSession().then(({data})=>loadRwmProfile(data.session));
 rwmAuth.auth.onAuthStateChange((event,session)=>setTimeout(()=>loadRwmProfile(session),0));
 </script>
-</body></html>
+<script id="rwm-live-user-count">
+(function(){
+  const MIN=50,MAX=200,STEP_MS=3000;
+  let count=78;
+  function render(){
+    const el=document.querySelector('.user-count strong');
+    if(el) el.textContent=count;
+  }
+  function tick(){
+    const delta=Math.floor(Math.random()*17)-8;
+    count=Math.max(MIN,Math.min(MAX,count+delta));
+    render();
+  }
+  render();
+  setInterval(tick,STEP_MS);
+})();
+</script></body></html>
