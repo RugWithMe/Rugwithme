@@ -1335,6 +1335,26 @@ body .dashboard-hero,body .panel,body .kpi,body .market-wrap,body .chart-box,
 body [class*="panel"],body [class*="card"],body [class*="widget"]{
   box-shadow:none!important;
 }
+</style><style id="rwm-login-v2">
+#loginModal{overflow:hidden}
+#loginModal:after{content:"";position:absolute;inset:-25%;pointer-events:none;background:conic-gradient(from 90deg at 50% 50%,transparent 0 18%,rgba(139,61,255,.07) 24%,transparent 31% 68%,rgba(197,83,255,.06) 74%,transparent 82%);animation:rwmOrbit 18s linear infinite}
+.rwm-login-card{isolation:isolate;padding:52px 48px 42px!important;background:linear-gradient(155deg,rgba(20,13,34,.97),rgba(6,5,11,.985) 48%,rgba(10,5,18,.98))!important}
+.rwm-login-card>*{position:relative;z-index:2}
+.rwm-login-card:before{width:520px!important;height:240px!important;right:-170px!important;top:-130px!important;background:radial-gradient(ellipse,rgba(153,64,255,.30),transparent 67%)!important}
+.rwm-login-card .auth-kicker{letter-spacing:.22em!important}
+.rwm-login-card h2{font-size:38px!important;line-height:1.05!important;margin-top:18px!important;text-shadow:0 0 35px rgba(191,139,255,.12)}
+.rwm-login-card p{font-size:12px!important;color:#8e849a!important}
+#loginModal .field{height:62px!important;border-radius:15px!important;background:linear-gradient(90deg,rgba(11,8,17,.94),rgba(16,10,24,.82))!important;border:1px solid rgba(167,91,255,.20)!important}
+#loginModal .field:hover{border-color:rgba(177,105,255,.42)!important}
+#loginModal .field input{font-size:12px!important;color:#f6efff!important}
+#loginModal .field input::placeholder{color:#665d70!important}
+#loginModal .register-cta{height:58px!important;border-radius:15px!important;position:relative;overflow:hidden}
+#loginModal .register-cta:before{content:"";position:absolute;top:0;left:-60%;width:35%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.26),transparent);transform:skewX(-20deg);animation:rwmShine 4s ease-in-out infinite}
+#loginModal .auth-actions{padding-top:20px!important}
+#loginModal .auth-link{font-size:11px!important;letter-spacing:.01em}
+#loginModal .modal-close{left:auto!important;right:22px!important;top:22px!important}
+.rwm-login-card:after{content:"SECURE SESSION  •  ENCRYPTED";right:32px!important;bottom:20px!important;color:rgba(181,117,255,.28)!important}
+@keyframes rwmShine{0%,55%{left:-60%}78%,100%{left:130%}}@keyframes rwmOrbit{to{transform:rotate(360deg)}}
 </style></head><body>
 <div class="noise"></div><div class="orb a"></div><div class="orb b"></div>
 <div class="app">
